@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{3835d156-f083-4974-801c-f847096d544b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SMF">
+      <UniqueIdentifier>{d52711df-0169-45e9-a008-0b7f3661f066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SMF\Events">
+      <UniqueIdentifier>{693cb6a3-5aaa-4bf3-8865-bb6d375ddd95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interfaces">
+      <UniqueIdentifier>{b380577c-41b8-4cf2-98fc-d95efa11eda1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SMF">
+      <UniqueIdentifier>{564b6494-9987-40ca-a789-4612d30b6cab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SMF\Events">
+      <UniqueIdentifier>{194cf0ee-bd8a-4644-af66-181931a92c51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,29 +42,29 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\IConvertibleToByteArray.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="SMF\Events\MetaEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SMF\Events\SystemExclusiveEvent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Interfaces\IEvent.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="SMF\Events\TrackEvent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\SMF\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Events\SystemExclusiveEvent.h">
+      <Filter>Header Files\SMF\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Events\MetaEvent.h">
+      <Filter>Header Files\SMF\Events</Filter>
     </ClInclude>
     <ClInclude Include="SMF\HeaderChunk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SMF\TrackChunk.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\SMF</Filter>
     </ClInclude>
     <ClInclude Include="SMF\StandardMIDIFile.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\SMF</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\TrackChunk.h">
+      <Filter>Header Files\SMF</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,26 +74,26 @@
     <ClCompile Include="MidiCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SMF\Events\TrackEvent.cpp">
+      <Filter>Source Files\SMF\Events</Filter>
+    </ClCompile>
     <ClCompile Include="SMF\Events\MetaEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\SMF\Events</Filter>
     </ClCompile>
     <ClCompile Include="SMF\Events\SystemExclusiveEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SMF\Events\TrackEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SMF\HeaderChunk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SMF\TrackChunk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SMF\StandardMIDIFile.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\SMF\Events</Filter>
     </ClCompile>
     <ClCompile Include="Interfaces\IEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\HeaderChunk.cpp">
+      <Filter>Source Files\SMF</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\TrackChunk.cpp">
+      <Filter>Source Files\SMF</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\StandardMIDIFile.cpp">
+      <Filter>Source Files\SMF</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
