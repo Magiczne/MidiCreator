@@ -145,17 +145,31 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SMF\HeaderChunk.h" />
+    <ClInclude Include="Interfaces\IConvertibleToByteArray.h" />
+    <ClInclude Include="Interfaces\IEvent.h" />
+    <ClInclude Include="SMF\Events\MetaEvent.h" />
+    <ClInclude Include="SMF\StandardMIDIFile.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SMF\Events\SystemExclusiveEvent.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="SMF\Events\TrackEvent.h" />
+    <ClInclude Include="SMF\TrackChunk.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SMF\HeaderChunk.cpp" />
+    <ClCompile Include="SMF\Events\MetaEvent.cpp" />
     <ClCompile Include="MidiCreator.cpp" />
+    <ClCompile Include="SMF\StandardMIDIFile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SMF\Events\SystemExclusiveEvent.cpp" />
+    <ClCompile Include="SMF\Events\TrackEvent.cpp" />
+    <ClCompile Include="SMF\TrackChunk.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
