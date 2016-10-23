@@ -3,6 +3,7 @@
 // are changed infrequently
 //
 
+//Project properties -> C/C++ -> Advanced -> Force Include Files "stdafx.h"
 #pragma once
 
 #include "targetver.h"
