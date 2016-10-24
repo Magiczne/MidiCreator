@@ -16,7 +16,7 @@ namespace SMF
 		IConvertibleToByteArray
 	{
 	private:
-		const char chunkType[4] = { 'M', 'T', 'h', 'd' };
+		const std::array<char, 4> chunkType = { 'M', 'T', 'h', 'd' };
 		const short headerLength = 6;
 		FileFormat fileFormat;
 		short numberOfTracks = 0;

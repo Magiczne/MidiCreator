@@ -11,8 +11,8 @@ namespace SMF
 		IConvertibleToByteArray
 	{
 	public:
-		byte head;				//0xF0 or 0xF7
-		byte* dataBytes;		
+		byte head;					//0xF0 or 0xF7
+		std::vector<byte> dataBytes;
 		const byte tail = 0xF7;
 		
 		SystemExclusiveEvent();

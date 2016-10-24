@@ -10,7 +10,7 @@ namespace SMF
 	{
 	public:
 		HeaderChunk* headerChunk;
-		TrackChunk* trackChunk[];
+		std::vector<TrackChunk> trackChunks;
 
 		StandardMIDIFile();
 		~StandardMIDIFile();

@@ -33,7 +33,7 @@ namespace SMF
 		const byte id = 0xFF;
 		MetaEventType type;
 		int vLength;
-		byte* eventData;	//Array
+		std::vector<byte> eventData;
 
 		MetaEvent();
 		~MetaEvent();

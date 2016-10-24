@@ -10,7 +10,7 @@ namespace SMF
 		IConvertibleToByteArray
 	{
 	public:
-		const char chunkType[4] = { 'M', 'T', 'r', 'k' };
+		const std::array<char, 4> chunkType = { 'M', 'T', 'r', 'k' };
 		unsigned int length;
 		int deltaTime;
 		TrackEvent* event;

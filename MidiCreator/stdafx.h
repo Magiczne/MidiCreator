@@ -13,8 +13,10 @@
 
 // TODO: reference additional headers your program requires here
 
+#include <array>
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
+#include <vector>
 
 using byte = uint8_t;
