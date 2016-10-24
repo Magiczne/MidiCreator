@@ -16,6 +16,6 @@ namespace SMF
 		~StandardMIDIFile();
 
 		//IConvertibleToByteArray
-		byte* toByteArray();
+		virtual std::vector<byte> toByteVector();
 	};
 }

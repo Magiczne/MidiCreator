@@ -45,12 +45,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IConvertibleToByteArray.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IEvent.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="SMF\Events\TrackEvent.h">
       <Filter>Header Files\SMF\Events</Filter>
     </ClInclude>
@@ -78,6 +72,12 @@
     <ClInclude Include="SMF\Enums\MidiEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Abstract\IConvertibleToByteArray.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Abstract\IEvent.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -95,9 +95,6 @@
     <ClCompile Include="SMF\Events\SystemExclusiveEvent.cpp">
       <Filter>Source Files\SMF\Events</Filter>
     </ClCompile>
-    <ClCompile Include="Interfaces\IEvent.cpp">
-      <Filter>Source Files\Interfaces</Filter>
-    </ClCompile>
     <ClCompile Include="SMF\HeaderChunk.cpp">
       <Filter>Source Files\SMF</Filter>
     </ClCompile>
@@ -106,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="SMF\StandardMIDIFile.cpp">
       <Filter>Source Files\SMF</Filter>
+    </ClCompile>
+    <ClCompile Include="Abstract\IConvertibleToByteArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Abstract\IEvent.cpp">
+      <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

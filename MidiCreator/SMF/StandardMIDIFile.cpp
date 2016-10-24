@@ -6,9 +6,9 @@ StandardMIDIFile::StandardMIDIFile()
 {
 }
 
-byte* StandardMIDIFile::toByteArray()
+std::vector<byte> StandardMIDIFile::toByteVector()
 {
-	return new byte[2];
+	return std::vector<byte>();
 }
 
 

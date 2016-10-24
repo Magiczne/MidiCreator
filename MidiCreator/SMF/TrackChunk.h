@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Interfaces/IConvertibleToByteArray.h"
+#include "../Abstract/IConvertibleToByteArray.h"
 #include "Events/TrackEvent.h"
 
 namespace SMF 
@@ -11,7 +11,6 @@ namespace SMF
 	public:
 		const std::array<char, 4> chunkType = { 'M', 'T', 'r', 'k' };
 		unsigned int length;
-		int deltaTime;
 		TrackEvent* event;
 
 
@@ -19,7 +18,7 @@ namespace SMF
 		~TrackChunk();
 
 		//IConvertibleToByteArray
-		byte* toByteArray();
+		virtual std::vector<byte> toByteVector();
 	};
 }
 

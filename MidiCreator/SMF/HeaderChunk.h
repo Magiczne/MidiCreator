@@ -1,12 +1,13 @@
 #pragma once
 
-#include "../Interfaces/IConvertibleToByteArray.h"
+#include "../stdafx.h"
+#include "../Abstract/IConvertibleToByteArray.h"
 #include "Enums/FileFormat.h"
 
 namespace SMF
 {
 	class HeaderChunk :
-		IConvertibleToByteArray
+		public IConvertibleToByteArray
 	{
 	private:
 		const std::array<char, 4> chunkType = { 'M', 'T', 'h', 'd' };
@@ -14,6 +15,10 @@ namespace SMF
 		FileFormat fileFormat;
 		short numberOfTracks = 0;
 		short division = 0;
+
+	protected:
+		//IConvertibleToByteArray
+		virtual std::vector<byte> toByteVector();
 
 	public:
 		HeaderChunk(FileFormat);
@@ -24,9 +29,6 @@ namespace SMF
 		inline const FileFormat& getFileFormat() const { return this->fileFormat; }
 		
 		inline void addTrack() { this->numberOfTracks++; }
-
-		//IConvertibleToByteArray
-		virtual byte* toByteArray();
 	};
 }
 

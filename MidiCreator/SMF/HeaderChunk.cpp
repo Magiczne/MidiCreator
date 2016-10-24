@@ -7,15 +7,16 @@ HeaderChunk::HeaderChunk(FileFormat ff)
 	this->fileFormat = ff;
 }
 
-byte* HeaderChunk::toByteArray()
+std::vector<byte> HeaderChunk::toByteVector()
 {
-	byte* ret = new byte[14] { 0x00 };
+	std::vector<byte> ret(14);
 
 	for (size_t i = 0; i < 4; i++)
 		ret[i] = this->chunkType[i];
 
-	ret[7] = 0x06;
+	ret[5] = ret[6] = ret[8] = 0x00;
 
+	ret[7] = this->headerLength;
 	ret[9] = this->fileFormat;
 
 	//To get bits in range x -> y we need to

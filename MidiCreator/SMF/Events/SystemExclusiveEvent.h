@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../stdafx.h"
-#include "../../Interfaces/IEvent.h"
-#include "../../Interfaces/IConvertibleToByteArray.h"
+#include "../../Abstract/IEvent.h"
+#include "../../Abstract/IConvertibleToByteArray.h"
 
 namespace SMF
 {
@@ -19,7 +19,7 @@ namespace SMF
 		~SystemExclusiveEvent();
 
 		//IConvertibleToByteArray
-		byte* toByteArray();
+		virtual std::vector<byte> toByteVector();
 	};
 }
 

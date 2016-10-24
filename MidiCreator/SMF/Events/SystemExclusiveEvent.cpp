@@ -6,9 +6,9 @@ SystemExclusiveEvent::SystemExclusiveEvent()
 {
 }
 
-byte* SystemExclusiveEvent::toByteArray()
+std::vector<byte> SystemExclusiveEvent::toByteVector()
 {
-	return new byte[2];
+	return std::vector<byte>();
 }
 
 SystemExclusiveEvent::~SystemExclusiveEvent()

@@ -7,6 +7,7 @@ int main(int argc, char** argv[])
 {
 	auto hc = SMF::HeaderChunk(SMF::FileFormat::MULTIPLE_SONG);
 
+	//std::vector<byte> arr = hc.toByteVector();
 	byte* arr = hc.toByteArray();
 
 	for (size_t i = 0; i < 14; i++)

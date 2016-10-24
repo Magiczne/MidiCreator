@@ -6,9 +6,9 @@ TrackChunk::TrackChunk()
 {
 }
 
-byte* TrackChunk::toByteArray()
+std::vector<byte> TrackChunk::toByteVector()
 {
-	return new byte[2];
+	return std::vector<byte>();
 }
 
 TrackChunk::~TrackChunk()

@@ -6,9 +6,9 @@ MetaEvent::MetaEvent()
 {
 }
 
-byte* MetaEvent::toByteArray()
+std::vector<byte> MetaEvent::toByteVector()
 {
-	return new byte[2];
+	return std::vector<byte>();
 }
 
 
