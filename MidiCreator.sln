@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MidiCreator", "MidiCreator\MidiCreator.vcxproj", "{BB1C86C7-B14A-4690-8C4A-ECE4756F3F7E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MidiCreatorTests", "MidiCreatorTests\MidiCreatorTests.vcxproj", "{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{BB1C86C7-B14A-4690-8C4A-ECE4756F3F7E}.Release|x64.Build.0 = Release|x64
 		{BB1C86C7-B14A-4690-8C4A-ECE4756F3F7E}.Release|x86.ActiveCfg = Release|Win32
 		{BB1C86C7-B14A-4690-8C4A-ECE4756F3F7E}.Release|x86.Build.0 = Release|Win32
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Debug|x64.ActiveCfg = Debug|x64
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Debug|x64.Build.0 = Debug|x64
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Debug|x86.ActiveCfg = Debug|Win32
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Debug|x86.Build.0 = Debug|Win32
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Release|x64.ActiveCfg = Release|x64
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Release|x64.Build.0 = Release|x64
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Release|x86.ActiveCfg = Release|Win32
+		{A04CDF34-7456-4D5E-BFC9-A80F1A6A604B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

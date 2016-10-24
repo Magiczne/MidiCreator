@@ -37,6 +37,9 @@ namespace SMF
 
 		MetaEvent();
 		~MetaEvent();
+
+		//IConvertibleToByteArray
+		byte* toByteArray();
 	};
 }
 

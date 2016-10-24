@@ -6,6 +6,10 @@ TrackChunk::TrackChunk()
 {
 }
 
+byte* TrackChunk::toByteArray()
+{
+	return new byte[2];
+}
 
 TrackChunk::~TrackChunk()
 {

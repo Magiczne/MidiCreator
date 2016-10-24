@@ -6,6 +6,10 @@ TrackEvent::TrackEvent()
 {
 }
 
+byte* TrackEvent::toByteArray()
+{
+	return new byte[2];
+}
 
 TrackEvent::~TrackEvent()
 {

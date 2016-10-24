@@ -3,18 +3,13 @@
 // are changed infrequently
 //
 
-//Project properties -> C/C++ -> Advanced -> Force Include Files "stdafx.h"
 #pragma once
 
 #include "targetver.h"
 
-#include <stdio.h>
-#include <tchar.h>
+// Headers for CppUnitTest
+#include "CppUnitTest.h"
 
 // TODO: reference additional headers your program requires here
 
-#include <cstdint>
-#include <iomanip>
-#include <iostream>
-
-using byte = uint8_t;
+#include <string>

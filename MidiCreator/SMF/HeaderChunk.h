@@ -15,15 +15,25 @@ namespace SMF
 	class HeaderChunk :
 		IConvertibleToByteArray
 	{
-	public:
+	private:
 		const char chunkType[4] = { 'M', 'T', 'h', 'd' };
 		const short headerLength = 6;
 		FileFormat fileFormat;
-		short numberOfTracks;
-		short division;
+		short numberOfTracks = 0;
+		short division = 0;
 
-		HeaderChunk();
+	public:
+		HeaderChunk(FileFormat);
 		~HeaderChunk();
+
+		//Getters
+		inline const short& getNumberOfTracks() const { return this->numberOfTracks; }
+		inline const FileFormat& getFileFormat() const { return this->fileFormat; }
+		
+		inline void addTrack() { this->numberOfTracks++; }
+
+		//IConvertibleToByteArray
+		virtual byte* toByteArray();
 	};
 }
 

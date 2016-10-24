@@ -18,6 +18,9 @@ namespace SMF
 
 		TrackChunk();
 		~TrackChunk();
+
+		//IConvertibleToByteArray
+		byte* toByteArray();
 	};
 }
 
