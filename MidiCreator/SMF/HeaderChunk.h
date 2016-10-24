@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../stdafx.h"
 #include "../Interfaces/IConvertibleToByteArray.h"
 #include "Enums/FileFormat.h"
 

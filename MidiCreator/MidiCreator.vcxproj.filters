@@ -31,6 +31,9 @@
     <Filter Include="Source Files\SMF\Events">
       <UniqueIdentifier>{194cf0ee-bd8a-4644-af66-181931a92c51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Enums">
+      <UniqueIdentifier>{398587df-2c27-40a7-bbb3-db283431a0e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -66,10 +69,13 @@
     <ClInclude Include="SMF\TrackChunk.h">
       <Filter>Header Files\SMF</Filter>
     </ClInclude>
-    <ClInclude Include="SMF\Enums\FileFormat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SMF\Enums\MetaEventType.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Enums\FileFormat.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Enums\MidiEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
