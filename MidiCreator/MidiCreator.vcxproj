@@ -147,6 +147,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SMF\Enums\FileFormat.h" />
+    <ClInclude Include="SMF\Enums\MetaEventType.h" />
     <ClInclude Include="SMF\HeaderChunk.h" />
     <ClInclude Include="Interfaces\IConvertibleToByteArray.h" />
     <ClInclude Include="Interfaces\IEvent.h" />

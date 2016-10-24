@@ -66,6 +66,12 @@
     <ClInclude Include="SMF\TrackChunk.h">
       <Filter>Header Files\SMF</Filter>
     </ClInclude>
+    <ClInclude Include="SMF\Enums\FileFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Enums\MetaEventType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

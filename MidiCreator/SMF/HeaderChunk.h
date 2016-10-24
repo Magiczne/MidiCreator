@@ -2,16 +2,10 @@
 
 #include "../stdafx.h"
 #include "../Interfaces/IConvertibleToByteArray.h"
+#include "Enums/FileFormat.h"
 
 namespace SMF
 {
-	enum FileFormat
-	{
-		SINGLE_TRACK	= 0x00,
-		MULTIPLE_TRACK	= 0x01,
-		MULTIPLE_SONG	= 0x02
-	};
-
 	class HeaderChunk :
 		IConvertibleToByteArray
 	{
