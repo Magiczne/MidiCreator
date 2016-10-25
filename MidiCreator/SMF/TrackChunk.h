@@ -19,7 +19,8 @@ namespace SMF
 		TrackChunk();
 		~TrackChunk();
 
-		void addEvent(TrackEvent*);
+		TrackEvent* addTrackEvent(EventType);
+		TrackEvent* addTrackEvent(TrackEvent*);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();		

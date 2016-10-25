@@ -14,6 +14,7 @@
 // TODO: reference additional headers your program requires here
 
 #include <array>
+#include <cctype>
 #include <cstdint>
 #include <iomanip>
 #include <iostream>

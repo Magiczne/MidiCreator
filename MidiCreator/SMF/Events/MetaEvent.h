@@ -11,14 +11,17 @@ namespace SMF
 		public IEvent,
 		public IConvertibleToByteCollection
 	{
-	public:
+	private:
 		const uint8_t id = 0xFF;
 		MetaEventType type;
 		int vLength;
-		std::vector<uint8_t> eventData;
 
+	public:
 		MetaEvent();
 		~MetaEvent();
+
+		MetaEvent* setEventType(MetaEventType);
+		MetaEvent* setLength(int);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();

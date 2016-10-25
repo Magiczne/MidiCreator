@@ -21,6 +21,8 @@ namespace SMF
 		TrackEvent(EventType);
 		~TrackEvent();
 
+		inline IEvent* getInnerEvent() { return this->event; }
+
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();
 	};

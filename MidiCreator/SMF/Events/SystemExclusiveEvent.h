@@ -12,7 +12,6 @@ namespace SMF
 	{
 	public:
 		uint8_t head;					//0xF0 or 0xF7
-		std::vector<uint8_t> datauint8_ts;
 		const uint8_t tail = 0xF7;
 		
 		SystemExclusiveEvent();

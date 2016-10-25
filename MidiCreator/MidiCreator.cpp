@@ -26,7 +26,7 @@ int main(int argc, char** argv[])
 	cout << "Header Chunk: " << endl;
 	for (int i = 0; i < 14; i++) {
 		cout << setfill('0') << setw(2);
-		cout << hex << (int)hc_v[i] << ' ';
+		cout << uppercase << hex << (int)hc_v[i] << ' ';
 		if (i == 3 || i == 7 || (i > 8 && i % 2)) cout << endl;
 	}
 	cout << endl;
@@ -34,10 +34,31 @@ int main(int argc, char** argv[])
 	cout << "Track Chunk: " << endl;
 	for (int i = 0; i < 8; i++) {
 		cout << setfill('0') << setw(2);
-		cout << hex << (int)tc_v[i] << ' ';
+		cout << uppercase << hex << (int)tc_v[i] << ' ';
 		if (i == 3 || i == 7) cout << endl;
 	}
+	cout << endl;
 
+	auto innerEvent = tc
+		->addTrackEvent(EventType::META_EVENT)
+		->getInnerEvent();
+
+	MetaEvent* e = static_cast<MetaEvent*>(innerEvent);
+	e->setEventType(MetaEventType::TIME_SIGNATURE)
+		->setLength(4)
+		->addParam(6)
+		->addParam(log2(8))
+		->addParam(36)
+		->addParam(8);
+
+	auto x = e->toByteVector();
+
+	cout << "Meta event: " << endl;
+	for (size_t i = 0; i < x.size(); i++)
+	{
+		cout << setfill('0') << setw(2);
+		cout << uppercase << hex << (int)x[i] << ' ';
+	}
 
 	delete hc;
 	delete tc;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../stdafx.h"
+#include "../../Abstract/IEvent.h"
 #include "../Enums/MidiEventType.h"
 
 namespace SMF
@@ -10,7 +11,6 @@ namespace SMF
 	{
 	private:
 		MidiEventType type;
-		std::vector<uint8_t> params;
 
 	public:
 		MidiEvent();

@@ -10,10 +10,13 @@ namespace SMF
 	{
 	public:
 		HeaderChunk* headerChunk;
-		std::vector<TrackChunk> trackChunks;
+		std::vector<TrackChunk*> trackChunks;
 
 		StandardMIDIFile();
 		~StandardMIDIFile();
+
+		void setTimeSignature(uint8_t, uint8_t, uint8_t, uint8_t);
+		void setTempo();
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();

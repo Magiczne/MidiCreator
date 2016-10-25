@@ -6,16 +6,17 @@ TrackEvent::TrackEvent(EventType eventType)
 {
 	switch (eventType)
 	{
-	case EventType::META_EVENT: 
-		this->event = new MetaEvent();
-		break;
-	case EventType::MIDI_EVENT:
-		this->event = new MidiEvent();
-		break;
-	case EventType::SYSTEM_EXCLUSIVE_EVENT:
-		this->event = new SystemExclusiveEvent();
-		break;
-	default:
+		case EventType::META_EVENT: 
+			this->event = new MetaEvent();
+			break;
+		case EventType::MIDI_EVENT:
+			this->event = new MidiEvent();
+			break;
+		case EventType::SYSTEM_EXCLUSIVE_EVENT:
+			this->event = new SystemExclusiveEvent();
+			break;
+		default:
+			break;
 		//TODO: Throw some exception
 	}
 }

@@ -31,9 +31,17 @@ std::vector<uint8_t> TrackChunk::toByteVector()
 	return ret;
 }
 
-void TrackChunk::addEvent(TrackEvent* event)
+TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
 	trackEvents.push_back(event);
+	return event;
+}
+
+TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
+{
+	auto event = new TrackEvent(eventType);
+	trackEvents.push_back(event);
+	return event;
 }
 
 TrackChunk::~TrackChunk()
