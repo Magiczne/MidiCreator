@@ -1,24 +1,26 @@
 #pragma once
 
-#include "../Abstract/IConvertibleToByteArray.h"
+#include "../Abstract/IConvertibleToByteCollection.h"
 #include "Events/TrackEvent.h"
 
 namespace SMF 
 {
 	class TrackChunk : 
-		IConvertibleToByteArray
+		IConvertibleToByteCollection
 	{
-	public:
+	private:
 		const std::array<char, 4> chunkType = { 'M', 'T', 'r', 'k' };
-		unsigned int length;
-		TrackEvent* event;
+		uint32_t tracksLength = 0;
+		std::vector<TrackEvent> trackEvents;
 
+		void calculateTracksLength();
 
+	public:
 		TrackChunk();
 		~TrackChunk();
 
-		//IConvertibleToByteArray
-		virtual std::vector<byte> toByteVector();
+		//IConvertibleToByteCollection
+		virtual std::vector<uint8_t> toByteVector();		
 	};
 }
 

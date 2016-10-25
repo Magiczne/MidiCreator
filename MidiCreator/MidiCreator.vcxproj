@@ -151,7 +151,7 @@
     <ClInclude Include="SMF\Enums\MetaEventType.h" />
     <ClInclude Include="SMF\Enums\MidiEvent.h" />
     <ClInclude Include="SMF\HeaderChunk.h" />
-    <ClInclude Include="Abstract\IConvertibleToByteArray.h" />
+    <ClInclude Include="Abstract\IConvertibleToByteCollection.h" />
     <ClInclude Include="Abstract\IEvent.h" />
     <ClInclude Include="SMF\Events\MetaEvent.h" />
     <ClInclude Include="SMF\StandardMIDIFile.h" />
@@ -162,7 +162,6 @@
     <ClInclude Include="SMF\TrackChunk.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Abstract\IConvertibleToByteArray.cpp" />
     <ClCompile Include="Abstract\IEvent.cpp" />
     <ClCompile Include="SMF\HeaderChunk.cpp" />
     <ClCompile Include="SMF\Events\MetaEvent.cpp" />

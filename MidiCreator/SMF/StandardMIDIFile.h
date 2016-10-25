@@ -6,7 +6,7 @@
 namespace SMF
 {
 	class StandardMIDIFile
-		: IConvertibleToByteArray
+		: IConvertibleToByteCollection
 	{
 	public:
 		HeaderChunk* headerChunk;
@@ -15,7 +15,7 @@ namespace SMF
 		StandardMIDIFile();
 		~StandardMIDIFile();
 
-		//IConvertibleToByteArray
-		virtual std::vector<byte> toByteVector();
+		//IConvertibleToByteCollection
+		virtual std::vector<uint8_t> toByteVector();
 	};
 }

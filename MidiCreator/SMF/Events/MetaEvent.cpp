@@ -6,9 +6,9 @@ MetaEvent::MetaEvent()
 {
 }
 
-std::vector<byte> MetaEvent::toByteVector()
+std::vector<uint8_t> MetaEvent::toByteVector()
 {
-	return std::vector<byte>();
+	return std::vector<uint8_t>();
 }
 
 

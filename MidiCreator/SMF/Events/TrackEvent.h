@@ -2,13 +2,13 @@
 
 #include "../../stdafx.h"
 #include "../../Abstract/IEvent.h"
-#include "../../Abstract/IConvertibleToByteArray.h"
+#include "../../Abstract/IConvertibleToByteCollection.h"
 
 namespace SMF
 {
 	class TrackEvent :
 		IEvent,
-		IConvertibleToByteArray
+		IConvertibleToByteCollection
 	{
 	public:
 		int vTime;
@@ -17,8 +17,8 @@ namespace SMF
 		TrackEvent();
 		~TrackEvent();
 
-		//IConvertibleToByteArray
-		virtual std::vector<byte> toByteVector();
+		//IConvertibleToByteCollection
+		virtual std::vector<uint8_t> toByteVector();
 	};
 }
 

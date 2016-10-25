@@ -6,9 +6,9 @@ TrackEvent::TrackEvent()
 {
 }
 
-std::vector<byte> TrackEvent::toByteVector()
+std::vector<uint8_t> TrackEvent::toByteVector()
 {
-	return std::vector<byte>();
+	return std::vector<uint8_t>();
 }
 
 TrackEvent::~TrackEvent()

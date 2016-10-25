@@ -7,14 +7,12 @@ HeaderChunk::HeaderChunk(FileFormat ff)
 	this->fileFormat = ff;
 }
 
-std::vector<byte> HeaderChunk::toByteVector()
+std::vector<uint8_t> HeaderChunk::toByteVector()
 {
-	std::vector<byte> ret(14);
+	std::vector<uint8_t> ret(14, 0x00);
 
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < this->chunkType.size(); i++)
 		ret[i] = this->chunkType[i];
-
-	ret[5] = ret[6] = ret[8] = 0x00;
 
 	ret[7] = this->headerLength;
 	ret[9] = this->fileFormat;
@@ -22,7 +20,6 @@ std::vector<byte> HeaderChunk::toByteVector()
 	//To get bits in range x -> y we need to
 	//Shift right bits that we want to the lowest position
 	//Mask the bits that we want
-	//e. g.
 
 	ret[10] = (this->numberOfTracks >> 8) & 0xFF;
 	ret[11] = this->numberOfTracks & 0xFF;
@@ -32,7 +29,6 @@ std::vector<byte> HeaderChunk::toByteVector()
 
 	return ret;
 }
-
 
 HeaderChunk::~HeaderChunk()
 {

@@ -5,19 +5,13 @@
 
 int main(int argc, char** argv[])
 {
-	auto hc = SMF::HeaderChunk(SMF::FileFormat::MULTIPLE_SONG);
-
-	//std::vector<byte> arr = hc.toByteVector();
-	byte* arr = hc.toByteArray();
-
-	for (size_t i = 0; i < 14; i++)
-	{
-		using namespace std;
-
-		cout << setfill('0') << setw(2);
-		cout << hex << (int)arr[i] << ' ';
-	}
-
+	/*
+	Vector to file
+	std::ofstream os{ "binaryfile.bin", std::ios::out };
+	std::copy(std::begin(m), std::end(m),
+		std::ostream_iterator<uint8_t>(os)); 
+	os.close();
+	*/
 	system("pause");
     return 0;
 }

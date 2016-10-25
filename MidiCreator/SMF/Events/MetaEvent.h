@@ -2,26 +2,26 @@
 
 #include "../../stdafx.h"
 #include "../../Abstract/IEvent.h"
-#include "../../Abstract/IConvertibleToByteArray.h"
+#include "../../Abstract/IConvertibleToByteCollection.h"
 #include "../Enums/MetaEventType.h"
 
 namespace SMF
 {
 	class MetaEvent :
 		IEvent,
-		IConvertibleToByteArray
+		IConvertibleToByteCollection
 	{
 	public:
-		const byte id = 0xFF;
+		const uint8_t id = 0xFF;
 		MetaEventType type;
 		int vLength;
-		std::vector<byte> eventData;
+		std::vector<uint8_t> eventData;
 
 		MetaEvent();
 		~MetaEvent();
 
-		//IConvertibleToByteArray
-		virtual std::vector<byte> toByteVector();
+		//IConvertibleToByteCollection
+		virtual std::vector<uint8_t> toByteVector();
 	};
 }
 

@@ -17,6 +17,5 @@
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
+#include <fstream>
 #include <vector>
-
-using byte = uint8_t;

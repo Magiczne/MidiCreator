@@ -6,9 +6,9 @@ SystemExclusiveEvent::SystemExclusiveEvent()
 {
 }
 
-std::vector<byte> SystemExclusiveEvent::toByteVector()
+std::vector<uint8_t> SystemExclusiveEvent::toByteVector()
 {
-	return std::vector<byte>();
+	return std::vector<uint8_t>();
 }
 
 SystemExclusiveEvent::~SystemExclusiveEvent()

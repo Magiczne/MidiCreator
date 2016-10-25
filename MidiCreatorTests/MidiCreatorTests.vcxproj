@@ -97,7 +97,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>"..\MidiCreator\Debug\stdafx.obj";"..\MidiCreator\Debug\HeaderChunk.obj";%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"..\MidiCreator\Debug\stdafx.obj";"..\MidiCreator\Debug\HeaderChunk.obj";"..\MidiCreator\Debug\TrackChunk.obj";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +130,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>"..\MidiCreator\Debug\stdafx.obj";"..\MidiCreator\Debug\HeaderChunk.obj";%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"..\MidiCreator\Debug\stdafx.obj";"..\MidiCreator\Debug\HeaderChunk.obj";"..\MidiCreator\Debug\TrackChunk.obj";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -163,6 +163,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="HeaderChunkTests.cpp" />
+    <ClCompile Include="TrackChunkTests.cpp" />
+    <ClCompile Include="Util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MidiCreator\MidiCreator.vcxproj">
+      <Project>{bb1c86c7-b14a-4690-8c4a-ece4756f3f7e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

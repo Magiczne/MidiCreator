@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "Util.h"
 
 #include "../MidiCreator/SMF/HeaderChunk.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace SMF;
+using namespace std;
 
 namespace MidiCreatorTests
 {		
@@ -23,9 +25,8 @@ namespace MidiCreatorTests
 				LINE_INFO());
 		}
 
-		TEST_METHOD(AddTrackMethod)
+		TEST_METHOD(IncrementingTrackCounter)
 		{
-			Logger::WriteMessage("Magic");
 			HeaderChunk h(FileFormat::MULTIPLE_SONG);
 			short n = h.getNumberOfTracks();
 			h.addTrack();
@@ -37,12 +38,12 @@ namespace MidiCreatorTests
 				LINE_INFO());
 		}
 
-		TEST_METHOD(ToByteArrayMethod)
+		TEST_METHOD(ConvertingToByteCollection)
 		{
 			HeaderChunk h(FileFormat::MULTIPLE_SONG);
 
-			byte* arr = h.toByteArray();
-			byte* expected = new byte[14]{
+			vector<uint8_t> arr = h.toByteVector();
+			vector<uint8_t> expected = {
 				'M', 'T' ,'h', 'd', 
 				0x00, 0x00, 0x00, 0x06,
 				0x00, (short)FileFormat::MULTIPLE_SONG,
@@ -50,46 +51,32 @@ namespace MidiCreatorTests
 				0x00, 0x00
 			};
 
-			printByteArray("Actual: ", arr, 14);
-			printByteArray("Expected: ", expected, 14);
+			printByteVector("Actual: ", arr);
+			printByteVector("Expected: ", expected);
 
-			bool flag = true;
-
-			for (size_t i = 0; i < 14; i++)
-			{
-				if (arr[i] != expected[i]) 
-				{
-					flag = false;
-					break;
-				}
-			}
+			bool flag = std::equal(
+				arr.begin(), arr.end(), 
+				expected.begin(), expected.end());
 
 			Assert::AreEqual(
 				true,
 				flag,
-				L"Byte arrays are not the same!\n",
+				L"Byte vectors are not the same!\n",
 				LINE_INFO()
 			);
 		}
-
-		static void printByteArray(std::string name, byte* arr, size_t size)
+		
+		TEST_METHOD(SettingAndGettingDivision)
 		{
-			using namespace std;
+			HeaderChunk h(FileFormat::MULTIPLE_SONG);
+			h.setDivision(96);
 
-			stringstream stream;
-			stream << name << endl;
-
-			for (size_t i = 0; i < size; i++)
-			{
-				stream << setfill('0') << setw(2);
-				stream << hex << (int)arr[i] << ' ';
-			}
-
-			stream << endl;
-
-			string s = stream.str();
-
-			Logger::WriteMessage(s.c_str());
+			Assert::AreEqual(
+				(short)96,
+				h.getDivision(),
+				L"Division is not changing!\n",
+				LINE_INFO()
+			);
 		}
 	};
 }
