@@ -11,13 +11,15 @@ namespace SMF
 	private:
 		const std::array<char, 4> chunkType = { 'M', 'T', 'r', 'k' };
 		uint32_t tracksLength = 0;
-		std::vector<TrackEvent> trackEvents;
+		std::vector<TrackEvent*> trackEvents;
 
 		void calculateTracksLength();
 
 	public:
 		TrackChunk();
 		~TrackChunk();
+
+		void addEvent(TrackEvent*);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();		

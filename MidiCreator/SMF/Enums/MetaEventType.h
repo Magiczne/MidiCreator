@@ -16,8 +16,9 @@ namespace SMF
 		END_OF_TRACK = 0x2F,
 		TEMPO_SETTING = 0x51,
 		SMPTE_OFFSET = 0x54,
-		TIME_SIGNATURE = 0x58,
-		KEY_SIGNATURE = 0x59,
-		SEQUENCER_SPECIFIC_EVENT = 0x7F
+		//4params[2bytes]	1:numerator		2:denominator	3:MIDI Clocks in metronome click	4:how many 32nd-notes are in MIDI quarter-note
+		TIME_SIGNATURE = 0x58,			
+		KEY_SIGNATURE = 0x59,						//
+		SEQUENCER_SPECIFIC_EVENT = 0x7F				//
 	};
 }

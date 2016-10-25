@@ -147,9 +147,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SMF\Enums\EventType.h" />
+    <ClInclude Include="SMF\Events\MidiEvent.h" />
     <ClInclude Include="SMF\Enums\FileFormat.h" />
     <ClInclude Include="SMF\Enums\MetaEventType.h" />
-    <ClInclude Include="SMF\Enums\MidiEvent.h" />
+    <ClInclude Include="SMF\Enums\MidiEventType.h" />
     <ClInclude Include="SMF\HeaderChunk.h" />
     <ClInclude Include="Abstract\IConvertibleToByteCollection.h" />
     <ClInclude Include="Abstract\IEvent.h" />
@@ -163,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Abstract\IEvent.cpp" />
+    <ClCompile Include="SMF\Events\MidiEvent.cpp" />
     <ClCompile Include="SMF\HeaderChunk.cpp" />
     <ClCompile Include="SMF\Events\MetaEvent.cpp" />
     <ClCompile Include="MidiCreator.cpp" />

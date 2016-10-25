@@ -2,7 +2,7 @@
 
 namespace SMF
 {
-	enum MidiEvent
+	enum MidiEventType
 	{
 		NOTE_OFF = 0x8,				//2 params		Param1: key						Param2: velocity
 		NOTE_ON = 0x9,				//2 params		Param1: key						Param2: velocity

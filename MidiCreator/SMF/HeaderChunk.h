@@ -13,14 +13,16 @@ namespace SMF
 		const std::array<char, 4> chunkType = { 'M', 'T', 'h', 'd' };
 		const uint8_t headerLength = 6;
 		FileFormat fileFormat;
-		short numberOfTracks = 0;
+		short numberOfTracks;
 
 		//Unit of time for delta timing. If the value is positive, then it represents the units per beat. 
-		//For example, +96 would mean 96 ticks per beat. If the value is negative, delta times are in SMPTE compatible units.
-		short division = 0;
+		//For example, +96 would mean 96 ticks per beat(quarter-note). 
+		//If the value is negative, delta times are in SMPTE compatible units.
+		//(Subdivisions of a second)
+		short division;
 
 	public:
-		HeaderChunk(FileFormat);
+		HeaderChunk(FileFormat, short, short);
 		~HeaderChunk();
 
 		//Getters

@@ -3,18 +3,22 @@
 #include "../../stdafx.h"
 #include "../../Abstract/IEvent.h"
 #include "../../Abstract/IConvertibleToByteCollection.h"
+#include "../Enums/EventType.h"
+#include "MetaEvent.h"
+#include "MidiEvent.h"
+#include "SystemExclusiveEvent.h"
 
 namespace SMF
 {
 	class TrackEvent :
-		IEvent,
 		IConvertibleToByteCollection
 	{
-	public:
-		int vTime;
+	private:
+		int deltaTime;
 		IEvent* event;
 
-		TrackEvent();
+	public:
+		TrackEvent(EventType);
 		~TrackEvent();
 
 		//IConvertibleToByteCollection

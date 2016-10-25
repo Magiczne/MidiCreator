@@ -7,8 +7,8 @@
 namespace SMF
 {
 	class SystemExclusiveEvent :
-		IEvent,
-		IConvertibleToByteCollection
+		public IEvent,
+		public IConvertibleToByteCollection
 	{
 	public:
 		uint8_t head;					//0xF0 or 0xF7

@@ -31,5 +31,10 @@ namespace MidiCreatorTests
 
 			Assert::AreEqual(true, flag);
 		}
+
+		TEST_METHOD(ConvertingToByteCollectionWithTrackEvents)
+		{
+
+		}
 	};
 }

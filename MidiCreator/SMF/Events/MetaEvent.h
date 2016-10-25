@@ -8,8 +8,8 @@
 namespace SMF
 {
 	class MetaEvent :
-		IEvent,
-		IConvertibleToByteCollection
+		public IEvent,
+		public IConvertibleToByteCollection
 	{
 	public:
 		const uint8_t id = 0xFF;

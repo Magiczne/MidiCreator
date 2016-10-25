@@ -45,15 +45,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SMF\Events\TrackEvent.h">
-      <Filter>Header Files\SMF\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="SMF\Events\SystemExclusiveEvent.h">
-      <Filter>Header Files\SMF\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="SMF\Events\MetaEvent.h">
-      <Filter>Header Files\SMF\Events</Filter>
-    </ClInclude>
     <ClInclude Include="SMF\HeaderChunk.h">
       <Filter>Header Files\SMF</Filter>
     </ClInclude>
@@ -69,14 +60,29 @@
     <ClInclude Include="SMF\Enums\FileFormat.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="SMF\Enums\MidiEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Abstract\IEvent.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Abstract\IConvertibleToByteCollection.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Enums\MidiEventType.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Events\MetaEvent.h">
+      <Filter>Header Files\SMF\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Events\MidiEvent.h">
+      <Filter>Header Files\SMF\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Events\SystemExclusiveEvent.h">
+      <Filter>Header Files\SMF\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Events\TrackEvent.h">
+      <Filter>Header Files\SMF\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Enums\EventType.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -85,15 +91,6 @@
     </ClCompile>
     <ClCompile Include="MidiCreator.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SMF\Events\TrackEvent.cpp">
-      <Filter>Source Files\SMF\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="SMF\Events\MetaEvent.cpp">
-      <Filter>Source Files\SMF\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="SMF\Events\SystemExclusiveEvent.cpp">
-      <Filter>Source Files\SMF\Events</Filter>
     </ClCompile>
     <ClCompile Include="SMF\HeaderChunk.cpp">
       <Filter>Source Files\SMF</Filter>
@@ -106,6 +103,18 @@
     </ClCompile>
     <ClCompile Include="Abstract\IEvent.cpp">
       <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\Events\MetaEvent.cpp">
+      <Filter>Source Files\SMF\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\Events\MidiEvent.cpp">
+      <Filter>Source Files\SMF\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\Events\SystemExclusiveEvent.cpp">
+      <Filter>Source Files\SMF\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\Events\TrackEvent.cpp">
+      <Filter>Source Files\SMF\Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
