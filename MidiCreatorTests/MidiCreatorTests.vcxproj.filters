@@ -13,6 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Source">
+      <UniqueIdentifier>{e83c2709-d606-4642-9ee9-38fa79c7b5cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Source\SMF">
+      <UniqueIdentifier>{f5892fd7-ec39-4b09-8b55-c9d741bf9b60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Source\Util">
+      <UniqueIdentifier>{27ea5ad7-1256-4020-a12e-d2c49a8e2b49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Source\SMF\Events">
+      <UniqueIdentifier>{463eadd5-ecfd-41b4-b50f-54672a69eb14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Source\Abstract">
+      <UniqueIdentifier>{d4711806-574b-46e7-a19c-e5ada6981aba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -34,6 +49,36 @@
     </ClCompile>
     <ClCompile Include="Util.h">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VLQTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\TrackChunk.cpp">
+      <Filter>Source Files\Source\SMF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\HeaderChunk.cpp">
+      <Filter>Source Files\Source\SMF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\Util\VLQ.cpp">
+      <Filter>Source Files\Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\StandardMIDIFile.cpp">
+      <Filter>Source Files\Source\SMF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\Events\MetaEvent.cpp">
+      <Filter>Source Files\Source\SMF\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\Events\MidiEvent.cpp">
+      <Filter>Source Files\Source\SMF\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\Events\SystemExclusiveEvent.cpp">
+      <Filter>Source Files\Source\SMF\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\Events\TrackEvent.cpp">
+      <Filter>Source Files\Source\SMF\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\Abstract\IEvent.cpp">
+      <Filter>Source Files\Source\Abstract</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

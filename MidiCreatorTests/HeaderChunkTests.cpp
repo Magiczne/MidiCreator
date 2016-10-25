@@ -16,7 +16,7 @@ namespace MidiCreatorTests
 		
 		TEST_METHOD(FileFormatConstructor)
 		{
-			HeaderChunk h(FileFormat::MULTIPLE_SONG);
+			HeaderChunk h(FileFormat::MULTIPLE_SONG, 0, 0);
 
 			Assert::AreEqual(
 				FileFormat::MULTIPLE_SONG,
@@ -27,7 +27,7 @@ namespace MidiCreatorTests
 
 		TEST_METHOD(IncrementingTrackCounter)
 		{
-			HeaderChunk h(FileFormat::MULTIPLE_SONG);
+			HeaderChunk h(FileFormat::MULTIPLE_SONG, 0, 0);
 			short n = h.getNumberOfTracks();
 			h.addTrack();
 
@@ -40,7 +40,7 @@ namespace MidiCreatorTests
 
 		TEST_METHOD(ConvertingToByteCollection)
 		{
-			HeaderChunk h(FileFormat::MULTIPLE_SONG);
+			HeaderChunk h(FileFormat::MULTIPLE_SONG, 0, 0);
 
 			vector<uint8_t> arr = h.toByteVector();
 			vector<uint8_t> expected = {
@@ -68,7 +68,7 @@ namespace MidiCreatorTests
 		
 		TEST_METHOD(SettingAndGettingDivision)
 		{
-			HeaderChunk h(FileFormat::MULTIPLE_SONG);
+			HeaderChunk h(FileFormat::MULTIPLE_SONG, 0, 0);
 			h.setDivision(96);
 
 			Assert::AreEqual(
