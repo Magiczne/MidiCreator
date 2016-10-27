@@ -2,13 +2,11 @@
 
 #include "../../stdafx.h"
 #include "../../Abstract/IEvent.h"
-#include "../../Abstract/IConvertibleToByteCollection.h"
 
 namespace SMF
 {
 	class SystemExclusiveEvent :
-		public IEvent,
-		public IConvertibleToByteCollection
+		public IEvent
 	{
 	public:
 		uint8_t head;					//0xF0 or 0xF7

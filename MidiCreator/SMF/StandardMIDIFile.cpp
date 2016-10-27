@@ -40,7 +40,7 @@ void StandardMIDIFile::setTimeSignature(
 	{
 		if (trackChunks.empty())
 		{
-			trackChunks.push_back(new TrackChunk());
+			//TODO: Throw some exception
 		}
 
 		auto innerEvent = trackChunks.front()
@@ -65,13 +65,40 @@ void StandardMIDIFile::setTimeSignature(
 	}
 }
 
-void StandardMIDIFile::setTempo()
+void StandardMIDIFile::setTempo(short bpm)
 {
+	if (bpm < StandardMIDIFile::MIN_BPM || bpm > StandardMIDIFile::MAX_BPM) 
+	{
+		//TODO: Throw some exception
+	}
 
+	int microSecoundsPerQuarterNote = 60000000 / bpm;
+
+	if (this->headerChunk->getFileFormat() == FileFormat::SINGLE_TRACK)
+	{
+		if (trackChunks.empty())
+		{
+			//TODO: Throw some exception
+		}
+
+		auto innerEvent = trackChunks.front()
+			->addTrackEvent(EventType::META_EVENT)
+			->getInnerEvent();
+
+		MetaEvent* e = dynamic_cast<MetaEvent*>(innerEvent);
+		e->setEventType(MetaEventType::TEMPO_SETTING)
+			->setLength(3)
+			->addParam((microSecoundsPerQuarterNote >> 16) & 0xFF)
+			->addParam((microSecoundsPerQuarterNote >> 8) & 0xFF)
+			->addParam(microSecoundsPerQuarterNote & 0xFF);
+	}
+	//TODO: MultipleTrack, MultipleSong
 }
 
 StandardMIDIFile::~StandardMIDIFile()
 {
 	for (auto &tc : this->trackChunks)
+	{ 
 		delete tc;
+	}
 }

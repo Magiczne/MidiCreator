@@ -23,14 +23,17 @@ TrackEvent::TrackEvent(EventType eventType)
 
 std::vector<uint8_t> TrackEvent::toByteVector()
 {
-	std::vector<uint8_t> ret;
+	std::vector<uint8_t> ret = this->deltaTime->getVlq();
 
-	//TODO: Conversion
+	std::vector<uint8_t> eventBytes = this->event->toByteVector();
+
+	ret.insert(ret.end(), eventBytes.begin(), eventBytes.end());
 
 	return ret;
 }
 
 TrackEvent::~TrackEvent()
 {
+	delete this->deltaTime;
 	delete this->event;
 }

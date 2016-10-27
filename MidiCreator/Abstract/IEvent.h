@@ -1,11 +1,13 @@
 #pragma once
 
 #include "../stdafx.h"
+#include "IConvertibleToByteCollection.h"
 #include "../Util/VLQ.h"
 
 namespace SMF
 {
-	class IEvent 
+	class IEvent : 
+		public IConvertibleToByteCollection
 	{
 	protected:
 		std::vector<uint8_t> params;

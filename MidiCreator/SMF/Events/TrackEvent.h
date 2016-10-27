@@ -14,13 +14,14 @@ namespace SMF
 		IConvertibleToByteCollection
 	{
 	private:
-		int deltaTime;
+		VLQ* deltaTime;
 		IEvent* event;
 
 	public:
 		TrackEvent(EventType);
 		~TrackEvent();
 
+		inline TrackEvent* setDeltaTime(int v) { this->deltaTime = new VLQ(v); }
 		inline IEvent* getInnerEvent() { return this->event; }
 
 		//IConvertibleToByteCollection

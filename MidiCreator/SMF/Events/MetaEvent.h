@@ -2,22 +2,19 @@
 
 #include "../../stdafx.h"
 #include "../../Abstract/IEvent.h"
-#include "../../Abstract/IConvertibleToByteCollection.h"
 #include "../Enums/MetaEventType.h"
 
 namespace SMF
 {
 	class MetaEvent :
-		public IEvent,
-		public IConvertibleToByteCollection
+		public IEvent
 	{
 	private:
 		const uint8_t id = 0xFF;
 		MetaEventType type;
-		int vLength;
+		VLQ* vLength;
 
 	public:
-		MetaEvent();
 		~MetaEvent();
 
 		MetaEvent* setEventType(MetaEventType);

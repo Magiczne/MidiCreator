@@ -2,10 +2,6 @@
 
 using namespace SMF;
 
-MetaEvent::MetaEvent()
-{
-}
-
 MetaEvent* MetaEvent::setEventType(MetaEventType eventType)
 {
 	this->type = eventType;
@@ -14,7 +10,7 @@ MetaEvent* MetaEvent::setEventType(MetaEventType eventType)
 
 MetaEvent* MetaEvent::setLength(int val)
 {
-	this->vLength = val;
+	this->vLength = new VLQ(val);
 	return this;
 }
 
@@ -24,7 +20,12 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 
 	ret.push_back(this->id);
 	ret.push_back(this->type);
-	//TODO: push_back values by var-Length int
+
+	//vLength
+	std::vector<uint8_t> vLengthBytes = this->vLength->getVlq();
+	ret.insert(ret.end(), vLengthBytes.begin(), vLengthBytes.end());
+
+	//Params
 	ret.insert(ret.end(), this->params.begin(), this->params.end());
 
 	return ret;
@@ -32,4 +33,5 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 
 MetaEvent::~MetaEvent()
 {
+	delete this->vLength;
 }

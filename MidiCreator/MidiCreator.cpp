@@ -45,7 +45,7 @@ int main(int argc, char** argv[])
 
 	MetaEvent* e = static_cast<MetaEvent*>(innerEvent);
 	e->setEventType(MetaEventType::TIME_SIGNATURE)
-		->setLength(4)
+		->setLength(0xFF)
 		->addParam(6)
 		->addParam(log2(8))
 		->addParam(36)

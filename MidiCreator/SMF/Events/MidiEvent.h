@@ -15,6 +15,8 @@ namespace SMF
 	public:
 		MidiEvent();
 		~MidiEvent();
+
+		virtual std::vector<uint8_t> toByteVector();
 	};
 
 }
