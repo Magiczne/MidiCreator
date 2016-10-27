@@ -15,7 +15,7 @@ public:
 	VLQ(unsigned long);
 	VLQ(std::vector<uint8_t>);
 
-	inline unsigned long getInt() { return this->intVal; }
-	inline std::vector<uint8_t> getVlq() { return this->vlqVal; }
+	inline const unsigned long& getInt() { return this->intVal; }
+	inline const std::vector<uint8_t>& getVlq() { return this->vlqVal; }
 };
 

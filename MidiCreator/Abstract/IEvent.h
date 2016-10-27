@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../stdafx.h"
+#include "../Util/VLQ.h"
 
 namespace SMF
 {
@@ -11,5 +12,6 @@ namespace SMF
 
 	public:
 		virtual IEvent* addParam(uint8_t);
+		virtual IEvent* addParam(VLQ);
 	};
 }
