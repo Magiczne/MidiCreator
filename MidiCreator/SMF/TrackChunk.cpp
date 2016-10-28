@@ -1,9 +1,41 @@
 #include "TrackChunk.h"
 
+#include "Exceptions\IllegalChannelException.h"
+
 using namespace SMF;
 
 TrackChunk::TrackChunk()
 {
+}
+
+TrackChunk::~TrackChunk()
+{
+	for (auto &te : this->trackEvents)
+		delete te;
+}
+
+TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
+{
+	trackEvents.push_back(event);
+	return event;
+}
+
+TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
+{
+	auto event = new TrackEvent(eventType);
+	trackEvents.push_back(event);
+	return event;
+}
+
+TrackChunk* TrackChunk::setCurrentChannel(short channel)
+{
+	if (channel < 1 || channel > 16)
+	{
+		throw new IllegalChannelException;
+	}
+
+	this->currentChannel = channel;
+	return this;
 }
 
 std::vector<uint8_t> TrackChunk::toByteVector()
@@ -31,21 +63,3 @@ std::vector<uint8_t> TrackChunk::toByteVector()
 	return ret;
 }
 
-TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
-{
-	trackEvents.push_back(event);
-	return event;
-}
-
-TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
-{
-	auto event = new TrackEvent(eventType);
-	trackEvents.push_back(event);
-	return event;
-}
-
-TrackChunk::~TrackChunk()
-{
-	for (auto &te : this->trackEvents)
-		delete te;
-}

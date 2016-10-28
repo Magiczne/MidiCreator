@@ -3,6 +3,7 @@
 #include "Exceptions\BpmOutOfRangeException.h"
 #include "Exceptions\IllegalDenominatorException.h"
 #include "Exceptions\NoTracksException.h"
+#include "Exceptions\TrackNumberOutOfRangeException.h"
 
 using namespace SMF;
 
@@ -10,22 +11,27 @@ StandardMIDIFile::StandardMIDIFile()
 {
 }
 
-std::vector<uint8_t> StandardMIDIFile::toByteVector()
+StandardMIDIFile::~StandardMIDIFile()
 {
-	std::vector<uint8_t> ret = this->headerChunk->toByteVector();
-
-	std::vector<uint8_t> trackBytes;
-
-	std::vector<uint8_t> tmpVector;
-	for (auto &a : this->trackChunks)
+	for (auto &tc : this->trackChunks)
 	{
-		tmpVector = a->toByteVector();
-		trackBytes.insert(trackBytes.end(), tmpVector.begin(), tmpVector.end());
+		delete tc;
+	}
+}
+
+void StandardMIDIFile::setCurrentTrack(size_t track)
+{
+	if (this->trackChunks.empty())
+	{
+		throw new NoTracksException;
 	}
 
-	ret.insert(ret.end(), trackBytes.begin(), trackBytes.end());
+	if (track >= this->trackChunks.size())
+	{
+		throw new TrackNumberOutOfRangeException;
+	}
 
-	return ret;
+	this->currentTrack = track;
 }
 
 /*
@@ -46,12 +52,12 @@ void StandardMIDIFile::setTimeSignature(
 
 	if (this->headerChunk->getFileFormat() == FileFormat::SINGLE_TRACK)
 	{
-		if (trackChunks.empty())
+		if (this->trackChunks.empty())
 		{
 			throw new NoTracksException;
 		}
 
-		auto innerEvent = trackChunks.front()
+		auto innerEvent = this->trackChunks.front()
 			->addTrackEvent(EventType::META_EVENT)
 			->getInnerEvent();
 
@@ -88,12 +94,12 @@ void StandardMIDIFile::setTempo(short bpm)
 
 	if (this->headerChunk->getFileFormat() == FileFormat::SINGLE_TRACK)
 	{
-		if (trackChunks.empty())
+		if (this->trackChunks.empty())
 		{
 			throw new NoTracksException;
 		}
 
-		auto innerEvent = trackChunks.front()
+		auto innerEvent = this->trackChunks.front()
 			->addTrackEvent(EventType::META_EVENT)
 			->getInnerEvent();
 
@@ -114,10 +120,29 @@ void StandardMIDIFile::setTempo(short bpm)
 	}
 }
 
-StandardMIDIFile::~StandardMIDIFile()
+
+/*
+throws NoTracksException
+*/
+std::vector<uint8_t> StandardMIDIFile::toByteVector()
 {
-	for (auto &tc : this->trackChunks)
-	{ 
-		delete tc;
+	if (this->trackChunks.empty())
+	{
+		throw new NoTracksException;
 	}
+
+	std::vector<uint8_t> ret = this->headerChunk->toByteVector();
+
+	std::vector<uint8_t> trackBytes;
+
+	std::vector<uint8_t> tmpVector;
+	for (auto &a : this->trackChunks)
+	{
+		tmpVector = a->toByteVector();
+		trackBytes.insert(trackBytes.end(), tmpVector.begin(), tmpVector.end());
+	}
+
+	ret.insert(ret.end(), trackBytes.begin(), trackBytes.end());
+
+	return ret;
 }

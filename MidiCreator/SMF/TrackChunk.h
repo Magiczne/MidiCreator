@@ -13,7 +13,10 @@ namespace SMF
 		uint32_t tracksLength = 0;
 		std::vector<TrackEvent*> trackEvents;
 
-		void calculateTracksLength();
+		short currentChannel = 1;
+
+		//TODO?
+		//void calculateTracksLength();
 
 	public:
 		TrackChunk();
@@ -21,6 +24,8 @@ namespace SMF
 
 		TrackEvent* addTrackEvent(EventType);
 		TrackEvent* addTrackEvent(TrackEvent*);
+
+		TrackChunk* setCurrentChannel(short);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();		

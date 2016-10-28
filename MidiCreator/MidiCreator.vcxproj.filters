@@ -96,6 +96,12 @@
     <ClInclude Include="SMF\Exceptions\NoTracksException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SMF\Exceptions\TrackNumberOutOfRangeException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Exceptions\IllegalChannelException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
