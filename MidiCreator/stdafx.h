@@ -16,7 +16,9 @@
 #include <array>
 #include <cctype>
 #include <cstdint>
+#include <exception>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <vector>

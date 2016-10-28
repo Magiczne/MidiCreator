@@ -1,5 +1,9 @@
 #include "StandardMIDIFile.h"
 
+#include "Exceptions\BpmOutOfRangeException.h"
+#include "Exceptions\IllegalDenominatorException.h"
+#include "Exceptions\NoTracksException.h"
+
 using namespace SMF;
 
 StandardMIDIFile::StandardMIDIFile()
@@ -24,6 +28,10 @@ std::vector<uint8_t> StandardMIDIFile::toByteVector()
 	return ret;
 }
 
+/*
+throws IllegalDenominatorException
+throws NoTrackException
+*/
 void StandardMIDIFile::setTimeSignature(
 	uint8_t numerator,
 	uint8_t denominator,
@@ -33,14 +41,14 @@ void StandardMIDIFile::setTimeSignature(
 	double convertedDenominator = log2(denominator);
 	if (floor(convertedDenominator) != convertedDenominator)
 	{
-		//TODO: Throw some exception
+		throw new IllegalDenominatorException;
 	}
 
 	if (this->headerChunk->getFileFormat() == FileFormat::SINGLE_TRACK)
 	{
 		if (trackChunks.empty())
 		{
-			//TODO: Throw some exception
+			throw new NoTracksException;
 		}
 
 		auto innerEvent = trackChunks.front()
@@ -65,11 +73,15 @@ void StandardMIDIFile::setTimeSignature(
 	}
 }
 
+/*
+throws SMF::BpmOutOfRangeException
+throws SMF::NoTrackException
+*/
 void StandardMIDIFile::setTempo(short bpm)
 {
 	if (bpm < StandardMIDIFile::MIN_BPM || bpm > StandardMIDIFile::MAX_BPM) 
 	{
-		//TODO: Throw some exception
+		throw new BpmOutOfRangeException;
 	}
 
 	int microSecoundsPerQuarterNote = 60000000 / bpm;
@@ -78,7 +90,7 @@ void StandardMIDIFile::setTempo(short bpm)
 	{
 		if (trackChunks.empty())
 		{
-			//TODO: Throw some exception
+			throw new NoTracksException;
 		}
 
 		auto innerEvent = trackChunks.front()
@@ -92,7 +104,14 @@ void StandardMIDIFile::setTempo(short bpm)
 			->addParam((microSecoundsPerQuarterNote >> 8) & 0xFF)
 			->addParam(microSecoundsPerQuarterNote & 0xFF);
 	}
-	//TODO: MultipleTrack, MultipleSong
+	else if (this->headerChunk->getFileFormat() == FileFormat::MULTIPLE_TRACK)
+	{
+		//TODO
+	}
+	else
+	{
+		//Multiple Song. Find how to do that
+	}
 }
 
 StandardMIDIFile::~StandardMIDIFile()

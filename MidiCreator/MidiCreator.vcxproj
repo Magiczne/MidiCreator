@@ -152,6 +152,9 @@
     <ClInclude Include="SMF\Enums\FileFormat.h" />
     <ClInclude Include="SMF\Enums\MetaEventType.h" />
     <ClInclude Include="SMF\Enums\MidiEventType.h" />
+    <ClInclude Include="SMF\Exceptions\BpmOutOfRangeException.h" />
+    <ClInclude Include="SMF\Exceptions\IllegalDenominatorException.h" />
+    <ClInclude Include="SMF\Exceptions\NoTracksException.h" />
     <ClInclude Include="SMF\HeaderChunk.h" />
     <ClInclude Include="Abstract\IConvertibleToByteCollection.h" />
     <ClInclude Include="Abstract\IEvent.h" />
