@@ -22,10 +22,14 @@ namespace SMF
 		TrackChunk();
 		~TrackChunk();
 
-		TrackEvent* addTrackEvent(EventType);
-		TrackEvent* addTrackEvent(TrackEvent*);
+		TrackEvent* addTrackEvent(EventType eventType);
+		TrackEvent* addTrackEvent(TrackEvent* event);
 
-		TrackChunk* setCurrentChannel(short);
+		TrackChunk* setCurrentChannel(short channel);
+
+		TrackChunk* setVoiceProgram(short gmPatch);
+		//TODO: Note as a enum?
+		TrackChunk* addNote(short note, short duration);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();		
