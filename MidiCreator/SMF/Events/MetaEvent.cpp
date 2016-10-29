@@ -8,9 +8,9 @@ MetaEvent* MetaEvent::setEventType(MetaEventType eventType)
 	return this;
 }
 
-MetaEvent* MetaEvent::setLength(int val)
+MetaEvent* MetaEvent::setLength(int length)
 {
-	this->vLength = new VLQ(val);
+	this->vLength = new VLQ(length);
 	return this;
 }
 

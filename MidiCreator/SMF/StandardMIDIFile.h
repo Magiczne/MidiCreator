@@ -21,9 +21,13 @@ namespace SMF
 		StandardMIDIFile();
 		~StandardMIDIFile();
 
-		void setTimeSignature(uint8_t, uint8_t, uint8_t, uint8_t);
-		void setTempo(short);
-		void setCurrentTrack(size_t);
+		void setCurrentTrack(size_t track);
+
+		void setTimeSignature(uint8_t numerator, 
+			uint8_t denominator, 
+			uint8_t midiClocksPerMetronomeClick, 
+			uint8_t numberOf32NotesInMidiQuarterNote);
+		void setTempo(short bpm);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();

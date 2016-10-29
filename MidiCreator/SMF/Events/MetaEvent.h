@@ -17,8 +17,8 @@ namespace SMF
 	public:
 		~MetaEvent();
 
-		MetaEvent* setEventType(MetaEventType);
-		MetaEvent* setLength(int);
+		MetaEvent* setEventType(MetaEventType eventType);
+		MetaEvent* setLength(int length);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();

@@ -18,7 +18,7 @@ namespace SMF
 		IEvent* event;
 
 	public:
-		TrackEvent(EventType);
+		TrackEvent(EventType eventType);
 		~TrackEvent();
 
 		inline TrackEvent* setDeltaTime(int v) { this->deltaTime = new VLQ(v); }

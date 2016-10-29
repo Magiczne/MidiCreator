@@ -42,7 +42,7 @@ void StandardMIDIFile::setTimeSignature(
 	uint8_t numerator,
 	uint8_t denominator,
 	uint8_t midiClocksPerMetronomeClick,
-	uint8_t numerOf32NotesInMidiQuarterNote)
+	uint8_t numberOf32NotesInMidiQuarterNote)
 {
 	double convertedDenominator = log2(denominator);
 	if (floor(convertedDenominator) != convertedDenominator)
@@ -67,7 +67,7 @@ void StandardMIDIFile::setTimeSignature(
 			->addParam(numerator)
 			->addParam(static_cast<uint8_t>(convertedDenominator))
 			->addParam(midiClocksPerMetronomeClick)
-			->addParam(numerOf32NotesInMidiQuarterNote);
+			->addParam(numberOf32NotesInMidiQuarterNote);
 	}
 	else if(this->headerChunk->getFileFormat() == FileFormat::MULTIPLE_TRACK)
 	{
