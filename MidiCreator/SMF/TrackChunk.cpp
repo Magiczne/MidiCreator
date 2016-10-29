@@ -74,12 +74,33 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 		throw new TrackClosedException;
 	}
 
-	auto innerEvent = this->addTrackEvent(EventType::MIDI_EVENT)
+	this->addTrackEvent(EventType::MIDI_EVENT)
 		->setDeltaTime(0)
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::PROGRAM_CHANGE)
 		->setChannel(this->currentChannel)
 		->addParam((uint8_t)patch - 1);
+
+	return this;
+}
+
+TrackChunk* TrackChunk::addNote(short note, unsigned short volume, short duration)
+{
+	#ifdef DEBUG
+		printf("TrackChunk::addNote()\n");
+	#endif // DEBUG
+
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
+
+	this->addTrackEvent(EventType::MIDI_EVENT)
+		->setDeltaTime(0)	//TODO: Delta sums, or something
+		->getInnerEvent<MidiEvent>()
+		->setEventType(MidiEventType::NOTE_ON)
+		->setChannel(this->currentChannel);
+		//TODO: Add params
 
 	return this;
 }

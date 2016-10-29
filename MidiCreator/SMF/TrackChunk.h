@@ -31,7 +31,7 @@ namespace SMF
 
 		TrackChunk* setVoiceProgram(GMPatch patch);
 		//TODO: Note as a enum?
-		TrackChunk* addNote(short note, short duration);
+		TrackChunk* addNote(short note, unsigned short volume, short duration);
 
 		void closeTrack();
 		void reopenTrack();
