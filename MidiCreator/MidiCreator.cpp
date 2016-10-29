@@ -9,14 +9,6 @@ using namespace SMF;
 
 int main(int argc, char** argv[])
 {
-	/*
-	Vector to file
-	std::ofstream os{ "binaryfile.bin", std::ios::out };
-	std::copy(std::begin(m), std::end(m),
-		std::ostream_iterator<uint8_t>(os)); 
-	os.close();
-	*/
-
 	HeaderChunk* hc = new HeaderChunk(FileFormat::SINGLE_TRACK, 1, 96);
 	TrackChunk* tc = new TrackChunk();
 

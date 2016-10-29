@@ -118,6 +118,15 @@ void StandardMIDIFile::setTempo(short bpm)
 	}
 }
 
+void StandardMIDIFile::exportToFile(string filename)
+{
+	std::vector<uint8_t> ret = this->toByteVector();
+
+	std::ofstream os(filename, std::ios::out);
+	std::copy(ret.begin(), ret.end(),
+		std::ostream_iterator<uint8_t>(os));
+	os.close();
+}
 
 /*
 throws NoTracksException
