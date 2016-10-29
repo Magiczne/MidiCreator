@@ -101,8 +101,8 @@ TrackChunk* TrackChunk::addNote(Note* note)
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_ON)
 		->setChannel(this->currentChannel)
-		->addParam((uint8_t)note->pitch)
-		->addParam(note->volume);
+		->addParam((uint8_t)note->getPitch())
+		->addParam(note->getVolume());
 
 	//Note off
 	this->addTrackEvent(EventType::MIDI_EVENT)
@@ -110,8 +110,8 @@ TrackChunk* TrackChunk::addNote(Note* note)
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_OFF)
 		->setChannel(this->currentChannel)
-		->addParam((uint8_t)note->pitch)
-		->addParam(note->volume);	//TODO: change that to 0?
+		->addParam((uint8_t)note->getPitch())
+		->addParam(note->getVolume());	//TODO: change that to 0?
 
 	return this;
 }
