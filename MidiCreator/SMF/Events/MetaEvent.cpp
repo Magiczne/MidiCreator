@@ -28,6 +28,10 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 	//Params
 	ret.insert(ret.end(), this->params.begin(), this->params.end());
 
+	#ifdef DEBUG
+		std::cout << "MetaEvent::toByteVector()" << std::endl;
+	#endif // DEBUG	
+
 	return ret;
 }
 

@@ -16,8 +16,7 @@ namespace SMF
 		short currentChannel = 1;
 		bool closed = false;
 
-		//TODO?
-		//void calculateTracksLength();
+		void calculateTracksLength();
 
 	public:
 		TrackChunk();

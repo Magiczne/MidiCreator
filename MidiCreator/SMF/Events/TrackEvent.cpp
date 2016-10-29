@@ -21,8 +21,18 @@ TrackEvent::TrackEvent(EventType eventType)
 	}
 }
 
+TrackEvent* TrackEvent::setDeltaTime(int time)
+{ 
+	this->deltaTime = new VLQ(time); 
+	return this; 
+}
+
 std::vector<uint8_t> TrackEvent::toByteVector()
 {
+	#ifdef DEBUG
+		printf("TrackEvent::toByteVector()\n");
+	#endif // DEBUG
+	
 	std::vector<uint8_t> ret = this->deltaTime->getVlq();
 
 	std::vector<uint8_t> eventBytes = this->event->toByteVector();

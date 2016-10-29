@@ -62,17 +62,17 @@ void TrackChunk::closeTrack()
 		throw new TrackClosedException;
 	}
 
-	auto innerEvent = this->addTrackEvent(EventType::META_EVENT)
-		->getInnerEvent();
+	#ifdef DEBUG
+		printf("TrackChunk::closedTrack()\n");
+	#endif // DEBUG
 
-	MetaEvent* e = dynamic_cast<MetaEvent*>(innerEvent);
-	e->setEventType(MetaEventType::END_OF_TRACK)
+	auto innerEvent = this->addTrackEvent(EventType::META_EVENT)
+		->setDeltaTime(0)
+		->getInnerEvent<MetaEvent>()
+		->setEventType(MetaEventType::END_OF_TRACK)
 		->setLength(0);
 
 	this->closed = true;
-
-	//TODO: ?
-	//delete innerEvent;
 }
 
 void TrackChunk::reopenTrack()
@@ -86,9 +86,26 @@ void TrackChunk::reopenTrack()
 	this->closed = false;
 }
 
+void TrackChunk::calculateTracksLength()
+{
+	#ifdef DEBUG
+		printf("TrackChunk::calculateTracksLength()\n");
+	#endif // DEBUG
+
+	for (auto &te : this->trackEvents)
+	{
+		//TODO: OPTIMIZE THAT.
+		this->tracksLength += te->toByteVector().size();
+	}
+}
+
 //IConvertibleToByteCollection
 std::vector<uint8_t> TrackChunk::toByteVector()
 {
+	#ifdef DEBUG
+		printf("TrackChunk::toByteVector()\n");
+	#endif // DEBUG
+
 	if (!this->closed)
 	{
 		this->closeTrack();
@@ -99,6 +116,8 @@ std::vector<uint8_t> TrackChunk::toByteVector()
 	//chunkType
 	for (auto &c : this->chunkType)
 		ret.push_back(c);
+
+	this->calculateTracksLength();
 
 	//tracksLength
 	ret.push_back((this->tracksLength >> 24) & 0xFF);

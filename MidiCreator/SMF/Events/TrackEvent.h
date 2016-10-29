@@ -21,8 +21,10 @@ namespace SMF
 		TrackEvent(EventType eventType);
 		~TrackEvent();
 
-		inline TrackEvent* setDeltaTime(int v) { this->deltaTime = new VLQ(v); }
-		inline IEvent* getInnerEvent() { return this->event; }
+		TrackEvent* setDeltaTime(int time);
+
+		template<typename T>
+		inline T* getInnerEvent() { return dynamic_cast<T*>(this->event); }
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();

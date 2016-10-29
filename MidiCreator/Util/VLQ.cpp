@@ -41,7 +41,7 @@ void VLQ::toVlq()
 
 	for (;;)
 	{
-		ret.push_back(buffer);
+		ret.push_back((uint8_t)buffer);
 		if (buffer & 0x80)
 			buffer >>= 8;
 		else

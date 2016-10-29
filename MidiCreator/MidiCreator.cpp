@@ -32,26 +32,27 @@ int main(int argc, char** argv[])
 	cout << endl;
 
 	cout << "Track Chunk: " << endl;
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < tc_v.size(); i++) {
 		cout << setfill('0') << setw(2);
 		cout << uppercase << hex << (int)tc_v[i] << ' ';
 		if (i == 3 || i == 7) cout << endl;
 	}
 	cout << endl;
 
+	tc->reopenTrack();
+
 	auto innerEvent = tc
 		->addTrackEvent(EventType::META_EVENT)
-		->getInnerEvent();
-
-	MetaEvent* e = static_cast<MetaEvent*>(innerEvent);
-	e->setEventType(MetaEventType::TIME_SIGNATURE)
-		->setLength(0xFF)
+		->setDeltaTime(0)
+		->getInnerEvent<MetaEvent>()
+		->setEventType(MetaEventType::TIME_SIGNATURE)
+		->setLength(4)
 		->addParam(6)
-		->addParam(log2(8))
+		->addParam((uint8_t)log2(8))
 		->addParam(36)
 		->addParam(8);
 
-	auto x = e->toByteVector();
+	auto x = innerEvent->toByteVector();
 
 	cout << "Meta event: " << endl;
 	for (size_t i = 0; i < x.size(); i++)

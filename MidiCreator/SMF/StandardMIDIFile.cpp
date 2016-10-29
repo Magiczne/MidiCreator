@@ -59,10 +59,9 @@ void StandardMIDIFile::setTimeSignature(
 
 		auto innerEvent = this->trackChunks.front()
 			->addTrackEvent(EventType::META_EVENT)
-			->getInnerEvent();
-
-		MetaEvent* e = dynamic_cast<MetaEvent*>(innerEvent);
-		e->setEventType(MetaEventType::TIME_SIGNATURE)
+			->setDeltaTime(0)
+			->getInnerEvent<MetaEvent>()
+			->setEventType(MetaEventType::TIME_SIGNATURE)
 			->setLength(4)
 			->addParam(numerator)
 			->addParam(static_cast<uint8_t>(convertedDenominator))
@@ -101,10 +100,9 @@ void StandardMIDIFile::setTempo(short bpm)
 
 		auto innerEvent = this->trackChunks.front()
 			->addTrackEvent(EventType::META_EVENT)
-			->getInnerEvent();
-
-		MetaEvent* e = dynamic_cast<MetaEvent*>(innerEvent);
-		e->setEventType(MetaEventType::TEMPO_SETTING)
+			->setDeltaTime(0)
+			->getInnerEvent<MetaEvent>()
+			->setEventType(MetaEventType::TEMPO_SETTING)
 			->setLength(3)
 			->addParam((microSecoundsPerQuarterNote >> 16) & 0xFF)
 			->addParam((microSecoundsPerQuarterNote >> 8) & 0xFF)
