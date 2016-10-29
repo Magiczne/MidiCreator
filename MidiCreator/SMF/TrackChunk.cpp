@@ -14,6 +14,17 @@ TrackChunk::~TrackChunk()
 		delete te;
 }
 
+TrackChunk* TrackChunk::setCurrentChannel(short channel)
+{
+	if (channel < 1 || channel > 16)
+	{
+		throw new IllegalChannelException;
+	}
+
+	this->currentChannel = channel;
+	return this;
+}
+
 TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
 	trackEvents.push_back(event);
@@ -27,16 +38,6 @@ TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
 	return event;
 }
 
-TrackChunk* TrackChunk::setCurrentChannel(short channel)
-{
-	if (channel < 1 || channel > 16)
-	{
-		throw new IllegalChannelException;
-	}
-
-	this->currentChannel = channel;
-	return this;
-}
 
 std::vector<uint8_t> TrackChunk::toByteVector()
 {

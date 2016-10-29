@@ -14,6 +14,7 @@ namespace SMF
 		std::vector<TrackEvent*> trackEvents;
 
 		short currentChannel = 1;
+		bool trackClosed = false;
 
 		//TODO?
 		//void calculateTracksLength();
