@@ -2,7 +2,7 @@
 
 namespace SMF
 {
-	enum Note
+	enum NotePitch
 	{
 		//Octave #-1
 		C_MINUS_1 = 0,

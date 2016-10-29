@@ -41,8 +41,8 @@ throws NoTrackException
 void StandardMIDIFile::setTimeSignature(
 	uint8_t numerator,
 	uint8_t denominator,
-	uint8_t midiClocksPerMetronomeClick,
-	uint8_t numberOf32NotesInMidiQuarterNote)
+	uint8_t midiClocksPerMetronomeClick = 24,
+	uint8_t numberOf32NotesInMidiQuarterNote = 8)
 {
 	double convertedDenominator = log2(denominator);
 	if (floor(convertedDenominator) != convertedDenominator)

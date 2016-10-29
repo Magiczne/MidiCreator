@@ -84,7 +84,7 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 	return this;
 }
 
-TrackChunk* TrackChunk::addNote(short note, unsigned short volume, short duration)
+TrackChunk* TrackChunk::addNote(Note* note)
 {
 	#ifdef DEBUG
 		printf("TrackChunk::addNote()\n");
@@ -95,14 +95,42 @@ TrackChunk* TrackChunk::addNote(short note, unsigned short volume, short duratio
 		throw new TrackClosedException;
 	}
 
+	//Note on
 	this->addTrackEvent(EventType::MIDI_EVENT)
-		->setDeltaTime(0)	//TODO: Delta sums, or something
+		->setDeltaTime(0)	//TODO: Delta sums, or something, duration etc.
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_ON)
-		->setChannel(this->currentChannel);
-		//TODO: Add params
+		->setChannel(this->currentChannel)
+		->addParam((uint8_t)note->pitch)
+		->addParam(note->volume);
+
+	//Note off
+	this->addTrackEvent(EventType::MIDI_EVENT)
+		->setDeltaTime(0) //TODO: Delta sums, or something, duration etc.	
+		->getInnerEvent<MidiEvent>()
+		->setEventType(MidiEventType::NOTE_OFF)
+		->setChannel(this->currentChannel)
+		->addParam((uint8_t)note->pitch)
+		->addParam(note->volume);	//TODO: change that to 0?
 
 	return this;
+}
+
+TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
+{
+	#ifdef DEBUG
+		printf("TrackChunk::addNotes()\n");
+	#endif // DEBUG
+
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
+
+	for (auto& note : notes)
+	{
+		//TODO
+	}
 }
 
 void TrackChunk::closeTrack()

@@ -111,7 +111,10 @@
     <ClInclude Include="SMF\Enums\MIDIChannel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SMF\Enums\Note.h">
+    <ClInclude Include="SMF\Util\Note.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Enums\NotePitch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -147,6 +150,9 @@
       <Filter>Source Files\SMF\Events</Filter>
     </ClCompile>
     <ClCompile Include="Util\VLQ.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\Util\Note.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

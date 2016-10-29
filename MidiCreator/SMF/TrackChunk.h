@@ -3,7 +3,9 @@
 #include "..\Abstract\IConvertibleToByteCollection.h"
 #include "Enums\GMPatch.h"
 #include "Enums\MIDIChannel.h"
+#include "Enums\NotePitch.h"
 #include "Events\TrackEvent.h"
+#include "Util\Note.h"
 
 namespace SMF 
 {
@@ -30,8 +32,9 @@ namespace SMF
 		TrackChunk* setCurrentChannel(MIDIChannel channel);
 
 		TrackChunk* setVoiceProgram(GMPatch patch);
-		//TODO: Note as a enum?
-		TrackChunk* addNote(short note, unsigned short volume, short duration);
+
+		TrackChunk* addNote(Note* note);
+		TrackChunk* addNotes(std::vector<Note*> notes);
 
 		void closeTrack();
 		void reopenTrack();

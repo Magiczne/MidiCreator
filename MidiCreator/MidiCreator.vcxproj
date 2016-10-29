@@ -147,10 +147,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SMF\Util\Note.h" />
     <ClInclude Include="SMF\Enums\MIDIChannel.h" />
     <ClInclude Include="SMF\Enums\EventType.h" />
     <ClInclude Include="SMF\Enums\GMPatch.h" />
-    <ClInclude Include="SMF\Enums\Note.h" />
+    <ClInclude Include="SMF\Enums\NotePitch.h" />
     <ClInclude Include="SMF\Events\MidiEvent.h" />
     <ClInclude Include="SMF\Enums\FileFormat.h" />
     <ClInclude Include="SMF\Enums\MetaEventType.h" />
@@ -175,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Abstract\IEvent.cpp" />
+    <ClCompile Include="SMF\Util\Note.cpp" />
     <ClCompile Include="SMF\Events\MidiEvent.cpp" />
     <ClCompile Include="SMF\HeaderChunk.cpp" />
     <ClCompile Include="SMF\Events\MetaEvent.cpp" />
