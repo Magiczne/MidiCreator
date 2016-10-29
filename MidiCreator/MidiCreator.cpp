@@ -12,6 +12,14 @@ int main(int argc, char** argv[])
 	HeaderChunk* hc = new HeaderChunk(FileFormat::SINGLE_TRACK, 1, 96);
 	TrackChunk* tc = new TrackChunk();
 
+	tc->setVoiceProgram(GMPatch::ELECTRIC_PIANO_2);
+
+	tc->setCurrentChannel(MIDIChannel::CHANNEL_2);
+	tc->setVoiceProgram(GMPatch::ORCHESTRAL_HARP);
+
+	tc->setCurrentChannel(MIDIChannel::CHANNEL_3);
+	tc->setVoiceProgram(GMPatch::BASSOON);
+
 	auto hc_v = hc->toByteVector();
 	auto tc_v = tc->toByteVector();
 
@@ -24,34 +32,15 @@ int main(int argc, char** argv[])
 	cout << endl;
 
 	cout << "Track Chunk: " << endl;
-	for (int i = 0; i < tc_v.size(); i++) {
+	for (size_t i = 0; i < tc_v.size(); i++) {
 		cout << setfill('0') << setw(2);
 		cout << uppercase << hex << (int)tc_v[i] << ' ';
-		if (i == 3 || i == 7) cout << endl;
+		if (
+			(i == 3 || i == 7) ||
+			(i % 3 == 1 && i > 7 && i < tc_v.size() - 4)
+			) cout << endl;
 	}
 	cout << endl;
-
-	tc->reopenTrack();
-
-	auto innerEvent = tc
-		->addTrackEvent(EventType::META_EVENT)
-		->setDeltaTime(0)
-		->getInnerEvent<MetaEvent>()
-		->setEventType(MetaEventType::TIME_SIGNATURE)
-		->setLength(4)
-		->addParam(6)
-		->addParam((uint8_t)log2(8))
-		->addParam(36)
-		->addParam(8);
-
-	auto x = innerEvent->toByteVector();
-
-	cout << "Meta event: " << endl;
-	for (size_t i = 0; i < x.size(); i++)
-	{
-		cout << setfill('0') << setw(2);
-		cout << uppercase << hex << (int)x[i] << ' ';
-	}
 
 	delete hc;
 	delete tc;

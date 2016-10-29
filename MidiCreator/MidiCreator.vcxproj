@@ -147,6 +147,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SMF\Enums\MIDIChannel.h" />
     <ClInclude Include="SMF\Enums\EventType.h" />
     <ClInclude Include="SMF\Enums\GMPatch.h" />
     <ClInclude Include="SMF\Events\MidiEvent.h" />
@@ -154,7 +155,6 @@
     <ClInclude Include="SMF\Enums\MetaEventType.h" />
     <ClInclude Include="SMF\Enums\MidiEventType.h" />
     <ClInclude Include="SMF\Exceptions\BpmOutOfRangeException.h" />
-    <ClInclude Include="SMF\Exceptions\IllegalChannelException.h" />
     <ClInclude Include="SMF\Exceptions\IllegalDenominatorException.h" />
     <ClInclude Include="SMF\Exceptions\NoTracksException.h" />
     <ClInclude Include="SMF\Exceptions\TrackClosedException.h" />

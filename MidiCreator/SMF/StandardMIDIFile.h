@@ -29,8 +29,7 @@ namespace SMF
 			uint8_t numberOf32NotesInMidiQuarterNote);
 		void setTempo(short bpm);
 
-
-		void exportToFile(string filename);
+		void exportToFile(std::string filename);
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();

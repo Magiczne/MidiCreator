@@ -2,6 +2,7 @@
 
 #include "..\Abstract\IConvertibleToByteCollection.h"
 #include "Enums\GMPatch.h"
+#include "Enums\MIDIChannel.h"
 #include "Events\TrackEvent.h"
 
 namespace SMF 
@@ -14,7 +15,7 @@ namespace SMF
 		uint32_t tracksLength = 0;
 		std::vector<TrackEvent*> trackEvents;
 
-		short currentChannel = 1;
+		MIDIChannel currentChannel = MIDIChannel::CHANNEL_1;
 		bool closed = false;
 
 		void calculateTracksLength();
@@ -26,7 +27,7 @@ namespace SMF
 		TrackEvent* addTrackEvent(EventType eventType);
 		TrackEvent* addTrackEvent(TrackEvent* event);
 
-		TrackChunk* setCurrentChannel(short channel);
+		TrackChunk* setCurrentChannel(MIDIChannel channel);
 
 		TrackChunk* setVoiceProgram(GMPatch patch);
 		//TODO: Note as a enum?

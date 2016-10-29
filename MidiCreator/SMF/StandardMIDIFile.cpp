@@ -118,14 +118,12 @@ void StandardMIDIFile::setTempo(short bpm)
 	}
 }
 
-void StandardMIDIFile::exportToFile(string filename)
+void StandardMIDIFile::exportToFile(std::string filename)
 {
-	using namespace std;
+	std::vector<uint8_t> ret = this->toByteVector();
 
-	vector<uint8_t> ret = this->toByteVector();
-
-	ofstream os(filename, ios::out);
-	copy(ret.begin(), ret.end(), ostream_iterator<uint8_t>(os));
+	std::ofstream os(filename, std::ios::out);
+	copy(ret.begin(), ret.end(), std::ostream_iterator<uint8_t>(os));
 	os.close();
 }
 

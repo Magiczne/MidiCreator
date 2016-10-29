@@ -99,9 +99,6 @@
     <ClInclude Include="SMF\Exceptions\TrackNumberOutOfRangeException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SMF\Exceptions\IllegalChannelException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SMF\Exceptions\TrackClosedException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -109,6 +106,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SMF\Enums\GMPatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Enums\MIDIChannel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

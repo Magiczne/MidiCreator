@@ -1,6 +1,5 @@
 #include "TrackChunk.h"
 
-#include "Exceptions\IllegalChannelException.h"
 #include "Exceptions\TrackClosedException.h"
 #include "Exceptions\TrackNotClosedException.h"
 
@@ -15,6 +14,20 @@ TrackChunk::~TrackChunk()
 	for (auto &te : this->trackEvents)
 		delete te;
 }
+
+void TrackChunk::calculateTracksLength()
+{
+#ifdef DEBUG
+	printf("TrackChunk::calculateTracksLength()\n");
+#endif // DEBUG
+
+	for (auto &te : this->trackEvents)
+	{
+		//TODO: OPTIMIZE THAT.
+		this->tracksLength += te->toByteVector().size();
+	}
+}
+
 
 TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
@@ -39,19 +52,35 @@ TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
 	return event;
 }
 
-TrackChunk* TrackChunk::setCurrentChannel(short channel)
+TrackChunk* TrackChunk::setCurrentChannel(MIDIChannel channel)
 {
 	if (this->closed)
 	{
 		throw new TrackClosedException;
 	}
 
-	if (channel < 1 || channel > 16)
+	this->currentChannel = channel;
+	return this;
+}
+
+TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
+{
+	#ifdef DEBUG
+		printf("TrackChunk::setVoiceProgram()\n");
+	#endif // DEBUG
+
+	if (this->closed)
 	{
-		throw new IllegalChannelException;
+		throw new TrackClosedException;
 	}
 
-	this->currentChannel = channel;
+	auto innerEvent = this->addTrackEvent(EventType::MIDI_EVENT)
+		->setDeltaTime(0)
+		->getInnerEvent<MidiEvent>()
+		->setEventType(MidiEventType::PROGRAM_CHANGE)
+		->setChannel(this->currentChannel)
+		->addParam((uint8_t)patch - 1);
+
 	return this;
 }
 
@@ -86,18 +115,7 @@ void TrackChunk::reopenTrack()
 	this->closed = false;
 }
 
-void TrackChunk::calculateTracksLength()
-{
-	#ifdef DEBUG
-		printf("TrackChunk::calculateTracksLength()\n");
-	#endif // DEBUG
 
-	for (auto &te : this->trackEvents)
-	{
-		//TODO: OPTIMIZE THAT.
-		this->tracksLength += te->toByteVector().size();
-	}
-}
 
 //IConvertibleToByteCollection
 std::vector<uint8_t> TrackChunk::toByteVector()
