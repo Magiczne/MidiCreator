@@ -1,6 +1,8 @@
 #include "TrackChunk.h"
 
 #include "Exceptions\IllegalChannelException.h"
+#include "Exceptions\TrackClosedException.h"
+#include "Exceptions\TrackNotClosedException.h"
 
 using namespace SMF;
 
@@ -16,6 +18,11 @@ TrackChunk::~TrackChunk()
 
 TrackChunk* TrackChunk::setCurrentChannel(short channel)
 {
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
+
 	if (channel < 1 || channel > 16)
 	{
 		throw new IllegalChannelException;
@@ -27,20 +34,66 @@ TrackChunk* TrackChunk::setCurrentChannel(short channel)
 
 TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
+
 	trackEvents.push_back(event);
 	return event;
 }
 
 TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
 {
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
+
 	auto event = new TrackEvent(eventType);
 	trackEvents.push_back(event);
 	return event;
 }
 
+void TrackChunk::closeTrack()
+{
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
 
+	auto innerEvent = this->addTrackEvent(EventType::META_EVENT)
+		->getInnerEvent();
+
+	MetaEvent* e = dynamic_cast<MetaEvent*>(innerEvent);
+	e->setEventType(MetaEventType::END_OF_TRACK)
+		->setLength(0);
+
+	this->closed = true;
+
+	//TODO: ?
+	//delete innerEvent;
+}
+
+void TrackChunk::reopenTrack()
+{
+	if (!this->closed)
+	{
+		throw new TrackNotClosedException;
+	}
+
+	this->trackEvents.pop_back();
+	this->closed = false;
+}
+
+//IConvertibleToByteCollection
 std::vector<uint8_t> TrackChunk::toByteVector()
 {
+	if (!this->closed)
+	{
+		this->closeTrack();
+	}
+
 	std::vector<uint8_t> ret;
 
 	//chunkType

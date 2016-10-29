@@ -156,6 +156,8 @@
     <ClInclude Include="SMF\Exceptions\IllegalChannelException.h" />
     <ClInclude Include="SMF\Exceptions\IllegalDenominatorException.h" />
     <ClInclude Include="SMF\Exceptions\NoTracksException.h" />
+    <ClInclude Include="SMF\Exceptions\TrackClosedException.h" />
+    <ClInclude Include="SMF\Exceptions\TrackNotClosedException.h" />
     <ClInclude Include="SMF\Exceptions\TrackNumberOutOfRangeException.h" />
     <ClInclude Include="SMF\HeaderChunk.h" />
     <ClInclude Include="Abstract\IConvertibleToByteCollection.h" />

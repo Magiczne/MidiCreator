@@ -7,7 +7,7 @@ namespace SMF
 	class TrackNumberOutOfRangeException :
 		public std::exception
 	{
-		virtual const char* what() const throw()
+		virtual const char* what() const noexcept
 		{
 			return "There are no tracks with that id!";
 		}

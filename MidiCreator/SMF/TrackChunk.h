@@ -14,7 +14,7 @@ namespace SMF
 		std::vector<TrackEvent*> trackEvents;
 
 		short currentChannel = 1;
-		bool trackClosed = false;
+		bool closed = false;
 
 		//TODO?
 		//void calculateTracksLength();
@@ -31,6 +31,9 @@ namespace SMF
 		TrackChunk* setVoiceProgram(short gmPatch);
 		//TODO: Note as a enum?
 		TrackChunk* addNote(short note, short duration);
+
+		void closeTrack();
+		void reopenTrack();
 
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();		

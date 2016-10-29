@@ -4,12 +4,12 @@
 
 namespace SMF
 {
-	class NoTracksException :
+	class TrackClosedException :
 		public std::exception
 	{
 		virtual const char* what() const noexcept
 		{
-			return "There are no tracks in this file!";
+			return "Track is closed! Reopen it to make changes";
 		}
 	};
 }

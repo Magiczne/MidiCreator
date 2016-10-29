@@ -10,7 +10,7 @@ namespace SMF
 	class BpmOutOfRangeException :
 		public exception
 	{
-		virtual const char* what() const throw()
+		virtual const char* what() const noexcept
 		{
 			string msg = "BPM out of range! ("
 				+ to_string(StandardMIDIFile::MIN_BPM)
