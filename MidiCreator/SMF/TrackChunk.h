@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../Abstract/IConvertibleToByteCollection.h"
-#include "Events/TrackEvent.h"
+#include "..\Abstract\IConvertibleToByteCollection.h"
+#include "Enums\GMPatch.h"
+#include "Events\TrackEvent.h"
 
 namespace SMF 
 {
@@ -27,7 +28,7 @@ namespace SMF
 
 		TrackChunk* setCurrentChannel(short channel);
 
-		TrackChunk* setVoiceProgram(short gmPatch);
+		TrackChunk* setVoiceProgram(GMPatch patch);
 		//TODO: Note as a enum?
 		TrackChunk* addNote(short note, short duration);
 

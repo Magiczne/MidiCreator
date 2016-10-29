@@ -16,22 +16,6 @@ TrackChunk::~TrackChunk()
 		delete te;
 }
 
-TrackChunk* TrackChunk::setCurrentChannel(short channel)
-{
-	if (this->closed)
-	{
-		throw new TrackClosedException;
-	}
-
-	if (channel < 1 || channel > 16)
-	{
-		throw new IllegalChannelException;
-	}
-
-	this->currentChannel = channel;
-	return this;
-}
-
 TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
 	if (this->closed)
@@ -53,6 +37,22 @@ TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
 	auto event = new TrackEvent(eventType);
 	trackEvents.push_back(event);
 	return event;
+}
+
+TrackChunk* TrackChunk::setCurrentChannel(short channel)
+{
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
+
+	if (channel < 1 || channel > 16)
+	{
+		throw new IllegalChannelException;
+	}
+
+	this->currentChannel = channel;
+	return this;
 }
 
 void TrackChunk::closeTrack()

@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SMF\Enums\EventType.h" />
+    <ClInclude Include="SMF\Enums\GMPatch.h" />
     <ClInclude Include="SMF\Events\MidiEvent.h" />
     <ClInclude Include="SMF\Enums\FileFormat.h" />
     <ClInclude Include="SMF\Enums\MetaEventType.h" />
