@@ -145,13 +145,13 @@ namespace SMF
 		B8 = 119,
 
 		//Octave #9
-		C = 120,
-		C_SHARP = 121,
-		D = 122,
-		D_SHARP = 123,
-		E = 124,
-		F = 125,
-		F_SHARP = 126,
-		G = 127
+		C9 = 120,
+		C9_SHARP = 121,
+		D9 = 122,
+		D9_SHARP = 123,
+		E9 = 124,
+		F9 = 125,
+		F9_SHARP = 126,
+		G9 = 127
 	};
 }

@@ -3,7 +3,11 @@
 
 using namespace SMF;
 
-Note::Note(NotePitch pitch, uint8_t volume, short duration) 
+/*
+pitch	-> C_MINUS_ONE - G9
+volume	-> 0-255
+*/
+Note::Note(NotePitch pitch, uint8_t volume, int duration)
 	: pitch(pitch), volume(volume), duration(duration)
 {
 

@@ -106,12 +106,12 @@ TrackChunk* TrackChunk::addNote(Note* note)
 
 	//Note off
 	this->addTrackEvent(EventType::MIDI_EVENT)
-		->setDeltaTime(0) //TODO: Delta sums, or something, duration etc.	
+		->setDeltaTime(note->getDuration()) //TODO: Delta sums, or something, duration etc.	
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_OFF)
 		->setChannel(this->currentChannel)
 		->addParam((uint8_t)note->getPitch())
-		->addParam(note->getVolume());	//TODO: change that to 0?
+		->addParam(0);	//TODO: change that to 0?
 
 	return this;
 }
@@ -125,6 +125,11 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 	if (this->closed)
 	{
 		throw new TrackClosedException;
+	}
+
+	for (size_t i = 0; i < notes.size(); i++)
+	{
+
 	}
 
 	for (auto& note : notes)

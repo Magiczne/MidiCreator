@@ -13,6 +13,8 @@ StandardMIDIFile::StandardMIDIFile()
 
 StandardMIDIFile::~StandardMIDIFile()
 {
+	delete this->headerChunk;
+
 	for (auto &tc : this->trackChunks)
 	{
 		delete tc;
@@ -41,8 +43,8 @@ throws NoTrackException
 void StandardMIDIFile::setTimeSignature(
 	uint8_t numerator,
 	uint8_t denominator,
-	uint8_t midiClocksPerMetronomeClick = 24,
-	uint8_t numberOf32NotesInMidiQuarterNote = 8)
+	uint8_t midiClocksPerMetronomeClick,
+	uint8_t numberOf32NotesInMidiQuarterNote)
 {
 	double convertedDenominator = log2(denominator);
 	if (floor(convertedDenominator) != convertedDenominator)
@@ -122,9 +124,17 @@ void StandardMIDIFile::exportToFile(std::string filename)
 {
 	std::vector<uint8_t> ret = this->toByteVector();
 
-	std::ofstream os(filename, std::ios::out);
-	copy(ret.begin(), ret.end(), std::ostream_iterator<uint8_t>(os));
-	os.close();
+	std::ofstream file(filename, std::ios::trunc | std::ios::binary);
+	
+	if (file.good())
+	{
+		for (auto &e : ret)
+		{
+			file << e;
+		}
+
+		file.close();
+	}
 }
 
 /*

@@ -30,7 +30,7 @@ std::vector<uint8_t> MidiEvent::toByteVector()
 
 	std::vector<uint8_t> a;
 
-	a.push_back((uint8_t)this->type | (uint8_t)channel);
+	a.push_back((uint8_t)this->type | (uint8_t)this->channel);
 
 	a.insert(a.end(), this->params.begin(), this->params.end());
 

@@ -21,12 +21,15 @@ namespace SMF
 		StandardMIDIFile();
 		~StandardMIDIFile();
 
+		void setHeader(HeaderChunk* hc) { this->headerChunk = hc; }
+		void addTrackChunk(TrackChunk* tc) { this->trackChunks.push_back(tc); }
+
 		void setCurrentTrack(size_t track);
 
 		void setTimeSignature(uint8_t numerator, 
 			uint8_t denominator, 
-			uint8_t midiClocksPerMetronomeClick, 
-			uint8_t numberOf32NotesInMidiQuarterNote);
+			uint8_t midiClocksPerMetronomeClick = 24, 
+			uint8_t numberOf32NotesInMidiQuarterNote = 8);
 		void setTempo(short bpm);
 
 		void exportToFile(std::string filename);
