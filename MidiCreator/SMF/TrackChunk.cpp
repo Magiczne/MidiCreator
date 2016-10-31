@@ -4,6 +4,7 @@
 #include "Exceptions\TrackNotClosedException.h"
 
 using namespace SMF;
+using namespace SMF::Exceptions;
 
 TrackChunk::TrackChunk()
 {
@@ -27,7 +28,6 @@ void TrackChunk::calculateTracksLength()
 		this->tracksLength += te->toByteVector().size();
 	}
 }
-
 
 TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
@@ -122,20 +122,22 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 		printf("TrackChunk::addNotes()\n");
 	#endif // DEBUG
 
-	if (this->closed)
-	{
-		throw new TrackClosedException;
-	}
+	//if (this->closed)
+	//{
+	//	throw new TrackClosedException;
+	//}
 
-	for (size_t i = 0; i < notes.size(); i++)
-	{
+	//for (size_t i = 0; i < notes.size(); i++)
+	//{
 
-	}
+	//}
 
-	for (auto& note : notes)
-	{
-		//TODO
-	}
+	//for (auto& note : notes)
+	//{
+	//	//TODO
+	//}
+
+	return this;
 }
 
 void TrackChunk::closeTrack()
@@ -168,8 +170,6 @@ void TrackChunk::reopenTrack()
 	this->trackEvents.pop_back();
 	this->closed = false;
 }
-
-
 
 //IConvertibleToByteCollection
 std::vector<uint8_t> TrackChunk::toByteVector()

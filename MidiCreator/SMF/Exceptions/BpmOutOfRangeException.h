@@ -7,18 +7,21 @@ using namespace std;
 
 namespace SMF
 {
-	class BpmOutOfRangeException :
-		public exception
+	namespace Exceptions
 	{
-		virtual const char* what() const noexcept
+		class BpmOutOfRangeException :
+			public exception
 		{
-			string msg = "BPM out of range! ("
-				+ to_string(StandardMIDIFile::MIN_BPM)
-				+ " - "
-				+ to_string(StandardMIDIFile::MAX_BPM)
-				+ ")";
+			virtual const char* what() const noexcept
+			{
+				string msg = "BPM out of range! ("
+					+ to_string(StandardMIDIFile::MIN_BPM)
+					+ " - "
+					+ to_string(StandardMIDIFile::MAX_BPM)
+					+ ")";
 
-			return msg.c_str();
-		}
-	};
+				return msg.c_str();
+			}
+		};
+	}
 }

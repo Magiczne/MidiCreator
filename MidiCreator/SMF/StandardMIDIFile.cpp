@@ -6,6 +6,7 @@
 #include "Exceptions\TrackNumberOutOfRangeException.h"
 
 using namespace SMF;
+using namespace SMF::Exceptions;
 
 StandardMIDIFile::StandardMIDIFile()
 {

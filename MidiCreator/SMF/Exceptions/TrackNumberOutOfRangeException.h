@@ -4,12 +4,15 @@
 
 namespace SMF
 {
-	class TrackNumberOutOfRangeException :
-		public std::exception
+	namespace Exceptions
 	{
-		virtual const char* what() const noexcept
+		class TrackNumberOutOfRangeException :
+			public std::exception
 		{
-			return "There are no tracks with that id!";
-		}
-	};
+			virtual const char* what() const noexcept
+			{
+				return "There are no tracks with that id!";
+			}
+		};
+	}
 }

@@ -4,12 +4,15 @@
 
 namespace SMF
 {
-	class IllegalDenominatorException :
-		public std::exception
+	namespace Exceptions
 	{
-		virtual const char* what() const noexcept
+		class IllegalDenominatorException :
+			public std::exception
 		{
-			return "Illegal denominator! Allowed denominators are: 2, 4, 8, 16, 32, 64";
-		}
-	};
+			virtual const char* what() const noexcept
+			{
+				return "Illegal denominator! Allowed denominators are: 2, 4, 8, 16, 32, 64";
+			}
+		};
+	}
 }

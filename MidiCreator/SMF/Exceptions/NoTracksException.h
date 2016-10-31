@@ -4,12 +4,15 @@
 
 namespace SMF
 {
-	class NoTracksException :
-		public std::exception
+	namespace Exceptions
 	{
-		virtual const char* what() const noexcept
+		class NoTracksException :
+			public std::exception
 		{
-			return "There are no tracks in this file!";
-		}
-	};
+			virtual const char* what() const noexcept
+			{
+				return "There are no tracks in this file!";
+			}
+		};
+	}
 }

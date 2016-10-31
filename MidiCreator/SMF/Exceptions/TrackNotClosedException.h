@@ -4,12 +4,15 @@
 
 namespace SMF
 {
-	class TrackNotClosedException :
-		public std::exception
+	namespace Exceptions
 	{
-		virtual const char* what() const noexcept
+		class TrackNotClosedException :
+			public std::exception
 		{
-			return "Track is not closed!";
-		}
-	};
+			virtual const char* what() const noexcept
+			{
+				return "Track is not closed!";
+			}
+		};
+	}
 }
