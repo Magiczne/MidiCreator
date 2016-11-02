@@ -116,26 +116,46 @@ TrackChunk* TrackChunk::addNote(Note* note)
 	return this;
 }
 
+//Currently supports multiple notes starting at the same time
+//But ending differently
+//DOES NOT support notes starting differently
 TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 {
 	#ifdef DEBUG
 		printf("TrackChunk::addNotes()\n");
 	#endif // DEBUG
 
-	//if (this->closed)
-	//{
-	//	throw new TrackClosedException;
-	//}
+	if (this->closed)
+	{
+		throw new TrackClosedException;
+	}
 
-	//for (size_t i = 0; i < notes.size(); i++)
-	//{
+	//TODO: Sort from shortest duration to longest
 
-	//}
+	for (auto &note : notes)
+	{
+		this->addTrackEvent(EventType::MIDI_EVENT)
+			->setDeltaTime(0)
+			->getInnerEvent<MidiEvent>()
+			->setEventType(MidiEventType::NOTE_ON)
+			->setChannel(this->currentChannel)
+			->addParam((uint8_t)note->getPitch())
+			->addParam(note->getVolume());
+	}
 
-	//for (auto& note : notes)
-	//{
-	//	//TODO
-	//}
+	int previousDuration = 0;
+	for (size_t i = 0; i < notes.size(); i++)
+	{
+		this->addTrackEvent(EventType::MIDI_EVENT)
+			->setDeltaTime(notes[i]->getDuration() - previousDuration)
+			->getInnerEvent<MidiEvent>()
+			->setEventType(MidiEventType::NOTE_ON)
+			->setChannel(this->currentChannel)
+			->addParam((uint8_t)notes[i]->getPitch())
+			->addParam(notes[i]->getVolume());
+
+		previousDuration = notes[i]->getDuration();
+	}
 
 	return this;
 }

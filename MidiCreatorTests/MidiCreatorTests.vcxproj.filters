@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Source\Abstract">
       <UniqueIdentifier>{d4711806-574b-46e7-a19c-e5ada6981aba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Source\SMF\Util">
+      <UniqueIdentifier>{3781c799-af7e-48f2-a756-478520d4b75e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -79,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="..\MidiCreator\Abstract\IEvent.cpp">
       <Filter>Source Files\Source\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="NoteTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidiCreator\SMF\Util\Note.cpp">
+      <Filter>Source Files\Source\SMF\Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

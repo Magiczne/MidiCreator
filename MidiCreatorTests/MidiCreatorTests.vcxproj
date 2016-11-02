@@ -170,7 +170,9 @@
     <ClCompile Include="..\MidiCreator\SMF\HeaderChunk.cpp" />
     <ClCompile Include="..\MidiCreator\SMF\StandardMIDIFile.cpp" />
     <ClCompile Include="..\MidiCreator\SMF\TrackChunk.cpp" />
+    <ClCompile Include="..\MidiCreator\SMF\Util\Note.cpp" />
     <ClCompile Include="..\MidiCreator\Util\VLQ.cpp" />
+    <ClCompile Include="NoteTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

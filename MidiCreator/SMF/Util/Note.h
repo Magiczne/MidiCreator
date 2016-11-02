@@ -18,5 +18,16 @@ namespace SMF
 		inline const NotePitch& getPitch() { return this->pitch; }
 		inline const uint8_t& getVolume() { return this->volume; }
 		inline const int& getDuration() { return this->duration; }
+
+		//Operators
+		inline bool operator< (const Note& rhs) const { return this->duration < rhs.duration; }
+		inline bool operator> (const Note& rhs) const { return rhs < *this; }
+		inline bool operator<= (const Note& rhs) const { return !(*this > rhs); }
+		inline bool operator>= (const Note& rhs) const { return !(*this < rhs); }
+
+		inline bool operator== (const Note& rhs) const { 
+			return this->pitch == rhs.pitch && this->volume == rhs.volume && this->duration == rhs.duration; 
+		}
+		inline bool operator!= (const Note& rhs) const { return !(*this == rhs); }
 	};
 }
