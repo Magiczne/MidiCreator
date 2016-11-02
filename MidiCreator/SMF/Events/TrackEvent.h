@@ -5,6 +5,7 @@
 #include "../../Abstract/IConvertibleToByteCollection.h"
 #include "../Enums/EventType.h"
 #include "../Exceptions/EventNotInitializedException.h"
+#include "../Exceptions/EventTypeNotSupportedException.h"
 #include "MetaEvent.h"
 #include "MidiEvent.h"
 #include "SystemExclusiveEvent.h"

@@ -120,6 +120,9 @@
     <ClInclude Include="SMF\Exceptions\EventNotInitializedException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SMF\Exceptions\EventTypeNotSupportedException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

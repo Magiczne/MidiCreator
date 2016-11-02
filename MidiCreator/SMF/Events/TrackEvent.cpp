@@ -17,8 +17,7 @@ TrackEvent::TrackEvent(EventType eventType)
 			this->event = new SystemExclusiveEvent();
 			break;
 		default:
-			break;
-		//TODO: Throw some exception
+			throw new EventTypeNotSupportedException;
 	}
 }
 

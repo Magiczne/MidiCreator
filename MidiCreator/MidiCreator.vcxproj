@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SMF\Exceptions\EventNotInitializedException.h" />
+    <ClInclude Include="SMF\Exceptions\EventTypeNotSupportedException.h" />
     <ClInclude Include="SMF\Util\Note.h" />
     <ClInclude Include="SMF\Enums\MIDIChannel.h" />
     <ClInclude Include="SMF\Enums\EventType.h" />
