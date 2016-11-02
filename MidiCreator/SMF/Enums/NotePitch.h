@@ -152,6 +152,8 @@ namespace SMF
 		E9 = 124,
 		F9 = 125,
 		F9_SHARP = 126,
-		G9 = 127
+		G9 = 127,
+
+		COUNT
 	};
 }

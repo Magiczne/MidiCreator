@@ -147,6 +147,8 @@ namespace SMF
 		TELEPHONE_RING					= 125,
 		HELICOPTER						= 126,
 		APPLAUSE						= 127,
-		GUNSHOT							= 128
+		GUNSHOT							= 128,
+
+		COUNT
 	};
 }

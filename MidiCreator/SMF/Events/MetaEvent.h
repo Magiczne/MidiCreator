@@ -3,6 +3,7 @@
 #include "../../stdafx.h"
 #include "../../Abstract/IEvent.h"
 #include "../Enums/MetaEventType.h"
+#include "../Exceptions/EventNotInitializedException.h"
 
 namespace SMF
 {
@@ -11,8 +12,8 @@ namespace SMF
 	{
 	private:
 		const uint8_t id = 0xFF;
-		MetaEventType type;
-		VLQ* vLength;
+		MetaEventType type = MetaEventType::COUNT;
+		VLQ* vLength = nullptr;
 
 	public:
 		~MetaEvent();

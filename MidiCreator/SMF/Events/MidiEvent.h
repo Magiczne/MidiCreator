@@ -4,6 +4,7 @@
 #include "../../Abstract/IEvent.h"
 #include "../Enums/MidiEventType.h"
 #include "../Enums/MIDIChannel.h"
+#include "../Exceptions/EventNotInitializedException.h"
 
 namespace SMF
 {
@@ -11,8 +12,8 @@ namespace SMF
 		public IEvent
 	{
 	private:
-		MidiEventType type;
-		MIDIChannel channel;
+		MidiEventType type = MidiEventType::COUNT;
+		MIDIChannel channel = MIDIChannel::COUNT;
 
 	public:
 		MidiEvent();

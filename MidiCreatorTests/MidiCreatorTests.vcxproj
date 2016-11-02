@@ -172,6 +172,7 @@
     <ClCompile Include="..\MidiCreator\SMF\TrackChunk.cpp" />
     <ClCompile Include="..\MidiCreator\SMF\Util\Note.cpp" />
     <ClCompile Include="..\MidiCreator\Util\VLQ.cpp" />
+    <ClCompile Include="MidiEventTests.cpp" />
     <ClCompile Include="NoteTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

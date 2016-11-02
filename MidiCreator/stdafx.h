@@ -23,6 +23,4 @@
 #include <string>
 #include <vector>
 
-#include <functional>
-
 //#define DEBUG

@@ -1,6 +1,7 @@
 #include "TrackEvent.h"
 
 using namespace SMF;
+using namespace SMF::Exceptions;
 
 TrackEvent::TrackEvent(EventType eventType)
 {
@@ -32,6 +33,11 @@ std::vector<uint8_t> TrackEvent::toByteVector()
 	#ifdef DEBUG
 		printf("TrackEvent::toByteVector()\n");
 	#endif // DEBUG
+
+	if (this->deltaTime == nullptr || this->event == nullptr)
+	{
+		throw new EventNotInitializedException;
+	}
 	
 	std::vector<uint8_t> ret = this->deltaTime->getVlq();
 

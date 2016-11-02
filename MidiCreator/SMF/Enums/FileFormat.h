@@ -6,6 +6,8 @@ namespace SMF
 	{
 		SINGLE_TRACK = 0x00,
 		MULTIPLE_TRACK = 0x01,
-		MULTIPLE_SONG = 0x02
+		MULTIPLE_SONG = 0x02,
+
+		COUNT
 	};
 }

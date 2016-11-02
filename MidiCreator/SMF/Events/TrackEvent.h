@@ -4,6 +4,7 @@
 #include "../../Abstract/IEvent.h"
 #include "../../Abstract/IConvertibleToByteCollection.h"
 #include "../Enums/EventType.h"
+#include "../Exceptions/EventNotInitializedException.h"
 #include "MetaEvent.h"
 #include "MidiEvent.h"
 #include "SystemExclusiveEvent.h"
@@ -14,8 +15,8 @@ namespace SMF
 		IConvertibleToByteCollection
 	{
 	private:
-		VLQ* deltaTime;
-		IEvent* event;
+		VLQ* deltaTime = nullptr;
+		IEvent* event = nullptr;
 
 	public:
 		TrackEvent(EventType eventType);

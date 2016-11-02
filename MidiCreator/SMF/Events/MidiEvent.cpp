@@ -1,6 +1,7 @@
 #include "MidiEvent.h"
 
 using namespace SMF;
+using namespace SMF::Exceptions;
 
 MidiEvent::MidiEvent()
 {
@@ -27,6 +28,11 @@ std::vector<uint8_t> MidiEvent::toByteVector()
 	#ifdef DEBUG
 		printf("MidiEvent::toByteVector()\n");
 	#endif // DEBUG
+
+	if (this->type == MidiEventType::COUNT || this->channel == MIDIChannel::COUNT)
+	{
+		throw new EventNotInitializedException;
+	}
 
 	std::vector<uint8_t> a;
 

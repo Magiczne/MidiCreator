@@ -10,6 +10,8 @@ namespace SMF
 		CONTROL_CHANGE		= 0xB0,	//2 params		Param1: controller number		Param2: controller value
 		PROGRAM_CHANGE		= 0xC0,	//2 params		Param1: Instrument number		Param2: ?
 		CHANNEL_PRESSURE	= 0xD0,	//1 param		Param1: pressure
-		PITCH_WHEEL_CHANGE	= 0xE0	//2 params		Param1: LSB(7bits)				Param2: MSB(7bits)
+		PITCH_WHEEL_CHANGE	= 0xE0,	//2 params		Param1: LSB(7bits)				Param2: MSB(7bits)
+
+		COUNT
 	};
 }

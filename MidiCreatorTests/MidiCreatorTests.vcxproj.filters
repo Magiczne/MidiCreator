@@ -89,5 +89,8 @@
     <ClCompile Include="..\MidiCreator\SMF\Util\Note.cpp">
       <Filter>Source Files\Source\SMF\Util</Filter>
     </ClCompile>
+    <ClCompile Include="MidiEventTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
