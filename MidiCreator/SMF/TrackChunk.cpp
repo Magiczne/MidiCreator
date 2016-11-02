@@ -18,9 +18,9 @@ TrackChunk::~TrackChunk()
 
 void TrackChunk::calculateTracksLength()
 {
-#ifdef DEBUG
-	printf("TrackChunk::calculateTracksLength()\n");
-#endif // DEBUG
+	#ifdef DEBUG
+		printf("TrackChunk::calculateTracksLength()\n");
+	#endif // DEBUG
 
 	for (auto &te : this->trackEvents)
 	{
@@ -130,7 +130,14 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 		throw new TrackClosedException;
 	}
 
-	//TODO: Sort from shortest duration to longest
+	std::sort(notes.begin(), notes.end(), [](Note* a, Note*b) {
+		return *a < *b;
+	});
+
+	for (auto &note : notes)
+	{
+		std::cout << note->getDuration() << std::endl;
+	}
 
 	for (auto &note : notes)
 	{
@@ -144,17 +151,17 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 	}
 
 	int previousDuration = 0;
-	for (size_t i = 0; i < notes.size(); i++)
+	for (auto &note : notes)
 	{
 		this->addTrackEvent(EventType::MIDI_EVENT)
-			->setDeltaTime(notes[i]->getDuration() - previousDuration)
+			->setDeltaTime(note->getDuration() - previousDuration)
 			->getInnerEvent<MidiEvent>()
 			->setEventType(MidiEventType::NOTE_ON)
 			->setChannel(this->currentChannel)
-			->addParam((uint8_t)notes[i]->getPitch())
-			->addParam(notes[i]->getVolume());
+			->addParam((uint8_t)note->getPitch())
+			->addParam(note->getVolume());
 
-		previousDuration = notes[i]->getDuration();
+		previousDuration = note->getDuration();
 	}
 
 	return this;
