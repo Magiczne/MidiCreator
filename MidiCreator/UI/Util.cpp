@@ -31,3 +31,20 @@ void Util::setConsoleSize(int width, int height)
 	SetConsoleScreenBufferSize(handle, coord);
 	SetConsoleWindowInfo(handle, true, &rect);
 }
+
+void Util::setColor(Color background, Color text)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	uint8_t val = ((uint8_t)background << 4) + (uint8_t)text;
+
+	SetConsoleTextAttribute(hConsole, val);
+}
+
+void Util::writeCentered(string msg)
+{
+	ConsoleSize size = Util::getConsoleSize();
+
+	int width = (size.cols + msg.size()) / 2;
+	cout << setw(width) << msg << endl;
+}
