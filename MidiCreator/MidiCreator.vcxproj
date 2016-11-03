@@ -187,7 +187,7 @@
     <ClCompile Include="SMF\Events\MidiEvent.cpp" />
     <ClCompile Include="SMF\HeaderChunk.cpp" />
     <ClCompile Include="SMF\Events\MetaEvent.cpp" />
-    <ClCompile Include="MidiCreator.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="SMF\StandardMIDIFile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -54,5 +54,5 @@ TrackEvent::~TrackEvent()
 
 bool TrackEvent::isInitialized()
 {
-	return this->deltaTime == nullptr || this->event == nullptr;
+	return !(this->deltaTime == nullptr || this->event == nullptr);
 }
