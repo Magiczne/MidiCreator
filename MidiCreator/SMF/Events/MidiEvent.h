@@ -12,16 +12,20 @@ namespace SMF
 		public IEvent
 	{
 	private:
-		MidiEventType type = MidiEventType::COUNT;
-		MIDIChannel channel = MIDIChannel::COUNT;
+		MidiEventType type;
+		MIDIChannel channel;
+
+		std::array<bool, 2> initialized = { false };
+		bool isInitialized();
 
 	public:
 		MidiEvent();
-		~MidiEvent();
+		MidiEvent(MidiEventType type, MIDIChannel channel);
 
 		MidiEvent* setEventType(MidiEventType eventType);
 		MidiEvent* setChannel(MIDIChannel channel);
 
+		//IConvertibleToByteArray
 		virtual std::vector<uint8_t> toByteVector();
 	};
 

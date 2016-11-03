@@ -2,7 +2,7 @@
 
 namespace SMF
 {
-	enum NotePitch
+	enum class NotePitch : uint8_t
 	{
 		//Octave #-1
 		C_MINUS_1 = 0,
@@ -152,8 +152,6 @@ namespace SMF
 		E9 = 124,
 		F9 = 125,
 		F9_SHARP = 126,
-		G9 = 127,
-
-		COUNT
+		G9 = 127
 	};
 }

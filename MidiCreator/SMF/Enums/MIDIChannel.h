@@ -19,8 +19,6 @@ namespace SMF
 		CHANNEL_13		= 12,
 		CHANNEL_14		= 13,
 		CHANNEL_15		= 14,
-		CHANNEL_16		= 15,
-
-		COUNT
+		CHANNEL_16		= 15
 	};
 }

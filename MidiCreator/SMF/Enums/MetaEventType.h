@@ -2,7 +2,7 @@
 
 namespace SMF
 {
-	enum MetaEventType
+	enum class MetaEventType : uint8_t
 	{
 		SEQUENCE_NUMBER					= 0x00,
 		TEXT_EVENT						= 0x01,
@@ -18,8 +18,6 @@ namespace SMF
 		SMPTE_OFFSET					= 0x54,
 		TIME_SIGNATURE					= 0x58,			
 		KEY_SIGNATURE					= 0x59,
-		SEQUENCER_SPECIFIC_EVENT		= 0x7F,
-
-		COUNT
+		SEQUENCER_SPECIFIC_EVENT		= 0x7F
 	};
 }

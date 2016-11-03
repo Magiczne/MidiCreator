@@ -12,10 +12,15 @@ namespace SMF
 	{
 	private:
 		const uint8_t id = 0xFF;
-		MetaEventType type = MetaEventType::COUNT;
+		MetaEventType type;
 		VLQ* vLength = nullptr;
 
+		std::array<bool, 2> initialized = { false };
+		bool isInitialized();
+
 	public:
+		MetaEvent();
+		MetaEvent(MetaEventType eventType);
 		~MetaEvent();
 
 		MetaEvent* setEventType(MetaEventType eventType);

@@ -3,25 +3,40 @@
 using namespace SMF;
 using namespace SMF::Exceptions;
 
+MetaEvent::MetaEvent() {}
+
+MetaEvent::MetaEvent(MetaEventType eventType) :
+	type(type)
+{
+	this->initialized = { true };
+}
+
+MetaEvent::~MetaEvent()
+{
+	delete this->vLength;
+}
+
 MetaEvent* MetaEvent::setEventType(MetaEventType eventType)
 {
 	this->type = eventType;
+	this->initialized[0] = true;
 	return this;
 }
 
 MetaEvent* MetaEvent::setLength(int length)
 {
 	this->vLength = new VLQ(length);
+	this->initialized[1] = true;
 	return this;
 }
 
 std::vector<uint8_t> MetaEvent::toByteVector()
 {
-#ifdef DEBUG
+#ifdef METHOD_DEBUG
 	std::cout << "MetaEvent::toByteVector()" << std::endl;
-#endif // DEBUG	
+#endif // METHOD_DEBUG	
 
-	if (this->type == MetaEventType::COUNT || this->vLength == nullptr)
+	if (!this->isInitialized())
 	{
 		throw new EventNotInitializedException;
 	}
@@ -29,7 +44,7 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 	std::vector<uint8_t> ret;
 
 	ret.push_back(this->id);
-	ret.push_back(this->type);
+	ret.push_back((uint8_t)this->type);
 
 	//vLength
 	std::vector<uint8_t> vLengthBytes = this->vLength->getVlq();
@@ -41,7 +56,14 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 	return ret;
 }
 
-MetaEvent::~MetaEvent()
+bool MetaEvent::isInitialized()
 {
-	delete this->vLength;
+	for (auto &i : this->initialized)
+	{
+		if (!i)
+		{
+			return false;
+		}
+	}
+	return true;
 }

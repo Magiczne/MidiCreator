@@ -123,6 +123,9 @@
     <ClInclude Include="SMF\Exceptions\EventTypeNotSupportedException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SMF\Enums\GMPercussion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

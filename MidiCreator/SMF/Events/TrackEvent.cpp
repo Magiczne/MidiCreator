@@ -26,14 +26,13 @@ TrackEvent* TrackEvent::setDeltaTime(int time)
 	this->deltaTime = new VLQ(time); 
 	return this; 
 }
-
 std::vector<uint8_t> TrackEvent::toByteVector()
 {
-	#ifdef DEBUG
-		printf("TrackEvent::toByteVector()\n");
-	#endif // DEBUG
+#ifdef METHOD_DEBUG
+	printf("TrackEvent::toByteVector()\n");
+#endif // METHOD_DEBUG
 
-	if (this->deltaTime == nullptr || this->event == nullptr)
+	if (!this->isInitialized())
 	{
 		throw new EventNotInitializedException;
 	}
@@ -51,4 +50,9 @@ TrackEvent::~TrackEvent()
 {
 	delete this->deltaTime;
 	delete this->event;
+}
+
+bool TrackEvent::isInitialized()
+{
+	return this->deltaTime == nullptr || this->event == nullptr;
 }

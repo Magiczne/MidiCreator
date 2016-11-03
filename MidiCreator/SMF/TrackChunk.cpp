@@ -18,9 +18,9 @@ TrackChunk::~TrackChunk()
 
 void TrackChunk::calculateTracksLength()
 {
-	#ifdef DEBUG
+	#ifdef METHOD_DEBUG
 		printf("TrackChunk::calculateTracksLength()\n");
-	#endif // DEBUG
+	#endif // METHOD_DEBUG
 
 	for (auto &te : this->trackEvents)
 	{
@@ -65,9 +65,9 @@ TrackChunk* TrackChunk::setCurrentChannel(MIDIChannel channel)
 
 TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 {
-	#ifdef DEBUG
+	#ifdef METHOD_DEBUG
 		printf("TrackChunk::setVoiceProgram()\n");
-	#endif // DEBUG
+	#endif // METHOD_DEBUG
 
 	if (this->closed)
 	{
@@ -86,9 +86,9 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 
 TrackChunk* TrackChunk::addNote(Note* note)
 {
-	#ifdef DEBUG
+	#ifdef METHOD_DEBUG
 		printf("TrackChunk::addNote()\n");
-	#endif // DEBUG
+	#endif // METHOD_DEBUG
 
 	if (this->closed)
 	{
@@ -121,9 +121,9 @@ TrackChunk* TrackChunk::addNote(Note* note)
 //DOES NOT support notes starting differently
 TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 {
-	#ifdef DEBUG
+	#ifdef METHOD_DEBUG
 		printf("TrackChunk::addNotes()\n");
-	#endif // DEBUG
+	#endif // METHOD_DEBUG
 
 	if (this->closed)
 	{
@@ -174,9 +174,9 @@ void TrackChunk::closeTrack()
 		throw new TrackClosedException;
 	}
 
-	#ifdef DEBUG
+	#ifdef METHOD_DEBUG
 		printf("TrackChunk::closedTrack()\n");
-	#endif // DEBUG
+	#endif // METHOD_DEBUG
 
 	auto innerEvent = this->addTrackEvent(EventType::META_EVENT)
 		->setDeltaTime(0)
@@ -201,9 +201,9 @@ void TrackChunk::reopenTrack()
 //IConvertibleToByteCollection
 std::vector<uint8_t> TrackChunk::toByteVector()
 {
-	#ifdef DEBUG
+	#ifdef METHOD_DEBUG
 		printf("TrackChunk::toByteVector()\n");
-	#endif // DEBUG
+	#endif // METHOD_DEBUG
 
 	if (!this->closed)
 	{
