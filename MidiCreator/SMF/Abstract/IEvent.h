@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../stdafx.h"
-#include "IConvertibleToByteCollection.h"
-#include "../Util/VLQ.h"
+#include "../../stdafx.h"
+#include "../../Abstract/IConvertibleToByteCollection.h"
+#include "../../Util/VLQ.h"
 
 namespace SMF
 {

@@ -60,9 +60,6 @@
     <ClInclude Include="SMF\Enums\FileFormat.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="Abstract\IEvent.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Abstract\IConvertibleToByteCollection.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -126,6 +123,9 @@
     <ClInclude Include="SMF\Enums\GMPercussion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SMF\Abstract\IEvent.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="SMF\StandardMIDIFile.cpp">
       <Filter>Source Files\SMF</Filter>
-    </ClCompile>
-    <ClCompile Include="Abstract\IEvent.cpp">
-      <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="SMF\Events\MetaEvent.cpp">
       <Filter>Source Files\SMF\Events</Filter>
@@ -163,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SMF\Abstract\IEvent.cpp">
+      <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

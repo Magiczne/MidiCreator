@@ -171,7 +171,7 @@
     <ClInclude Include="SMF\Exceptions\TrackNumberOutOfRangeException.h" />
     <ClInclude Include="SMF\HeaderChunk.h" />
     <ClInclude Include="Abstract\IConvertibleToByteCollection.h" />
-    <ClInclude Include="Abstract\IEvent.h" />
+    <ClInclude Include="SMF\Abstract\IEvent.h" />
     <ClInclude Include="SMF\Events\MetaEvent.h" />
     <ClInclude Include="SMF\StandardMIDIFile.h" />
     <ClInclude Include="stdafx.h" />
@@ -182,7 +182,7 @@
     <ClInclude Include="Util\VLQ.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Abstract\IEvent.cpp" />
+    <ClCompile Include="SMF\Abstract\IEvent.cpp" />
     <ClCompile Include="SMF\Util\Note.cpp" />
     <ClCompile Include="SMF\Events\MidiEvent.cpp" />
     <ClCompile Include="SMF\HeaderChunk.cpp" />

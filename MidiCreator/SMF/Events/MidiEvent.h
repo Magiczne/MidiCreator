@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../stdafx.h"
-#include "../../Abstract/IEvent.h"
+#include "../Abstract/IEvent.h"
 #include "../Enums/MidiEventType.h"
 #include "../Enums/MIDIChannel.h"
 #include "../Exceptions/EventNotInitializedException.h"
