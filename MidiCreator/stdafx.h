@@ -22,5 +22,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <windows.h>
 
 //#define METHOD_DEBUG

@@ -179,6 +179,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="SMF\Events\TrackEvent.h" />
     <ClInclude Include="SMF\TrackChunk.h" />
+    <ClInclude Include="UI\Util.h" />
     <ClInclude Include="Util\VLQ.h" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,7 @@
     <ClCompile Include="SMF\Events\SystemExclusiveEvent.cpp" />
     <ClCompile Include="SMF\Events\TrackEvent.cpp" />
     <ClCompile Include="SMF\TrackChunk.cpp" />
+    <ClCompile Include="UI\Util.cpp" />
     <ClCompile Include="Util\VLQ.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
