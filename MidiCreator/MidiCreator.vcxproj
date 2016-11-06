@@ -151,6 +151,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="MidiCreator.h" />
     <ClInclude Include="SMF\Enums\GMPercussion.h" />
     <ClInclude Include="SMF\Exceptions\EventNotInitializedException.h" />
     <ClInclude Include="SMF\Exceptions\EventTypeNotSupportedException.h" />
@@ -183,6 +185,8 @@
     <ClInclude Include="Util\VLQ.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="MidiCreator.cpp" />
     <ClCompile Include="SMF\Abstract\IEvent.cpp" />
     <ClCompile Include="SMF\Util\Note.cpp" />
     <ClCompile Include="SMF\Events\MidiEvent.cpp" />

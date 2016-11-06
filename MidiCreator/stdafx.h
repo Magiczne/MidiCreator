@@ -17,9 +17,9 @@
 #include <cctype>
 #include <cstdint>
 #include <exception>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <vector>
 #include <windows.h>

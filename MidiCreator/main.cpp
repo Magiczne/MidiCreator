@@ -2,14 +2,12 @@
 //
 
 #include "stdafx.h"
-#include "UI\Util.h"
-
-using namespace std;
-using namespace UI;
+#include "MidiCreator.h"
 
 int main(int argc, char** argv[])
 {
-	system("pause");
-    return 0;
+	MidiCreator app;
+
+    return app.exec();
 }
 

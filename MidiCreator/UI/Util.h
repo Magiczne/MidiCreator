@@ -32,13 +32,23 @@ namespace UI
 		White			= 15
 	};
 	
-	static class Util
+	class Util
 	{
 	public:
+		//Console util
+
 		static ConsoleSize getConsoleSize();
 		static void setConsoleSize(int width, int height);
 		static void setColor(Color background, Color text);
 
+		static void clearConsole();
 		static void writeCentered(string msg);
+
+		//Keyboard util
+
+		/*
+		Returns keycode of pressed key or 0
+		*/
+		static char getUnbufferedKey();
 	};
 }

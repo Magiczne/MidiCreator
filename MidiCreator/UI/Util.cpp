@@ -41,10 +41,34 @@ void Util::setColor(Color background, Color text)
 	SetConsoleTextAttribute(hConsole, val);
 }
 
+void Util::clearConsole()
+{
+	system("cls");
+}
+
 void Util::writeCentered(string msg)
 {
 	ConsoleSize size = Util::getConsoleSize();
 
 	int width = (size.cols + msg.size()) / 2;
 	cout << setw(width) << msg << endl;
+}
+
+char Util::getUnbufferedKey()
+{
+	DWORD events;
+	INPUT_RECORD buffer;
+	HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
+
+	PeekConsoleInput(handle, &buffer, 1, &events);
+
+	if (events > 0)
+	{
+		ReadConsoleInput(handle, &buffer, 1, &events);
+		return (char)buffer.Event.KeyEvent.wVirtualKeyCode;
+	}
+	else
+	{
+		return 0;
+	}
 }
