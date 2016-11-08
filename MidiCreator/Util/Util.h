@@ -39,14 +39,19 @@ namespace UI
 
 		static ConsoleSize getConsoleSize();
 		static void setConsoleSize(int width, int height);
-		static void setColor(Color background, Color text);
+
+		static uint8_t createColor(Color text, Color background = Color::Black);
+		static void setColor(Color text, Color background = Color::Black);
+		static void setColor(uint8_t combinedColor);
+		
 
 		static void clearConsole();
 
 		static void writeLeft(string msg);
 		static void writeCentered(string msg);
 		static void writeRight(string msg);
-		static void writeMulti(string left, string right);
+		static void writeMulti(string left, string right, int8_t rightColor = -1);
+		static void makeLine(int width, int8_t color = -1);
 
 		//Keyboard util
 
@@ -54,5 +59,18 @@ namespace UI
 		Returns keycode of pressed key or 0
 		*/
 		static char getUnbufferedKey();
+
+		//Number util
+
+		static unsigned short getNumberOfDigits(unsigned i)
+		{
+			//TODO: Refactor to a logarithm?
+
+			int digits = 0; 
+			while (i != 0) { 
+				i /= 10; digits++; 
+			}
+			return digits;
+		}
 	};
 }

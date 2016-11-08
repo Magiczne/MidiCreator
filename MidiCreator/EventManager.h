@@ -23,5 +23,6 @@ public:
 	EventManager(UIManager* ui) { this->uiManager = ui; }
 
 	MenuEventType menuLoop();
+	void sequenceScreenLoop(Sequence& seq);
 };
 

@@ -21,6 +21,7 @@ int MidiCreator::exec()
 		{
 			Sequence seq;
 			this->uiManager->drawSequenceScreen(seq);
+			this->eventManager->sequenceScreenLoop(seq);
 			break;
 		}
 		case MenuEventType::OPEN_SEQUENCE:

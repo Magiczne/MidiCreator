@@ -32,13 +32,21 @@ void Util::setConsoleSize(int width, int height)
 	SetConsoleWindowInfo(handle, true, &rect);
 }
 
-void Util::setColor(Color background, Color text)
+void Util::setColor(uint8_t combinedColor)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, combinedColor);
+}
 
-	uint8_t val = ((uint8_t)background << 4) + (uint8_t)text;
+void Util::setColor(Color text, Color background)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, Util::createColor(text, background));
+}
 
-	SetConsoleTextAttribute(hConsole, val);
+uint8_t Util::createColor(Color text, Color background)
+{
+	return ((uint8_t)background << 4) + (uint8_t)text;
 }
 
 void Util::clearConsole()
@@ -65,12 +73,31 @@ void Util::writeRight(string msg)
 	cout << setw(size.cols) << msg << endl;
 }
 
-void Util::writeMulti(string left, string right)
+void Util::writeMulti(string left, string right, int8_t rightColor)
 {
 	ConsoleSize size = Util::getConsoleSize();
 	cout << left;
 
+	if (rightColor != -1)
+	{
+		Util::setColor(rightColor);
+	}
+
 	cout << setw(size.cols - left.size()) << right << endl;
+}
+
+void Util::makeLine(int width, int8_t color)
+{
+	if (color != -1)
+	{
+		Util::setColor(color);
+	}
+
+	for (int i = 0; i < width; i++)
+	{
+		cout << '-';
+	}
+	cout << endl;
 }
 
 char Util::getUnbufferedKey()
@@ -84,7 +111,15 @@ char Util::getUnbufferedKey()
 	if (events > 0)
 	{
 		ReadConsoleInput(handle, &buffer, 1, &events);
-		return (char)buffer.Event.KeyEvent.wVirtualKeyCode;
+
+		if (buffer.Event.KeyEvent.bKeyDown)
+		{
+			return (char)buffer.Event.KeyEvent.wVirtualKeyCode;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	else
 	{
