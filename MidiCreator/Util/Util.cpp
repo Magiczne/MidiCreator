@@ -46,12 +46,31 @@ void Util::clearConsole()
 	system("cls");
 }
 
+void Util::writeLeft(string msg)
+{
+	cout << msg << endl;
+}
+
 void Util::writeCentered(string msg)
 {
 	ConsoleSize size = Util::getConsoleSize();
 
 	int width = (size.cols + msg.size()) / 2;
 	cout << setw(width) << msg << endl;
+}
+
+void Util::writeRight(string msg)
+{
+	ConsoleSize size = Util::getConsoleSize();
+	cout << setw(size.cols) << msg << endl;
+}
+
+void Util::writeMulti(string left, string right)
+{
+	ConsoleSize size = Util::getConsoleSize();
+	cout << left;
+
+	cout << setw(size.cols - left.size()) << right << endl;
 }
 
 char Util::getUnbufferedKey()

@@ -42,7 +42,11 @@ namespace UI
 		static void setColor(Color background, Color text);
 
 		static void clearConsole();
+
+		static void writeLeft(string msg);
 		static void writeCentered(string msg);
+		static void writeRight(string msg);
+		static void writeMulti(string left, string right);
 
 		//Keyboard util
 

@@ -1,16 +1,21 @@
 #pragma once
 
 #include "stdafx.h"
-#include "UI\Util.h"
+#include "EventManager.h"
+#include "UI\UIManager.h"
 
 using namespace std;
 using namespace UI;
 
 class MidiCreator
 {
+private:
+	EventManager* eventManager;
+	UIManager* uiManager;
+
 public:
-	void drawMenu();
-	void menuEventLoop();
+	MidiCreator();
+	~MidiCreator();
 
 	int exec();
 };

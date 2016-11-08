@@ -1,45 +1,33 @@
 #include "MidiCreator.h"
 
-void MidiCreator::drawMenu()
+MidiCreator::MidiCreator()
 {
-	Util::clearConsole();
-	cout << endl << endl;
-	Util::setColor(Color::Black, Color::DarkGreen);
-	Util::writeCentered("MIDI Creator v0.0.4");
-	cout << endl;
-
-	Util::setColor(Color::Black, Color::Gray);
-	Util::writeCentered("1. Start a new sequence");
-	Util::writeCentered("2. Load a sequence");
-	Util::writeCentered("3. Quit");
+	this->uiManager = new UIManager();
+	this->eventManager = new EventManager(this->uiManager);
 }
 
-void MidiCreator::menuEventLoop()
+MidiCreator::~MidiCreator()
 {
-	char c;
-
-	do 
-	{
-		c = Util::getUnbufferedKey();
-
-		switch (c)
-		{
-		case 0:
-			break;
-		case '1':
-			return;
-		case '2':
-			return;
-		default:
-			this->drawMenu();
-		}
-	} while (c != '3');
+	delete this->eventManager;
+	delete this->uiManager;
 }
 
 int MidiCreator::exec()
 {
-	this->drawMenu();
-	this->menuEventLoop();
+	this->uiManager->drawMenu();
+	switch (this->eventManager->menuLoop())
+	{
+		case MenuEventType::NEW_SEQUENCE:
+		{
+			Sequence seq;
+			this->uiManager->drawSequenceScreen(seq);
+			break;
+		}
+		case MenuEventType::OPEN_SEQUENCE:
+			break;
+		case MenuEventType::QUIT:
+			break;
+	}
 	
 	system("pause");
 	return 0;
