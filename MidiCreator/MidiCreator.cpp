@@ -1,4 +1,5 @@
 #include "MidiCreator.h"
+#include "Sequence.h"
 
 MidiCreator::MidiCreator()
 {

@@ -10,12 +10,12 @@ using namespace SMF;
 class Sequence
 {
 public:
-	static const int MAX_MEASURE = 50;
+	static const int MAX_MEASURE = 35;
 
 	string name			= "New sequence";
 	FileFormat format	= FileFormat::SINGLE_TRACK;
-	int numerator		= 4;
-	int denominator		= 4;
+	int numerator		= 6;
+	int denominator		= 8;
 
 	unsigned currentMeasure = 1;
 	NotePitch firstNoteToShow = NotePitch::C3;
@@ -23,9 +23,9 @@ public:
 	string getFormat() { return FileFormatMap[this->format]; }
 
 	bool previousMeasure();
-	bool nextMeasure();
+	bool nextMeasure(int pianoRollWidth);
 
 	bool previousNote();
-	bool nextNote();
+	bool nextNote(int pianoRollHeight);
 };
 

@@ -11,10 +11,9 @@ bool Sequence::previousMeasure()
 	return false;
 }
 
-bool Sequence::nextMeasure()
+bool Sequence::nextMeasure(int pianoRollWidth)
 {
-	//TODO: Fix for piano roll size
-	if (this->currentMeasure < Sequence::MAX_MEASURE)
+	if (this->currentMeasure < Sequence::MAX_MEASURE - (pianoRollWidth / this->numerator) + 1)
 	{
 		this->currentMeasure++;
 		return true;
@@ -25,21 +24,21 @@ bool Sequence::nextMeasure()
 
 bool Sequence::previousNote()
 {
-	if ((uint8_t)this->firstNoteToShow > (uint8_t)NotePitch::C_MINUS_1)
+	if (this->firstNoteToShow > NotePitch::C_MINUS_1)
 	{
-		this->firstNoteToShow = NotePitch((uint8_t)this->firstNoteToShow + 1);
+		this->firstNoteToShow = NotePitch((uint8_t)this->firstNoteToShow - 1);
 		return true;
 	}
 
 	return false;
 }
 
-bool Sequence::nextNote()
+bool Sequence::nextNote(int pianoRollHeight)
 {
 	//TODO: Fix for piano roll size
-	if (this->firstNoteToShow < NotePitch::G9)
+	if ((uint8_t)this->firstNoteToShow < (uint8_t)NotePitch::G9 - pianoRollHeight + 1)
 	{
-		this->firstNoteToShow = NotePitch((uint8_t)this->firstNoteToShow - 1);
+		this->firstNoteToShow = NotePitch((uint8_t)this->firstNoteToShow + 1);
 		return true;
 	}
 

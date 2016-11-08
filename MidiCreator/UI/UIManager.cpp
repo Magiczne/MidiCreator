@@ -1,4 +1,5 @@
 #include "UIManager.h"
+#include "..\Sequence.h"
 
 using namespace UI;
 
@@ -19,7 +20,7 @@ void UIManager::drawMenu()
 void UIManager::drawSequenceScreen(Sequence& seq)
 {
 	ConsoleSize size = Util::getConsoleSize();
-	const int pianoRollWidth = size.cols - 20;
+	this->pianoRollWidth = size.cols - 20;
 
 	Util::clearConsole();
 
@@ -31,7 +32,7 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 	);
 	
 	//Measure
-	Util::setColor(Color::DarkBlue);
+	Util::setColor(Color::DarkCyan);
 	Util::writeRight("Measure: " +
 		to_string(seq.numerator) + "/" 
 		+ to_string(seq.denominator));
@@ -42,7 +43,7 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 	Util::setColor(Color::Red);
 	cout << "    ";
 	for (int i = 0 + seq.currentMeasure;
-		i < pianoRollWidth / seq.numerator + seq.currentMeasure;
+		i < this->pianoRollWidth / seq.numerator + seq.currentMeasure;
 		i++)
 	{
 		cout << i;
@@ -57,10 +58,10 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 	cout << endl;
 
 	cout << "    ";
-	Util::makeLine(pianoRollWidth, 
+	Util::makeLine(this->pianoRollWidth,
 		Util::createColor(Color::DarkRed));
 
-	for (int k = 0; k < 10; k++)
+	for (int k = 0; k < this->pianoRollHeight; k++)
 	{
 		Util::setColor(Color::Red);
 		NotePitch p = NotePitch((uint8_t)seq.firstNoteToShow + k);
@@ -73,10 +74,8 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 		}
 
 		for (int i = 0;
-			i < pianoRollWidth / seq.numerator * seq.numerator; i++)
+			i < this->pianoRollWidth / seq.numerator * seq.numerator; i++)
 		{
-			
-
 			if (i % seq.numerator == 0)
 			{
 				Util::setColor(Color::DarkRed);
@@ -91,6 +90,4 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 
 		cout << endl;
 	}
-	cout << endl;
-	cout << endl;
 }

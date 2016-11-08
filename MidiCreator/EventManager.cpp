@@ -1,4 +1,5 @@
 #include "EventManager.h"
+#include "Sequence.h"
 
 MenuEventType EventManager::menuLoop()
 {
@@ -37,29 +38,29 @@ void EventManager::sequenceScreenLoop(Sequence& seq)
 		case 0:
 			break;
 
-		case 37:			//Left arrow
+		case VK_LEFT:
 			if (seq.previousMeasure())
 			{
 				this->uiManager->drawSequenceScreen(seq);
 			}
 			break;
 
-		case 38:			//Up arrow
+		case VK_UP:
 			if (seq.previousNote())
 			{
 				this->uiManager->drawSequenceScreen(seq);
 			}
 			break;
 
-		case 39:			//Right arrow
-			if (seq.nextMeasure())
+		case VK_RIGHT:
+			if (seq.nextMeasure(this->uiManager->pianoRollWidth))
 			{
 				this->uiManager->drawSequenceScreen(seq);
 			}		
 			break;
 
-		case 40:			//Down arrow
-			if (seq.nextNote())
+		case VK_DOWN:
+			if (seq.nextNote(this->uiManager->pianoRollHeight))
 			{
 				this->uiManager->drawSequenceScreen(seq);
 			}
