@@ -1,6 +1,8 @@
 #include "EventManager.h"
 #include "Sequence.h"
 
+using namespace UI;
+
 MenuEventType EventManager::menuLoop()
 {
 	char c;

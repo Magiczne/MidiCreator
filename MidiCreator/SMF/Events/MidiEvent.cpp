@@ -1,5 +1,8 @@
 #include "MidiEvent.h"
 
+
+#include "../Exceptions/EventNotInitializedException.h"
+
 using namespace SMF;
 using namespace SMF::Exceptions;
 

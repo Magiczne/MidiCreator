@@ -1,6 +1,7 @@
 #include "Util.h"
 
 using namespace UI;
+using namespace std;
 
 ConsoleSize Util::getConsoleSize()
 {
@@ -125,4 +126,15 @@ char Util::getUnbufferedKey()
 	{
 		return 0;
 	}
+}
+
+unsigned short Util::getNumberOfDigits(unsigned i)
+{
+	int digits = 0;
+	while (i != 0)
+	{
+		i /= 10;
+		digits++;
+	}
+	return digits;
 }

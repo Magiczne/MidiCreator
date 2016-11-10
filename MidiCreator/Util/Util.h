@@ -2,8 +2,6 @@
 
 #include "../stdafx.h"
 
-using namespace std;
-
 namespace UI
 {
 	struct ConsoleSize
@@ -47,10 +45,10 @@ namespace UI
 
 		static void clearConsole();
 
-		static void writeLeft(string msg);
-		static void writeCentered(string msg);
-		static void writeRight(string msg);
-		static void writeMulti(string left, string right, int8_t rightColor = -1);
+		static void writeLeft(std::string msg);
+		static void writeCentered(std::string msg);
+		static void writeRight(std::string msg);
+		static void writeMulti(std::string left, std::string right, int8_t rightColor = -1);
 		static void makeLine(int width, int8_t color = -1);
 
 		//Keyboard util
@@ -62,15 +60,6 @@ namespace UI
 
 		//Number util
 
-		static unsigned short getNumberOfDigits(unsigned i)
-		{
-			//TODO: Refactor to a logarithm?
-
-			int digits = 0; 
-			while (i != 0) { 
-				i /= 10; digits++; 
-			}
-			return digits;
-		}
+		static unsigned short getNumberOfDigits(unsigned i);
 	};
 }

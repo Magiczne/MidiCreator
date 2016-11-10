@@ -4,8 +4,6 @@
 #include "Util\Util.h"
 #include "UI\UIManager.h"
 
-using namespace UI;
-
 enum MenuEventType
 {
 	NEW_SEQUENCE,
@@ -16,11 +14,11 @@ enum MenuEventType
 class EventManager
 {
 private:
-	UIManager* uiManager;
+	UI::UIManager* uiManager;
 
 public:
 	EventManager() = delete;
-	EventManager(UIManager* ui) { this->uiManager = ui; }
+	EventManager(UI::UIManager* ui) { this->uiManager = ui; }
 
 	MenuEventType menuLoop();
 	void sequenceScreenLoop(Sequence& seq);

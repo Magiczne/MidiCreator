@@ -1,5 +1,7 @@
 #include "Sequence.h"
 
+using namespace SMF;
+
 bool Sequence::previousMeasure()
 {
 	if (this->currentMeasure > 1)

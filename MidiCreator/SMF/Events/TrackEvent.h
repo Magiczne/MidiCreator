@@ -1,14 +1,12 @@
 #pragma once
 
 #include "../../stdafx.h"
-#include "../Abstract/IEvent.h"
 #include "../../Abstract/IConvertibleToByteCollection.h"
+#include "../Abstract/IEvent.h"
 #include "../Enums/EventType.h"
 #include "../Exceptions/EventNotInitializedException.h"
-#include "../Exceptions/EventTypeNotSupportedException.h"
-#include "MetaEvent.h"
-#include "MidiEvent.h"
-#include "SystemExclusiveEvent.h"
+
+class IEvent;
 
 namespace SMF
 {
@@ -32,9 +30,6 @@ namespace SMF
 		//IConvertibleToByteCollection
 		virtual std::vector<uint8_t> toByteVector();
 	};
-
-	//Template functions needs to be declared
-	//in header files.
 
 	template<typename T>
 	inline T* TrackEvent::getInnerEvent()

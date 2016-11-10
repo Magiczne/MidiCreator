@@ -1,5 +1,11 @@
 #include "TrackEvent.h"
 
+#include "MetaEvent.h"
+#include "MidiEvent.h"
+#include "SystemExclusiveEvent.h"
+
+#include "../Exceptions/EventTypeNotSupportedException.h"
+
 using namespace SMF;
 using namespace SMF::Exceptions;
 

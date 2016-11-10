@@ -1,6 +1,8 @@
 #include "UIManager.h"
 #include "..\Sequence.h"
 
+using namespace std;
+using namespace SMF;
 using namespace UI;
 
 void UIManager::drawMenu()

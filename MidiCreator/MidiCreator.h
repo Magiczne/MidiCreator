@@ -1,17 +1,19 @@
 #pragma once
 
 #include "stdafx.h"
-#include "EventManager.h"
-#include "UI\UIManager.h"
 
-using namespace std;
-using namespace UI;
+namespace UI
+{
+	class UIManager;
+}
+
+class EventManager;
 
 class MidiCreator
 {
 private:
 	EventManager* eventManager;
-	UIManager* uiManager;
+	UI::UIManager* uiManager;
 
 public:
 	MidiCreator();

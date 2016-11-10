@@ -1,5 +1,12 @@
 #include "TrackChunk.h"
 
+#include "Events\MidiEvent.h"
+#include "Events\MetaEvent.h"
+#include "Enums\MetaEventType.h"
+#include "Enums\MidiEventType.h"
+#include "Events\TrackEvent.h"
+#include "Util\Note.h"
+
 #include "Exceptions\TrackClosedException.h"
 #include "Exceptions\TrackNotClosedException.h"
 

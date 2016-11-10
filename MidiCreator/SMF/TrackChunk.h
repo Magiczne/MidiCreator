@@ -1,14 +1,16 @@
 #pragma once
 
 #include "..\Abstract\IConvertibleToByteCollection.h"
+#include "Enums\EventType.h"
 #include "Enums\GMPatch.h"
 #include "Enums\MIDIChannel.h"
 #include "Enums\NotePitch.h"
-#include "Events\TrackEvent.h"
-#include "Util\Note.h"
 
 namespace SMF 
 {
+	class TrackEvent;
+	class Note;
+
 	class TrackChunk : 
 		IConvertibleToByteCollection
 	{

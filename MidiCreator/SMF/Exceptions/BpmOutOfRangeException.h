@@ -3,21 +3,19 @@
 #include "../../stdafx.h"
 #include "../StandardMIDIFile.h"
 
-using namespace std;
-
 namespace SMF
 {
 	namespace Exceptions
 	{
 		class BpmOutOfRangeException :
-			public exception
+			public std::exception
 		{
 			virtual const char* what() const noexcept
 			{
-				string msg = "BPM out of range! ("
-					+ to_string(StandardMIDIFile::MIN_BPM)
+				std::string msg = "BPM out of range! ("
+					+ std::to_string(StandardMIDIFile::MIN_BPM)
 					+ " - "
-					+ to_string(StandardMIDIFile::MAX_BPM)
+					+ std::to_string(StandardMIDIFile::MAX_BPM)
 					+ ")";
 
 				return msg.c_str();

@@ -1,5 +1,8 @@
 #include "StandardMIDIFile.h"
 
+#include "Events\TrackEvent.h"
+#include "Events\MidiEvent.h"
+#include "Events\MetaEvent.h"
 #include "Exceptions\BpmOutOfRangeException.h"
 #include "Exceptions\IllegalDenominatorException.h"
 #include "Exceptions\NoTracksException.h"
