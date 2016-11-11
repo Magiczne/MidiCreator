@@ -48,10 +48,18 @@ void EventManager::sequenceScreenLoop(Sequence& seq)
 			break;
 
 		case 83:	//S
+		{
 			this->uiManager->action(Action::CHANGE_SEQ_NAME);
-			this->uiManager->drawSequenceScreen(seq);
+
+			Nullable<COORD> pos = this->uiManager->drawSequenceScreen(seq);
+
+			Util::setCursorPos(pos.Value);
 			this->changeSequenceName(seq);
+
+			this->uiManager->action(Action::NONE);
+			this->uiManager->drawSequenceScreen(seq);
 			break;
+		}
 
 		case VK_LEFT:
 			if (seq.previousMeasure())
@@ -92,7 +100,10 @@ void EventManager::changeSequenceName(Sequence& seq)
 {
 	string newName;
 	
-	cin >> newName;
+	getline(cin, newName);
 
-	seq.name(newName);
+	if (newName != "")
+	{
+		seq.name(newName);
+	}
 }

@@ -56,11 +56,17 @@ void Util::clearConsole()
 	system("cls");
 }
 
-void Util::setCursorPos(int x, int y)
+void Util::setCursorPos(SHORT x, SHORT y)
 {
 	COORD pos = { x, y };
 	HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(output, pos);
+}
+
+void Util::setCursorPos(COORD coord)
+{
+	HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorPosition(output, coord);
 }
 
 void Util::writeLeft(string msg)

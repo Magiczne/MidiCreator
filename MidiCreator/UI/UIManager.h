@@ -4,6 +4,7 @@
 #include "..\Util\Util.h"
 #include "Enums\Mode.h"
 #include "Enums\Action.h"
+#include "..\Util\Nullable.h"
 
 class Sequence;
 
@@ -18,14 +19,14 @@ namespace UI
 		void drawViewMenu(ConsoleSize& size);
 		void drawEditMenu(ConsoleSize& size);
 
-		void drawSequenceNameEditor(ConsoleSize& size, Sequence& seq);
+		SHORT drawSequenceNameEditor(ConsoleSize& size);
 
 	public:
 		unsigned pianoRollWidth;
 		const unsigned pianoRollHeight = 12;
 
 		void drawMenu();
-		void drawSequenceScreen(Sequence& seq);
+		Nullable<COORD> drawSequenceScreen(Sequence& seq);
 
 		//Getters/setters
 

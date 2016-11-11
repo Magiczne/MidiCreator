@@ -24,8 +24,10 @@ void UIManager::drawMenu()
 	Util::writeCentered("3. Quit");
 }
 
-void UIManager::drawSequenceScreen(Sequence& seq)
+Nullable<COORD> UIManager::drawSequenceScreen(Sequence& seq)
 {
+	Nullable<COORD> ret;
+
 	ConsoleSize size = Util::getConsoleSize();
 
 	this->pianoRollWidth = size.cols - 20;
@@ -101,7 +103,11 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 
 	if (this->_action == Action::CHANGE_SEQ_NAME)
 	{
-		this->drawSequenceNameEditor(size, seq);
+		ret = COORD
+		{
+			0,
+			this->drawSequenceNameEditor(size)
+		};
 	}
 
 	if (this->_mode == Mode::VIEW)
@@ -112,6 +118,8 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 	{
 		this->drawEditMenu(size);
 	}
+
+	return ret;
 }
 
 void UIManager::drawViewMenu(ConsoleSize& size)
@@ -154,19 +162,19 @@ void UIManager::drawEditMenu(ConsoleSize& size)
 	}
 }
 
-void UIManager::drawSequenceNameEditor(ConsoleSize& size, Sequence& seq)
+SHORT UIManager::drawSequenceNameEditor(ConsoleSize& size)
 {
-	int tmp = Util::writtenLines;
+	SHORT tmp = Util::writtenLines;
 
 	Util::setColor(Color::DarkRed, Color::Gray);
 	Util::makeLine(size.cols);
 
 	Util::setColor(Color::Red);
-	Util::writeLeft("Enter new sequence name: (" + seq.name() + ")");
+	Util::writeLeft("Enter new sequence name:");
 	Util::newLine();
 
 	Util::setColor(Color::DarkRed, Color::Gray);
 	Util::makeLine(size.cols);
 
-	Util::setCursorPos(0, tmp + 2);
+	return tmp + 2;
 }
