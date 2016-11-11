@@ -1,10 +1,12 @@
 #pragma once
 
-#include "HeaderChunk.h"
-#include "TrackChunk.h"
+#include "..\Abstract\IConvertibleToByteCollection.h"
 
 namespace SMF
 {
+	class HeaderChunk;
+	class TrackChunk;
+
 	class StandardMIDIFile
 		: IConvertibleToByteCollection
 	{

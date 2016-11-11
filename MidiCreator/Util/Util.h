@@ -34,6 +34,7 @@ namespace UI
 	{
 	public:
 		//Console util
+		static int writtenLines;
 
 		static ConsoleSize getConsoleSize();
 		static void setConsoleSize(int width, int height);
@@ -50,6 +51,7 @@ namespace UI
 		static void writeRight(std::string msg);
 		static void writeMulti(std::string left, std::string right, int8_t rightColor = -1);
 		static void makeLine(int width, int8_t color = -1);
+		static void newLine(int num = 1);
 
 		//Keyboard util
 

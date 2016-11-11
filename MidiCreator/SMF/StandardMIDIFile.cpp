@@ -1,5 +1,7 @@
 #include "StandardMIDIFile.h"
 
+#include "HeaderChunk.h"
+#include "TrackChunk.h"
 #include "Events\TrackEvent.h"
 #include "Events\MidiEvent.h"
 #include "Events\MetaEvent.h"

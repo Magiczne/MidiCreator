@@ -52,16 +52,19 @@ uint8_t Util::createColor(Color text, Color background)
 
 void Util::clearConsole()
 {
+	Util::writtenLines = 0;
 	system("cls");
 }
 
 void Util::writeLeft(string msg)
 {
+	Util::writtenLines++;
 	cout << msg << endl;
 }
 
 void Util::writeCentered(string msg)
 {
+	Util::writtenLines++;
 	ConsoleSize size = Util::getConsoleSize();
 
 	int width = (size.cols + msg.size()) / 2;
@@ -70,12 +73,14 @@ void Util::writeCentered(string msg)
 
 void Util::writeRight(string msg)
 {
+	Util::writtenLines++;
 	ConsoleSize size = Util::getConsoleSize();
 	cout << setw(size.cols) << msg << endl;
 }
 
 void Util::writeMulti(string left, string right, int8_t rightColor)
 {
+	Util::writtenLines++;
 	ConsoleSize size = Util::getConsoleSize();
 	cout << left;
 
@@ -89,6 +94,7 @@ void Util::writeMulti(string left, string right, int8_t rightColor)
 
 void Util::makeLine(int width, int8_t color)
 {
+	Util::writtenLines++;
 	if (color != -1)
 	{
 		Util::setColor(color);
@@ -99,6 +105,15 @@ void Util::makeLine(int width, int8_t color)
 		cout << '-';
 	}
 	cout << endl;
+}
+
+void Util::newLine(int num)
+{
+	Util::writtenLines += num;
+	for (int i = 0; i < num; i++)
+	{
+		cout << endl;
+	}
 }
 
 char Util::getUnbufferedKey()

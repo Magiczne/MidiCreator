@@ -6,8 +6,6 @@
 #include "../Enums/EventType.h"
 #include "../Exceptions/EventNotInitializedException.h"
 
-class IEvent;
-
 namespace SMF
 {
 	class TrackEvent :

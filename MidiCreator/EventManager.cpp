@@ -35,6 +35,12 @@ void EventManager::sequenceScreenLoop(Sequence& seq)
 	{
 		c = Util::getUnbufferedKey();
 
+		if (c == 78)		//N
+		{
+			this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
+			this->uiManager->drawSequenceScreen(seq);
+		}
+
 		switch (c)
 		{
 		case 0:
@@ -49,27 +55,28 @@ void EventManager::sequenceScreenLoop(Sequence& seq)
 
 		case VK_UP:
 			if (seq.previousNote())
-			{
-				this->uiManager->drawSequenceScreen(seq);
-			}
+				{
+					this->uiManager->drawSequenceScreen(seq);
+				}
 			break;
-
+			
 		case VK_RIGHT:
 			if (seq.nextMeasure(this->uiManager->pianoRollWidth))
 			{
 				this->uiManager->drawSequenceScreen(seq);
-			}		
+			}
 			break;
 
 		case VK_DOWN:
 			if (seq.nextNote(this->uiManager->pianoRollHeight))
-			{
-				this->uiManager->drawSequenceScreen(seq);
-			}
+				{
+					this->uiManager->drawSequenceScreen(seq);
+				}
 			break;
 
 		default:
 			break;
 		}
+
 	} while (true);
 }

@@ -144,6 +144,12 @@
     <ClInclude Include="SMF\Util\Maps.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UI\Enums\Mode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Util\Maps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
