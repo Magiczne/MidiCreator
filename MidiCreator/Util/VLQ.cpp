@@ -50,4 +50,3 @@ void VLQ::toVlq()
 
 	this->vlqVal = ret;
 }
-

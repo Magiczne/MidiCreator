@@ -16,6 +16,7 @@ class EventManager
 private:
 	UI::UIManager* uiManager;
 
+	void changeSequenceName(Sequence& seq);
 public:
 	EventManager() = delete;
 	EventManager(UI::UIManager* ui) { this->uiManager = ui; }

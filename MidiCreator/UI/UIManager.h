@@ -1,7 +1,9 @@
 #pragma once
 
 #include "..\stdafx.h"
+#include "..\Util\Util.h"
 #include "Enums\Mode.h"
+#include "Enums\Action.h"
 
 class Sequence;
 
@@ -10,7 +12,13 @@ namespace UI
 	class UIManager
 	{
 	private:
-		Mode _mode = Mode::EDIT;
+		Mode _mode = Mode::VIEW;
+		Action _action = Action::NONE;
+
+		void drawViewMenu(ConsoleSize& size);
+		void drawEditMenu(ConsoleSize& size);
+
+		void drawSequenceNameEditor(ConsoleSize& size, Sequence& seq);
 
 	public:
 		unsigned pianoRollWidth;
@@ -23,6 +31,9 @@ namespace UI
 
 		void mode(const Mode& val) { this->_mode = val; }
 		const Mode& mode() { return this->_mode; }
+
+		void action(const Action& val) { this->_action = val; }
+		const Action& action() { return this->_action; }
 	};
 }
 

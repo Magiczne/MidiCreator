@@ -15,7 +15,7 @@ bool Sequence::previousMeasure()
 
 bool Sequence::nextMeasure(int pianoRollWidth)
 {
-	if (this->currentMeasure < Sequence::MAX_MEASURE - (pianoRollWidth / this->numerator) + 1)
+	if (this->currentMeasure < Sequence::MAX_MEASURE - (pianoRollWidth / this->_numerator) + 1)
 	{
 		this->currentMeasure++;
 		return true;

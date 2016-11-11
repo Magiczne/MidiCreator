@@ -1,7 +1,6 @@
 ﻿#include "UIManager.h"
 
 #include "..\Sequence.h"
-#include "..\Util\Util.h"
 #include "Util\Maps.h"
 
 using namespace std;
@@ -36,7 +35,7 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 	//Sequence title + Sequence Type
 	Util::setColor(Color::DarkGreen);
 	Util::writeMulti(
-		seq.name, seq.getFormat(), 
+		seq.name(), seq.getFormat(), 
 		Util::createColor(Color::DarkCyan)
 	);
 	
@@ -44,7 +43,7 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 	Util::setColor(Color::DarkCyan);
 	Util::writeMulti(
 		"Mode: " + ModeMap[this->_mode],
-		"Measure: " + to_string(seq.numerator) + "/" + to_string(seq.denominator)
+		"Measure: " + to_string(seq.numerator()) + "/" + to_string(seq.denominator())
 	);
 	Util::newLine(2);
 
@@ -52,13 +51,13 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 	Util::setColor(Color::Red);
 	cout << "    ";
 	for (unsigned i = 0 + seq.currentMeasure;
-		i < this->pianoRollWidth / seq.numerator + seq.currentMeasure;
+		i < this->pianoRollWidth / seq.numerator() + seq.currentMeasure;
 		i++)
 	{
 		cout << i;
 
 		for (int j = 0;
-			j < seq.numerator - Util::getNumberOfDigits(i);
+			j < seq.numerator() - Util::getNumberOfDigits(i);
 			j++)
 		{
 			cout << ' ';
@@ -83,9 +82,9 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 		}
 
 		for (unsigned i = 0;
-			i < this->pianoRollWidth / seq.numerator * seq.numerator; i++)
+			i < this->pianoRollWidth / seq.numerator() * seq.numerator(); i++)
 		{
-			if (i % seq.numerator == 0)
+			if (i % seq.numerator() == 0)
 			{
 				Util::setColor(Color::DarkGreen);
 			}
@@ -98,11 +97,33 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 		}
 		Util::newLine();
 	}
+	Util::newLine();
 
+	if (this->_action == Action::CHANGE_SEQ_NAME)
+	{
+		this->drawSequenceNameEditor(size, seq);
+	}
+
+	if (this->_mode == Mode::VIEW)
+	{
+		this->drawViewMenu(size);
+	}
+	else
+	{
+		this->drawEditMenu(size);
+	}
+}
+
+void UIManager::drawViewMenu(ConsoleSize& size)
+{
 	Util::newLine(size.rows - Util::writtenLines - 2);
 
-	vector<string> cmds = { "UP", "DN", "LT", "RT", "XX", " N" };
-	vector<string> names = { "Roll up", "Roll down", "Roll left", "Roll right", "Something", "Enter note" };
+	vector<string> cmds = { 
+		"UP", "DN", "LT", "RT", 
+		" N", " S" };
+	vector<string> names = { 
+		"Roll up", "Roll down", "Roll left", "Roll right", 
+		"Edit mode", "Seq name" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{
@@ -111,8 +132,41 @@ void UIManager::drawSequenceScreen(Sequence& seq)
 		Util::setColor(Color::DarkGray);
 		cout << ' ' << names[i] << '\t';
 	}
-
-	cout << "Here will be menu someday.";
 }
 
-void
+void UIManager::drawEditMenu(ConsoleSize& size)
+{
+	Util::newLine(size.rows - Util::writtenLines - 2);
+
+	vector<string> cmds = { 
+		"UP", "DN", "LT", "RT", 
+		" N", " S" };
+	vector<string> names = { 
+		"Roll up", "Roll down", "Roll left", "Roll right", 
+		"View mode", "Seq name" };
+
+	for (size_t i = 0; i < names.size(); i++)
+	{
+		Util::setColor(Color::Black, Color::Gray);
+		cout << cmds[i];
+		Util::setColor(Color::DarkGray);
+		cout << ' ' << names[i] << '\t';
+	}
+}
+
+void UIManager::drawSequenceNameEditor(ConsoleSize& size, Sequence& seq)
+{
+	int tmp = Util::writtenLines;
+
+	Util::setColor(Color::DarkRed, Color::Gray);
+	Util::makeLine(size.cols);
+
+	Util::setColor(Color::Red);
+	Util::writeLeft("Enter new sequence name: (" + seq.name() + ")");
+	Util::newLine();
+
+	Util::setColor(Color::DarkRed, Color::Gray);
+	Util::makeLine(size.cols);
+
+	Util::setCursorPos(0, tmp + 2);
+}

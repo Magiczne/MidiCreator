@@ -2,6 +2,7 @@
 #include "Sequence.h"
 
 using namespace UI;
+using namespace std;
 
 MenuEventType EventManager::menuLoop()
 {
@@ -34,16 +35,22 @@ void EventManager::sequenceScreenLoop(Sequence& seq)
 	do
 	{
 		c = Util::getUnbufferedKey();
-
-		if (c == 78)		//N
-		{
-			this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
-			this->uiManager->drawSequenceScreen(seq);
-		}
+		std::string a;
 
 		switch (c)
 		{
 		case 0:
+			break;
+
+		case 78:	//N
+			this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
+			this->uiManager->drawSequenceScreen(seq);
+			break;
+
+		case 83:	//S
+			this->uiManager->action(Action::CHANGE_SEQ_NAME);
+			this->uiManager->drawSequenceScreen(seq);
+			this->changeSequenceName(seq);
 			break;
 
 		case VK_LEFT:
@@ -79,4 +86,13 @@ void EventManager::sequenceScreenLoop(Sequence& seq)
 		}
 
 	} while (true);
+}
+
+void EventManager::changeSequenceName(Sequence& seq)
+{
+	string newName;
+	
+	cin >> newName;
+
+	seq.name(newName);
 }

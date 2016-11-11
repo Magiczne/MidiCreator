@@ -183,9 +183,11 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="SMF\Events\TrackEvent.h" />
     <ClInclude Include="SMF\TrackChunk.h" />
+    <ClInclude Include="UI\Enums\Action.h" />
     <ClInclude Include="UI\Enums\Mode.h" />
     <ClInclude Include="UI\UIManager.h" />
     <ClInclude Include="UI\Util\Maps.h" />
+    <ClInclude Include="Util\Nullable.h" />
     <ClInclude Include="Util\Util.h" />
     <ClInclude Include="Util\VLQ.h" />
   </ItemGroup>

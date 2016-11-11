@@ -2,7 +2,7 @@
 
 #include "../stdafx.h"
 
-class VLQ
+class VLQ final
 {
 private:
 	unsigned long intVal;
@@ -18,4 +18,3 @@ public:
 	inline const unsigned long& getInt() { return this->intVal; }
 	inline const std::vector<uint8_t>& getVlq() { return this->vlqVal; }
 };
-

@@ -46,6 +46,7 @@ namespace UI
 
 		static void clearConsole();
 
+		static void setCursorPos(int x, int y);
 		static void writeLeft(std::string msg);
 		static void writeCentered(std::string msg);
 		static void writeRight(std::string msg);
