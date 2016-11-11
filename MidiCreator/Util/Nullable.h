@@ -1,5 +1,7 @@
 #pragma once
 
+//http://stackoverflow.com/a/28811646/7101876
+
 #include "..\stdafx.h"
 
 template<typename T>
