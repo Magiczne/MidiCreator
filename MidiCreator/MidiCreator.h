@@ -8,10 +8,12 @@ namespace UI
 }
 
 class EventManager;
+class Sequence;
 
 class MidiCreator
 {
 private:
+	Sequence* sequence;
 	EventManager* eventManager;
 	UI::UIManager* uiManager;
 

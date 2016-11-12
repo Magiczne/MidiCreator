@@ -7,14 +7,16 @@ using namespace UI;
 
 MidiCreator::MidiCreator()
 {
-	this->uiManager = new UIManager();
-	this->eventManager = new EventManager(this->uiManager);
+	this->sequence = new Sequence();
+	this->uiManager = new UIManager(*this->sequence);
+	this->eventManager = new EventManager(this->uiManager, *this->sequence);
 }
 
 MidiCreator::~MidiCreator()
 {
 	delete this->eventManager;
 	delete this->uiManager;
+	delete this->sequence;
 }
 
 int MidiCreator::exec()
@@ -24,9 +26,8 @@ int MidiCreator::exec()
 	{
 		case MenuEventType::NEW_SEQUENCE:
 		{
-			Sequence seq;
-			this->uiManager->drawSequenceScreen(seq);
-			this->eventManager->sequenceScreenLoop(seq);
+			this->uiManager->drawSequenceScreen();
+			this->eventManager->sequenceScreenLoop();
 			break;
 		}
 		case MenuEventType::OPEN_SEQUENCE:
@@ -35,6 +36,5 @@ int MidiCreator::exec()
 			break;
 	}
 	
-	system("pause");
 	return 0;
 }

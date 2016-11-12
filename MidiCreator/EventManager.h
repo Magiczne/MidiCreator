@@ -15,13 +15,15 @@ class EventManager
 {
 private:
 	UI::UIManager* uiManager;
+	Sequence& seq;
 
-	void changeSequenceName(Sequence& seq);
+	void changeSequenceName();
+	void changeMeasure(uint16_t vk);
 public:
 	EventManager() = delete;
-	EventManager(UI::UIManager* ui) { this->uiManager = ui; }
+	EventManager(UI::UIManager* ui, Sequence& seq);
 
 	MenuEventType menuLoop();
-	void sequenceScreenLoop(Sequence& seq);
+	void sequenceScreenLoop();
 };
 

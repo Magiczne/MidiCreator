@@ -46,3 +46,9 @@ bool Sequence::nextNote(int pianoRollHeight)
 
 	return false;
 }
+
+void Sequence::setMeasure(const uint16_t& numerator, const uint16_t& denominator)
+{
+	this->_numerator = numerator;
+	this->_denominator = denominator;
+}

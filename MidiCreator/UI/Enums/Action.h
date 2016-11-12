@@ -5,6 +5,7 @@ namespace UI
 	enum Action
 	{
 		NONE,
-		CHANGE_SEQ_NAME
+		CHANGE_SEQ_NAME,
+		CHANGE_MEASURE
 	};
 }

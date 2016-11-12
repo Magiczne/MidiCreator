@@ -10,6 +10,8 @@ using namespace UI;
 //Forward declarations
 int Util::writtenLines;
 
+UIManager::UIManager(Sequence& seq) : seq(seq) {}
+
 void UIManager::drawMenu()
 {
 	Util::clearConsole();
@@ -24,7 +26,7 @@ void UIManager::drawMenu()
 	Util::writeCentered("3. Quit");
 }
 
-Nullable<COORD> UIManager::drawSequenceScreen(Sequence& seq)
+Nullable<COORD> UIManager::drawSequenceScreen()
 {
 	Nullable<COORD> ret;
 
@@ -34,10 +36,10 @@ Nullable<COORD> UIManager::drawSequenceScreen(Sequence& seq)
 
 	Util::clearConsole();
 
-	//Sequence title + Sequence Type
+	//this->sequence title + this->sequence Type
 	Util::setColor(Color::DarkGreen);
 	Util::writeMulti(
-		seq.name(), seq.getFormat(), 
+		this->seq.name(), this->seq.getFormat(), 
 		Util::createColor(Color::DarkCyan)
 	);
 	
@@ -45,21 +47,21 @@ Nullable<COORD> UIManager::drawSequenceScreen(Sequence& seq)
 	Util::setColor(Color::DarkCyan);
 	Util::writeMulti(
 		"Mode: " + ModeMap[this->_mode],
-		"Measure: " + to_string(seq.numerator()) + "/" + to_string(seq.denominator())
+		"Measure: " + to_string(this->seq.numerator()) + "/" + to_string(this->seq.denominator())
 	);
 	Util::newLine(2);
 
 	//Bars numbers
 	Util::setColor(Color::Red);
 	cout << "    ";
-	for (unsigned i = 0 + seq.currentMeasure;
-		i < this->pianoRollWidth / seq.numerator() + seq.currentMeasure;
+	for (unsigned i = 0 + this->seq.currentMeasure;
+		i < this->pianoRollWidth / this->seq.numerator() + this->seq.currentMeasure;
 		i++)
 	{
 		cout << i;
 
 		for (int j = 0;
-			j < seq.numerator() - Util::getNumberOfDigits(i);
+			j < this->seq.numerator() - Util::getNumberOfDigits(i);
 			j++)
 		{
 			cout << ' ';
@@ -74,7 +76,7 @@ Nullable<COORD> UIManager::drawSequenceScreen(Sequence& seq)
 	for (unsigned k = 0; k < this->pianoRollHeight; k++)
 	{
 		Util::setColor(Color::Red);
-		NotePitch p = NotePitch((uint8_t)seq.firstNoteToShow + k);
+		NotePitch p = NotePitch((uint8_t)this->seq.firstNoteToShow + k);
 		string text = SMF::NotePitchMap[p];
 		cout << text;
 
@@ -84,9 +86,9 @@ Nullable<COORD> UIManager::drawSequenceScreen(Sequence& seq)
 		}
 
 		for (unsigned i = 0;
-			i < this->pianoRollWidth / seq.numerator() * seq.numerator(); i++)
+			i < this->pianoRollWidth / this->seq.numerator() * this->seq.numerator(); i++)
 		{
-			if (i % seq.numerator() == 0)
+			if (i % this->seq.numerator() == 0)
 			{
 				Util::setColor(Color::DarkGreen);
 			}
@@ -101,13 +103,27 @@ Nullable<COORD> UIManager::drawSequenceScreen(Sequence& seq)
 	}
 	Util::newLine();
 
-	if (this->_action == Action::CHANGE_SEQ_NAME)
+
+	switch (this->_action)
 	{
+	case Action::CHANGE_SEQ_NAME:
+		ret = COORD{ 0, this->drawParamEditor(size, "Enter sequence name:") };
+		break;
+
+	case Action::CHANGE_MEASURE:
 		ret = COORD
 		{
-			0,
-			this->drawSequenceNameEditor(size)
+			0, this->drawParamEditor(size, "Choose measure: ",{
+				"1. 2/4",
+				"2. 3/4",
+				"3. 4/4",
+				"4. 6/8"
+			})
 		};
+		break;
+
+	default:
+		break;
 	}
 
 	if (this->_mode == Mode::VIEW)
@@ -162,7 +178,7 @@ void UIManager::drawEditMenu(ConsoleSize& size)
 	}
 }
 
-SHORT UIManager::drawSequenceNameEditor(ConsoleSize& size)
+SHORT UIManager::drawParamEditor(ConsoleSize& size, string msg, vector<string> additional)
 {
 	SHORT tmp = Util::writtenLines;
 
@@ -170,11 +186,19 @@ SHORT UIManager::drawSequenceNameEditor(ConsoleSize& size)
 	Util::makeLine(size.cols);
 
 	Util::setColor(Color::Red);
-	Util::writeLeft("Enter new sequence name:");
-	Util::newLine();
+	Util::writeLeft(msg);
+
+	for (auto& m : additional)
+	{
+		Util::writeLeft(m);
+	}
+
+	Util::newLine();	//Here will be cursor
 
 	Util::setColor(Color::DarkRed, Color::Gray);
 	Util::makeLine(size.cols);
 
-	return tmp + 2;
+	int diff = Util::writtenLines - tmp;
+
+	return tmp + 2 + (SHORT)additional.size();
 }

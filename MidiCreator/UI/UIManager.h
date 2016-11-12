@@ -13,20 +13,25 @@ namespace UI
 	class UIManager
 	{
 	private:
+		Sequence& seq;
+
 		Mode _mode = Mode::VIEW;
 		Action _action = Action::NONE;
 
 		void drawViewMenu(ConsoleSize& size);
 		void drawEditMenu(ConsoleSize& size);
 
-		SHORT drawSequenceNameEditor(ConsoleSize& size);
+		SHORT drawParamEditor(ConsoleSize& size, std::string msg, std::vector<std::string> = {});
 
 	public:
+		UIManager() = delete;
+		UIManager(Sequence& seq);
+
 		unsigned pianoRollWidth;
 		const unsigned pianoRollHeight = 12;
 
 		void drawMenu();
-		Nullable<COORD> drawSequenceScreen(Sequence& seq);
+		Nullable<COORD> drawSequenceScreen();
 
 		//Getters/setters
 

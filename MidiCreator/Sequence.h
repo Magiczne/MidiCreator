@@ -39,5 +39,7 @@ public:
 
 	void denominator(const uint16_t& val) { this->_denominator = val; }
 	const uint16_t& denominator() { return this->_denominator; }
+
+	void setMeasure(const uint16_t& numerator, const uint16_t& denominator);
 };
 
