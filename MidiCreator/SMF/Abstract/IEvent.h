@@ -6,13 +6,14 @@
 
 namespace SMF
 {
-	class IEvent : 
-		public IConvertibleToByteCollection
+	class IEvent : public IConvertibleToByteCollection
 	{
 	protected:
 		std::vector<uint8_t> params;
 
 	public:
+		virtual ~IEvent() {};
+
 		virtual IEvent* addParam(uint8_t param);
 		virtual IEvent* addParam(VLQ param);
 	};

@@ -8,35 +8,35 @@
 
 namespace SMF
 {
-	class TrackEvent :
-		IConvertibleToByteCollection
+	class TrackEvent final : public IConvertibleToByteCollection
 	{
 	private:
-		VLQ* deltaTime = nullptr;
-		IEvent* event = nullptr;
+		VLQ* _deltaTime = nullptr;
+		IEvent* _event = nullptr;
 
-		bool isInitialized();
+		bool isInitialized() const;
 	public:
-		TrackEvent(EventType eventType);
+		TrackEvent() = delete;
+		explicit TrackEvent(EventType eventType);
 		~TrackEvent();
 
 		TrackEvent* setDeltaTime(int time);
 
 		template<typename T>
-		inline T* getInnerEvent();
+		T* getInnerEvent();
 
 		//IConvertibleToByteCollection
-		virtual std::vector<uint8_t> toByteVector();
+		std::vector<uint8_t> toByteVector() override;
 	};
 
 	template<typename T>
-	inline T* TrackEvent::getInnerEvent()
+	T* TrackEvent::getInnerEvent()
 	{
-		if (this->event == nullptr)
+		if (this->_event == nullptr)
 		{
-			throw new EventNotInitializedException;
+			throw new Exceptions::EventNotInitializedException;
 		}
 
-		return dynamic_cast<T*>(this->event);
+		return dynamic_cast<T*>(this->_event);
 	}
 }

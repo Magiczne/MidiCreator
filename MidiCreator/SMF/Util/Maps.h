@@ -1,8 +1,8 @@
 #pragma once
 
-#include "..\..\stdafx.h"
-#include "..\Enums\FileFormat.h"
-#include "..\Enums\NotePitch.h"
+#include "../../stdafx.h"
+#include "../Enums/FileFormat.h"
+#include "../Enums/NotePitch.h"
 
 namespace SMF
 {

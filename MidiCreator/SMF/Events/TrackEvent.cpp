@@ -14,13 +14,13 @@ TrackEvent::TrackEvent(EventType eventType)
 	switch (eventType)
 	{
 		case EventType::META_EVENT: 
-			this->event = new MetaEvent();
+			this->_event = new MetaEvent();
 			break;
 		case EventType::MIDI_EVENT:
-			this->event = new MidiEvent();
+			this->_event = new MidiEvent();
 			break;
 		case EventType::SYSTEM_EXCLUSIVE_EVENT:
-			this->event = new SystemExclusiveEvent();
+			this->_event = new SystemExclusiveEvent();
 			break;
 		default:
 			throw new EventTypeNotSupportedException;
@@ -29,7 +29,7 @@ TrackEvent::TrackEvent(EventType eventType)
 
 TrackEvent* TrackEvent::setDeltaTime(int time)
 { 
-	this->deltaTime = new VLQ(time); 
+	this->_deltaTime = new VLQ(time); 
 	return this; 
 }
 std::vector<uint8_t> TrackEvent::toByteVector()
@@ -43,9 +43,9 @@ std::vector<uint8_t> TrackEvent::toByteVector()
 		throw new EventNotInitializedException;
 	}
 	
-	std::vector<uint8_t> ret = this->deltaTime->getVlq();
+	std::vector<uint8_t> ret = this->_deltaTime->getVlq();
 
-	std::vector<uint8_t> eventBytes = this->event->toByteVector();
+	std::vector<uint8_t> eventBytes = this->_event->toByteVector();
 
 	ret.insert(ret.end(), eventBytes.begin(), eventBytes.end());
 
@@ -54,11 +54,11 @@ std::vector<uint8_t> TrackEvent::toByteVector()
 
 TrackEvent::~TrackEvent()
 {
-	delete this->deltaTime;
-	delete this->event;
+	delete this->_deltaTime;
+	delete this->_event;
 }
 
-bool TrackEvent::isInitialized()
+bool TrackEvent::isInitialized() const
 {
-	return !(this->deltaTime == nullptr || this->event == nullptr);
+	return !(this->_deltaTime == nullptr || this->_event == nullptr);
 }

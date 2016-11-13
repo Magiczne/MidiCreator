@@ -7,8 +7,7 @@
 
 namespace SMF
 {
-	class MidiEvent :
-		public IEvent
+	class MidiEvent final : public IEvent
 	{
 	private:
 		MidiEventType type;
@@ -18,14 +17,14 @@ namespace SMF
 		bool isInitialized();
 
 	public:
-		MidiEvent();
+		MidiEvent() {};
 		MidiEvent(MidiEventType type, MIDIChannel channel);
 
 		MidiEvent* setEventType(MidiEventType eventType);
 		MidiEvent* setChannel(MIDIChannel channel);
 
 		//IConvertibleToByteArray
-		virtual std::vector<uint8_t> toByteVector();
+		std::vector<uint8_t> toByteVector() override;
 	};
 
 }

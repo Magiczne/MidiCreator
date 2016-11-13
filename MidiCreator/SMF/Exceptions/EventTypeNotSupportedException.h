@@ -9,7 +9,7 @@ namespace SMF
 		class EventTypeNotSupportedException :
 			public std::exception
 		{
-			virtual const char* what() const noexcept
+			const char* what() const noexcept override
 			{
 				return "Event type not supported!";
 			}

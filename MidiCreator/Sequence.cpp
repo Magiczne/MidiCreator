@@ -28,7 +28,7 @@ bool Sequence::previousNote()
 {
 	if (this->firstNoteToShow > NotePitch::C_MINUS_1)
 	{
-		this->firstNoteToShow = NotePitch((uint8_t)this->firstNoteToShow - 1);
+		this->firstNoteToShow = NotePitch(static_cast<uint8_t>(this->firstNoteToShow) - 1);
 		return true;
 	}
 
@@ -37,10 +37,9 @@ bool Sequence::previousNote()
 
 bool Sequence::nextNote(int pianoRollHeight)
 {
-	//TODO: Fix for piano roll size
-	if ((uint8_t)this->firstNoteToShow < (uint8_t)NotePitch::G9 - pianoRollHeight + 1)
+	if (static_cast<uint8_t>(this->firstNoteToShow) < static_cast<uint8_t>(NotePitch::G9) - pianoRollHeight + 1)
 	{
-		this->firstNoteToShow = NotePitch((uint8_t)this->firstNoteToShow + 1);
+		this->firstNoteToShow = NotePitch(static_cast<uint8_t>(this->firstNoteToShow) + 1);
 		return true;
 	}
 

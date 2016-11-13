@@ -26,9 +26,9 @@ namespace MidiCreatorTests
 			Note* n = new Note(NotePitch::A1, 150, 55);
 
 			bool flag =
-				n->getPitch() == NotePitch::A1 &&
-				n->getVolume() == 150 &&
-				n->getDuration() == 55;
+				n->pitch() == NotePitch::A1 &&
+				n->volume() == 150 &&
+				n->duration() == 55;
 
 			Assert::AreEqual(true, flag);
 
@@ -46,9 +46,9 @@ namespace MidiCreatorTests
 				Note* m = new Note(NotePitch::A0, 150, rnd2);
 
 				Logger::WriteMessage("n.duration = ");
-				Logger::WriteMessage(to_string(n->getDuration()).c_str());
+				Logger::WriteMessage(to_string(n->duration()).c_str());
 				Logger::WriteMessage("\nm.duration = ");
-				Logger::WriteMessage(to_string(m->getDuration()).c_str());
+				Logger::WriteMessage(to_string(m->duration()).c_str());
 
 				bool flag = *n < *m;
 				bool expected = rnd < rnd2;
@@ -73,9 +73,9 @@ namespace MidiCreatorTests
 				Note* m = new Note(NotePitch::A0, 150, rnd2);
 
 				Logger::WriteMessage("n.duration = ");
-				Logger::WriteMessage(to_string(n->getDuration()).c_str());
+				Logger::WriteMessage(to_string(n->duration()).c_str());
 				Logger::WriteMessage("\nm.duration = ");
-				Logger::WriteMessage(to_string(m->getDuration()).c_str());
+				Logger::WriteMessage(to_string(m->duration()).c_str());
 
 				bool flag = *n > *m;
 				bool expected = rnd > rnd2;
@@ -95,9 +95,9 @@ namespace MidiCreatorTests
 			Note* m = new Note(NotePitch::A0, 150, 55);
 
 			Logger::WriteMessage("n.duration = ");
-			Logger::WriteMessage(to_string(n->getDuration()).c_str());
+			Logger::WriteMessage(to_string(n->duration()).c_str());
 			Logger::WriteMessage("\nm.duration = ");
-			Logger::WriteMessage(to_string(m->getDuration()).c_str());
+			Logger::WriteMessage(to_string(m->duration()).c_str());
 
 			bool flag = *n <= *m;
 
@@ -115,9 +115,9 @@ namespace MidiCreatorTests
 				Note* m = new Note(NotePitch::A0, 150, rnd2);
 
 				Logger::WriteMessage("n.duration = ");
-				Logger::WriteMessage(to_string(n->getDuration()).c_str());
+				Logger::WriteMessage(to_string(n->duration()).c_str());
 				Logger::WriteMessage("\nm.duration = ");
-				Logger::WriteMessage(to_string(m->getDuration()).c_str());
+				Logger::WriteMessage(to_string(m->duration()).c_str());
 
 				bool flag = *n <= *m;
 				bool expected = rnd <= rnd2;
@@ -139,9 +139,9 @@ namespace MidiCreatorTests
 			Note* m = new Note(NotePitch::A0, 150, 55);
 
 			Logger::WriteMessage("n.duration = ");
-			Logger::WriteMessage(to_string(n->getDuration()).c_str());
+			Logger::WriteMessage(to_string(n->duration()).c_str());
 			Logger::WriteMessage("\nm.duration = ");
-			Logger::WriteMessage(to_string(m->getDuration()).c_str());
+			Logger::WriteMessage(to_string(m->duration()).c_str());
 
 			bool flag = *n >= *m;
 
@@ -159,9 +159,9 @@ namespace MidiCreatorTests
 				Note* m = new Note(NotePitch::A0, 150, rnd2);
 
 				Logger::WriteMessage("n.duration = ");
-				Logger::WriteMessage(to_string(n->getDuration()).c_str());
+				Logger::WriteMessage(to_string(n->duration()).c_str());
 				Logger::WriteMessage("\nm.duration = ");
-				Logger::WriteMessage(to_string(m->getDuration()).c_str());
+				Logger::WriteMessage(to_string(m->duration()).c_str());
 
 				bool flag = *n >= *m;
 				bool expected = rnd >= rnd2;

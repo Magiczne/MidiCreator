@@ -2,20 +2,16 @@
 
 #include "HeaderChunk.h"
 #include "TrackChunk.h"
-#include "Events\TrackEvent.h"
-#include "Events\MidiEvent.h"
-#include "Events\MetaEvent.h"
-#include "Exceptions\BpmOutOfRangeException.h"
-#include "Exceptions\IllegalDenominatorException.h"
-#include "Exceptions\NoTracksException.h"
-#include "Exceptions\TrackNumberOutOfRangeException.h"
+#include "Events/TrackEvent.h"
+#include "Events/MidiEvent.h"
+#include "Events/MetaEvent.h"
+#include "Exceptions/BpmOutOfRangeException.h"
+#include "Exceptions/IllegalDenominatorException.h"
+#include "Exceptions/NoTracksException.h"
+#include "Exceptions/TrackNumberOutOfRangeException.h"
 
 using namespace SMF;
 using namespace SMF::Exceptions;
-
-StandardMIDIFile::StandardMIDIFile()
-{
-}
 
 StandardMIDIFile::~StandardMIDIFile()
 {
@@ -58,14 +54,14 @@ void StandardMIDIFile::setTimeSignature(
 		throw new IllegalDenominatorException;
 	}
 
-	if (this->headerChunk->getFileFormat() == FileFormat::SINGLE_TRACK)
+	if (this->headerChunk->fileFormat() == FileFormat::SINGLE_TRACK)
 	{
 		if (this->trackChunks.empty())
 		{
 			throw new NoTracksException;
 		}
 
-		auto innerEvent = this->trackChunks.front()
+		this->trackChunks.front()
 			->addTrackEvent(EventType::META_EVENT)
 			->setDeltaTime(0)
 			->getInnerEvent<MetaEvent>()
@@ -76,7 +72,7 @@ void StandardMIDIFile::setTimeSignature(
 			->addParam(midiClocksPerMetronomeClick)
 			->addParam(numberOf32NotesInMidiQuarterNote);
 	}
-	else if(this->headerChunk->getFileFormat() == FileFormat::MULTIPLE_TRACK)
+	else if(this->headerChunk->fileFormat() == FileFormat::MULTIPLE_TRACK)
 	{
 		//TODO
 	}
@@ -99,14 +95,14 @@ void StandardMIDIFile::setTempo(short bpm)
 
 	int microSecoundsPerQuarterNote = 60000000 / bpm;
 
-	if (this->headerChunk->getFileFormat() == FileFormat::SINGLE_TRACK)
+	if (this->headerChunk->fileFormat() == FileFormat::SINGLE_TRACK)
 	{
 		if (this->trackChunks.empty())
 		{
 			throw new NoTracksException;
 		}
 
-		auto innerEvent = this->trackChunks.front()
+		this->trackChunks.front()
 			->addTrackEvent(EventType::META_EVENT)
 			->setDeltaTime(0)
 			->getInnerEvent<MetaEvent>()
@@ -116,13 +112,13 @@ void StandardMIDIFile::setTempo(short bpm)
 			->addParam((microSecoundsPerQuarterNote >> 8) & 0xFF)
 			->addParam(microSecoundsPerQuarterNote & 0xFF);
 	}
-	else if (this->headerChunk->getFileFormat() == FileFormat::MULTIPLE_TRACK)
+	else if (this->headerChunk->fileFormat() == FileFormat::MULTIPLE_TRACK)
 	{
-		//TODO
+		//TODO: Do that
 	}
 	else
 	{
-		//Multiple Song. Find how to do that
+		//TODO: Multiple Song. Find how to do that
 	}
 }
 

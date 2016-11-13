@@ -19,7 +19,7 @@ MidiCreator::~MidiCreator()
 	delete this->sequence;
 }
 
-int MidiCreator::exec()
+int MidiCreator::exec() const
 {
 	try 
 	{
@@ -41,14 +41,18 @@ int MidiCreator::exec()
 	switch (this->eventManager->menuLoop())
 	{
 		case MenuEventType::NEW_SEQUENCE:
-		{
 			this->uiManager->drawSequenceScreen();
 			this->eventManager->sequenceScreenLoop();
 			break;
-		}
+
 		case MenuEventType::OPEN_SEQUENCE:
+			//TODO:
 			break;
+
 		case MenuEventType::QUIT:
+			break;
+
+		default: 
 			break;
 	}
 

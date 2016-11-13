@@ -6,35 +6,33 @@
 
 namespace SMF
 {
-	class HeaderChunk : 
-		public IConvertibleToByteCollection
+	class HeaderChunk : public IConvertibleToByteCollection
 	{
 	private:
-		const std::array<char, 4> chunkType = { 'M', 'T', 'h', 'd' };
-		const uint8_t headerLength = 6;
-		FileFormat fileFormat;
-		short numberOfTracks;
+		const std::array<char, 4> _chunkType = { 'M', 'T', 'h', 'd' };
+		const uint8_t _headerLength = 6;
+		FileFormat _fileFormat;
+		short _numberOfTracks;
 
 		//Unit of time for delta timing. If the value is positive, then it represents the units per beat. 
 		//For example, +96 would mean 96 ticks per beat(quarter-note). 
 		//If the value is negative, delta times are in SMPTE compatible units.
 		//(Subdivisions of a second)
-		short division;
+		short _division;
 
 	public:
 		HeaderChunk(FileFormat, short, short);
-		~HeaderChunk();
 
-		//Getters
-		inline const short& getNumberOfTracks() const { return this->numberOfTracks; }
-		inline const FileFormat& getFileFormat() const { return this->fileFormat; }
-		inline const short& getDivision() const { return this->division; }
-
-		inline void addTrack() { this->numberOfTracks++; }
-		inline void setDivision(short val) { this->division = val; }
+		void addTrack() { this->_numberOfTracks++; }
 
 		//IConvertibleToByteCollection
-		virtual std::vector<uint8_t> toByteVector();
+		std::vector<uint8_t> toByteVector() override;
+
+		//Getters/setters
+		const short& numberOfTracks() const { return this->_numberOfTracks; }
+		const FileFormat& fileFormat() const { return this->_fileFormat; }
+
+		void division(const short& val) { this->_division = val; }
+		const short& division() const { return this->_division; }
 	};
 }
-

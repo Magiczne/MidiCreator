@@ -1,7 +1,7 @@
 ﻿#include "UIManager.h"
 
-#include "..\Sequence.h"
-#include "Util\Maps.h"
+#include "../Sequence.h"
+#include "Util/Maps.h"
 
 using namespace std;
 using namespace SMF;
@@ -12,7 +12,7 @@ int Util::writtenLines;
 
 UIManager::UIManager(Sequence& seq) : seq(seq) {}
 
-void UIManager::drawMenu()
+void UIManager::drawMenu() const
 {
 	Util::clearConsole();
 	Util::newLine(2);
@@ -39,7 +39,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	//this->sequence title + this->sequence Type
 	Util::setColor(Color::DarkGreen);
 	Util::writeMulti(
-		this->seq.name(), this->seq.getFormat(), 
+		this->seq.name(), this->seq.getFormatString(), 
 		Util::createColor(Color::DarkCyan)
 	);
 	
@@ -138,7 +138,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	return ret;
 }
 
-void UIManager::drawViewMenu(ConsoleSize& size)
+void UIManager::drawViewMenu(ConsoleSize& size) const
 {
 	Util::newLine(size.rows - Util::writtenLines - 2);
 
@@ -158,7 +158,7 @@ void UIManager::drawViewMenu(ConsoleSize& size)
 	}
 }
 
-void UIManager::drawEditMenu(ConsoleSize& size)
+void UIManager::drawEditMenu(ConsoleSize& size) const
 {
 	Util::newLine(size.rows - Util::writtenLines - 2);
 
@@ -178,7 +178,7 @@ void UIManager::drawEditMenu(ConsoleSize& size)
 	}
 }
 
-SHORT UIManager::drawParamEditor(ConsoleSize& size, string msg, vector<string> additional)
+SHORT UIManager::drawParamEditor(ConsoleSize& size, string msg, vector<string> additional) const
 {
 	SHORT tmp = Util::writtenLines;
 
@@ -198,7 +198,5 @@ SHORT UIManager::drawParamEditor(ConsoleSize& size, string msg, vector<string> a
 	Util::setColor(Color::DarkRed, Color::Gray);
 	Util::makeLine(size.cols);
 
-	int diff = Util::writtenLines - tmp;
-
-	return tmp + 2 + (SHORT)additional.size();
+	return tmp + 2 + static_cast<SHORT>(additional.size());
 }

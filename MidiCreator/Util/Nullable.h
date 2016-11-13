@@ -2,7 +2,7 @@
 
 //http://stackoverflow.com/a/28811646/7101876
 
-#include "..\stdafx.h"
+#include "../stdafx.h"
 
 template<typename T>
 class Nullable final
@@ -30,8 +30,8 @@ public:
 	const T& Value;
 
 	Nullable();
-	Nullable(const T& val);
-	Nullable(nullptr_t np);
+	explicit Nullable(const T& val);
+	explicit Nullable(nullptr_t np);
 
 	const Nullable<T>& operator=(const Nullable<T>& val);
 	const Nullable<T>& operator=(const T& val);

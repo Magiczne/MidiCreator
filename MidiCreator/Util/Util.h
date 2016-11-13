@@ -37,7 +37,7 @@ namespace UI
 		static int writtenLines;
 
 		static ConsoleSize getConsoleSize();
-		static void setConsoleSize(int width, int height);
+		static void setConsoleSize(SHORT width, SHORT height);
 
 		static uint8_t createColor(Color text, Color background = Color::Black);
 		static void setColor(Color text, Color background = Color::Black);

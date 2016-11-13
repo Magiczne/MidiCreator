@@ -31,7 +31,7 @@ MenuEventType EventManager::menuLoop()
 	return MenuEventType::QUIT;
 }
 
-void EventManager::sequenceScreenLoop()
+void EventManager::sequenceScreenLoop() const
 {
 	char c;
 
@@ -105,9 +105,9 @@ void EventManager::sequenceScreenLoop()
 
 		case VK_UP:
 			if (this->seq.previousNote())
-				{
-					this->uiManager->drawSequenceScreen();
-				}
+			{
+				this->uiManager->drawSequenceScreen();
+			}
 			break;
 			
 		case VK_RIGHT:
@@ -119,9 +119,9 @@ void EventManager::sequenceScreenLoop()
 
 		case VK_DOWN:
 			if (this->seq.nextNote(this->uiManager->pianoRollHeight))
-				{
-					this->uiManager->drawSequenceScreen();
-				}
+			{
+				this->uiManager->drawSequenceScreen();
+			}
 			break;
 
 		#pragma endregion
@@ -133,7 +133,7 @@ void EventManager::sequenceScreenLoop()
 	} while (true);
 }
 
-void EventManager::changeSequenceName()
+void EventManager::changeSequenceName() const
 {
 	string newName;
 	
@@ -145,7 +145,7 @@ void EventManager::changeSequenceName()
 	}
 }
 
-void EventManager::changeMeasure(uint16_t vk)
+void EventManager::changeMeasure(uint16_t vk) const
 {
 	if (vk == 49)
 	{

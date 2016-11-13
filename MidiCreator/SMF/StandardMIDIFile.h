@@ -1,26 +1,24 @@
 #pragma once
 
-#include "..\Abstract\IConvertibleToByteCollection.h"
+#include "../Abstract/IConvertibleToByteCollection.h"
 
 namespace SMF
 {
 	class HeaderChunk;
 	class TrackChunk;
 
-	class StandardMIDIFile
-		: IConvertibleToByteCollection
+	class StandardMIDIFile : public IConvertibleToByteCollection
 	{
 	private:
-		HeaderChunk* headerChunk;
+		HeaderChunk* headerChunk = nullptr;
 		std::vector<TrackChunk*> trackChunks;
 
-		size_t currentTrack;
+		size_t currentTrack = 0;
 
 	public:
 		const static short MIN_BPM = 4;
 		const static short MAX_BPM = 300;
 
-		StandardMIDIFile();
 		~StandardMIDIFile();
 
 		void setHeader(HeaderChunk* hc) { this->headerChunk = hc; }
@@ -37,6 +35,6 @@ namespace SMF
 		void exportToFile(std::string filename);
 
 		//IConvertibleToByteCollection
-		virtual std::vector<uint8_t> toByteVector();
+		std::vector<uint8_t> toByteVector() override;
 	};
 }

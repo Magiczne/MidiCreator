@@ -12,9 +12,9 @@ private:
 	void toVlq();
 	
 public:
-	VLQ(unsigned long);
-	VLQ(std::vector<uint8_t>);
+	explicit VLQ(unsigned long);
+	explicit VLQ(std::vector<uint8_t>);
 
-	inline const unsigned long& getInt() { return this->intVal; }
-	inline const std::vector<uint8_t>& getVlq() { return this->vlqVal; }
+	const unsigned long& getInt() const { return this->intVal; }
+	const std::vector<uint8_t>& getVlq() const { return this->vlqVal; }
 };

@@ -20,7 +20,7 @@ namespace MidiCreatorTests
 
 			Assert::AreEqual(
 				FileFormat::MULTIPLE_SONG,
-				h.getFileFormat(), 
+				h.fileFormat(), 
 				L"Not Equal\n",
 				LINE_INFO());
 		}
@@ -28,12 +28,12 @@ namespace MidiCreatorTests
 		TEST_METHOD(IncrementingTrackCounter)
 		{
 			HeaderChunk h(FileFormat::MULTIPLE_SONG, 0, 0);
-			short n = h.getNumberOfTracks();
+			short n = h.numberOfTracks();
 			h.addTrack();
 
 			Assert::AreEqual(
 				(short)(n + 1),
-				h.getNumberOfTracks(),
+				h.numberOfTracks(),
 				L"TrackCounter is not incrementing!\n",
 				LINE_INFO());
 		}
@@ -73,7 +73,7 @@ namespace MidiCreatorTests
 
 			Assert::AreEqual(
 				(short)96,
-				h.getDivision(),
+				h.division(),
 				L"Division is not changing!\n",
 				LINE_INFO()
 			);

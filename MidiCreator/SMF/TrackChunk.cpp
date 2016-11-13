@@ -1,21 +1,17 @@
 #include "TrackChunk.h"
 
-#include "Events\MidiEvent.h"
-#include "Events\MetaEvent.h"
-#include "Enums\MetaEventType.h"
-#include "Enums\MidiEventType.h"
-#include "Events\TrackEvent.h"
-#include "Util\Note.h"
+#include "Events/MidiEvent.h"
+#include "Events/MetaEvent.h"
+#include "Enums/MetaEventType.h"
+#include "Enums/MidiEventType.h"
+#include "Events/TrackEvent.h"
+#include "Util/Note.h"
 
-#include "Exceptions\TrackClosedException.h"
+#include "Exceptions/TrackClosedException.h"
 #include "Exceptions\TrackNotClosedException.h"
 
 using namespace SMF;
 using namespace SMF::Exceptions;
-
-TrackChunk::TrackChunk()
-{
-}
 
 TrackChunk::~TrackChunk()
 {
@@ -86,7 +82,7 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::PROGRAM_CHANGE)
 		->setChannel(this->currentChannel)
-		->addParam((uint8_t)patch - 1);
+		->addParam(static_cast<uint8_t>(patch) - 1);
 
 	return this;
 }
@@ -108,16 +104,16 @@ TrackChunk* TrackChunk::addNote(Note* note)
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_ON)
 		->setChannel(this->currentChannel)
-		->addParam((uint8_t)note->getPitch())
-		->addParam(note->getVolume());
+		->addParam(static_cast<uint8_t>(note->pitch()))
+		->addParam(note->volume());
 
 	//Note off
 	this->addTrackEvent(EventType::MIDI_EVENT)
-		->setDeltaTime(note->getDuration()) //TODO: Delta sums, or something, duration etc.	
+		->setDeltaTime(note->duration()) //TODO: Delta sums, or something, duration etc.	
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_OFF)
 		->setChannel(this->currentChannel)
-		->addParam((uint8_t)note->getPitch())
+		->addParam(static_cast<uint8_t>(note->pitch()))
 		->addParam(0);	//TODO: change that to 0?
 
 	return this;
@@ -143,7 +139,7 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 
 	for (auto &note : notes)
 	{
-		std::cout << note->getDuration() << std::endl;
+		std::cout << note->duration() << std::endl;
 	}
 
 	for (auto &note : notes)
@@ -153,22 +149,22 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 			->getInnerEvent<MidiEvent>()
 			->setEventType(MidiEventType::NOTE_ON)
 			->setChannel(this->currentChannel)
-			->addParam((uint8_t)note->getPitch())
-			->addParam(note->getVolume());
+			->addParam(static_cast<uint8_t>(note->pitch()))
+			->addParam(note->volume());
 	}
 
 	int previousDuration = 0;
 	for (auto &note : notes)
 	{
 		this->addTrackEvent(EventType::MIDI_EVENT)
-			->setDeltaTime(note->getDuration() - previousDuration)
+			->setDeltaTime(note->duration() - previousDuration)
 			->getInnerEvent<MidiEvent>()
 			->setEventType(MidiEventType::NOTE_ON)
 			->setChannel(this->currentChannel)
-			->addParam((uint8_t)note->getPitch())
-			->addParam(note->getVolume());
+			->addParam(static_cast<uint8_t>(note->pitch()))
+			->addParam(note->volume());
 
-		previousDuration = note->getDuration();
+		previousDuration = note->duration();
 	}
 
 	return this;
@@ -185,7 +181,7 @@ void TrackChunk::closeTrack()
 		printf("TrackChunk::closedTrack()\n");
 	#endif // METHOD_DEBUG
 
-	auto innerEvent = this->addTrackEvent(EventType::META_EVENT)
+	this->addTrackEvent(EventType::META_EVENT)
 		->setDeltaTime(0)
 		->getInnerEvent<MetaEvent>()
 		->setEventType(MetaEventType::END_OF_TRACK)

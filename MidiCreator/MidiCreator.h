@@ -21,6 +21,6 @@ public:
 	MidiCreator();
 	~MidiCreator();
 
-	int exec();
+	int exec() const;
 };
 

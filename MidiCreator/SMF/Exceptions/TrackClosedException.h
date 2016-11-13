@@ -9,7 +9,7 @@ namespace SMF
 		class TrackClosedException :
 			public std::exception
 		{
-			virtual const char* what() const noexcept
+			const char* what() const noexcept override
 			{
 				return "Track is closed! Reopen it to make changes";
 			}

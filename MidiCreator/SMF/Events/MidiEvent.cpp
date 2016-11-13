@@ -1,12 +1,10 @@
 #include "MidiEvent.h"
 
-
 #include "../Exceptions/EventNotInitializedException.h"
 
 using namespace SMF;
 using namespace SMF::Exceptions;
 
-MidiEvent::MidiEvent() {}
 
 MidiEvent::MidiEvent(MidiEventType type, MIDIChannel channel) :
 	type(type), channel(channel)
@@ -41,7 +39,7 @@ std::vector<uint8_t> MidiEvent::toByteVector()
 
 	std::vector<uint8_t> a;
 
-	a.push_back((uint8_t)this->type | (uint8_t)this->channel);
+	a.push_back(static_cast<uint8_t>(this->type) | static_cast<uint8_t>(this->channel));
 
 	a.insert(a.end(), this->params.begin(), this->params.end());
 

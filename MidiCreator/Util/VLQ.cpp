@@ -20,7 +20,7 @@ void VLQ::toInt()
 
 	do
 	{
-		ret = (ret << 7) | (int)(*arr & 127);
+		ret = (ret << 7) | static_cast<int>(*arr & 127);
 	} while (*arr++ & 128);
 
 	this->intVal = ret;
@@ -41,7 +41,7 @@ void VLQ::toVlq()
 
 	for (;;)
 	{
-		ret.push_back((uint8_t)buffer);
+		ret.push_back(static_cast<uint8_t>(buffer));
 		if (buffer & 0x80)
 			buffer >>= 8;
 		else

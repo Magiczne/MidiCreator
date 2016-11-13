@@ -9,7 +9,7 @@ namespace SMF
 		class IllegalDenominatorException :
 			public std::exception
 		{
-			virtual const char* what() const noexcept
+			const char* what() const noexcept override
 			{
 				return "Illegal denominator! Allowed denominators are: 2, 4, 8, 16, 32, 64";
 			}

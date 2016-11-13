@@ -16,14 +16,16 @@ ConsoleSize Util::getConsoleSize()
 	return size;
 }
 
-void Util::setConsoleSize(int x, int y)
+void Util::setConsoleSize(SHORT x, SHORT y)
 {
 	//http://www.cplusplus.com/forum/windows/121444/#msg661553
 
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	if (h == INVALID_HANDLE_VALUE)
+	{
 		throw std::runtime_error("Unable to get stdout handle.");
+	}
 
 	// If either dimension is greater than the largest console window we can have,
 	// there is no point in attempting the change.
@@ -84,18 +86,30 @@ void Util::setConsoleSize(int x, int y)
 void Util::setColor(uint8_t combinedColor)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	if (hConsole == INVALID_HANDLE_VALUE)
+	{
+		throw std::runtime_error("Unable to get stdout handle.");
+	}
+
 	SetConsoleTextAttribute(hConsole, combinedColor);
 }
 
 void Util::setColor(Color text, Color background)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	if (hConsole == INVALID_HANDLE_VALUE)
+	{
+		throw std::runtime_error("Unable to get stdout handle.");
+	}
+
 	SetConsoleTextAttribute(hConsole, Util::createColor(text, background));
 }
 
 uint8_t Util::createColor(Color text, Color background)
 {
-	return ((uint8_t)background << 4) + (uint8_t)text;
+	return (static_cast<uint8_t>(background) << 4) + static_cast<uint8_t>(text);
 }
 
 void Util::clearConsole()
@@ -107,13 +121,19 @@ void Util::clearConsole()
 void Util::setCursorPos(SHORT x, SHORT y)
 {
 	COORD pos = { x, y };
-	HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleCursorPosition(output, pos);
+	
+	Util::setCursorPos(pos);
 }
 
 void Util::setCursorPos(COORD coord)
 {
 	HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	if (output == INVALID_HANDLE_VALUE)
+	{
+		throw std::runtime_error("Unable to get stdout handle.");
+	}
+
 	SetConsoleCursorPosition(output, coord);
 }
 
@@ -184,6 +204,11 @@ char Util::getUnbufferedKey()
 	INPUT_RECORD buffer;
 	HANDLE handle = GetStdHandle(STD_INPUT_HANDLE);
 
+	if (handle == INVALID_HANDLE_VALUE)
+	{
+		throw std::runtime_error("Unable to get stdout handle.");
+	}
+
 	PeekConsoleInput(handle, &buffer, 1, &events);
 
 	if (events > 0)
@@ -192,17 +217,13 @@ char Util::getUnbufferedKey()
 
 		if (buffer.Event.KeyEvent.bKeyDown)
 		{
-			return (char)buffer.Event.KeyEvent.wVirtualKeyCode;
+			return static_cast<char>(buffer.Event.KeyEvent.wVirtualKeyCode);
 		}
-		else
-		{
-			return 0;
-		}
-	}
-	else
-	{
+
 		return 0;
 	}
+
+	return 0;
 }
 
 unsigned short Util::getNumberOfDigits(unsigned i)
@@ -221,12 +242,12 @@ void Util::showLastSystemError()
 	LPSTR messageBuffer;
 	FormatMessageA(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		0,          // source
+		nullptr,          // source
 		GetLastError(),
 		0,          // lang
-		(LPSTR)&messageBuffer,
+		reinterpret_cast<LPSTR>(&messageBuffer),
 		0,
-		NULL);
+		nullptr);
 
 	std::cerr << messageBuffer << '\n';
 	LocalFree(messageBuffer);

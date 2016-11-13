@@ -6,8 +6,7 @@
 
 namespace SMF
 {
-	class MetaEvent :
-		public IEvent
+	class MetaEvent final : public IEvent
 	{
 	private:
 		const uint8_t id = 0xFF;
@@ -18,15 +17,15 @@ namespace SMF
 		bool isInitialized();
 
 	public:
-		MetaEvent();
-		MetaEvent(MetaEventType eventType);
+		MetaEvent() {};
+		explicit MetaEvent(MetaEventType eventType);
 		~MetaEvent();
 
 		MetaEvent* setEventType(MetaEventType eventType);
 		MetaEvent* setLength(int length);
 
 		//IConvertibleToByteCollection
-		virtual std::vector<uint8_t> toByteVector();
+		std::vector<uint8_t> toByteVector() override;
 	};
 }
 

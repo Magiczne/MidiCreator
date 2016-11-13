@@ -9,7 +9,7 @@ namespace SMF
 		class NoTracksException :
 			public std::exception
 		{
-			virtual const char* what() const noexcept
+			const char* what() const noexcept override
 			{
 				return "There are no tracks in this file!";
 			}

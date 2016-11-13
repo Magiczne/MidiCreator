@@ -5,10 +5,7 @@
 using namespace SMF;
 using namespace SMF::Exceptions;
 
-MetaEvent::MetaEvent() {}
-
-MetaEvent::MetaEvent(MetaEventType eventType) :
-	type(type)
+MetaEvent::MetaEvent(MetaEventType eventType) : type(eventType)
 {
 	this->initialized = { true };
 }
@@ -46,7 +43,7 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 	std::vector<uint8_t> ret;
 
 	ret.push_back(this->id);
-	ret.push_back((uint8_t)this->type);
+	ret.push_back(static_cast<uint8_t>(this->type));
 
 	//vLength
 	std::vector<uint8_t> vLengthBytes = this->vLength->getVlq();
@@ -60,7 +57,7 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 
 bool MetaEvent::isInitialized()
 {
-	for (auto &i : this->initialized)
+	for (auto& i : this->initialized)
 	{
 		if (!i)
 		{

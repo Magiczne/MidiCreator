@@ -2,15 +2,8 @@
 
 using namespace SMF;
 
-SystemExclusiveEvent::SystemExclusiveEvent()
-{
-}
-
 std::vector<uint8_t> SystemExclusiveEvent::toByteVector()
 {
+	//TODO: Implement
 	return std::vector<uint8_t>();
-}
-
-SystemExclusiveEvent::~SystemExclusiveEvent()
-{
 }

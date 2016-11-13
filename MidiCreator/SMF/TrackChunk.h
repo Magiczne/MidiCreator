@@ -1,18 +1,16 @@
 #pragma once
 
-#include "..\Abstract\IConvertibleToByteCollection.h"
-#include "Enums\EventType.h"
-#include "Enums\GMPatch.h"
-#include "Enums\MIDIChannel.h"
-#include "Enums\NotePitch.h"
+#include "../Abstract/IConvertibleToByteCollection.h"
+#include "Enums/EventType.h"
+#include "Enums/GMPatch.h"
+#include "Enums/MIDIChannel.h"
 
 namespace SMF 
 {
 	class TrackEvent;
 	class Note;
 
-	class TrackChunk : 
-		IConvertibleToByteCollection
+	class TrackChunk : public IConvertibleToByteCollection
 	{
 	private:
 		const std::array<char, 4> chunkType = { 'M', 'T', 'r', 'k' };
@@ -25,7 +23,6 @@ namespace SMF
 		void calculateTracksLength();
 
 	public:
-		TrackChunk();
 		~TrackChunk();
 
 		TrackEvent* addTrackEvent(EventType eventType);
@@ -42,7 +39,7 @@ namespace SMF
 		void reopenTrack();
 
 		//IConvertibleToByteCollection
-		virtual std::vector<uint8_t> toByteVector();		
+		std::vector<uint8_t> toByteVector() override;		
 	};
 }
 
