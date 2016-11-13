@@ -44,6 +44,26 @@ void EventManager::sequenceScreenLoop() const
 		case 0:
 			break;
 
+		case 65:	//A
+			if(this->uiManager->mode() == Mode::EDIT)
+			{
+				if(this->seq.moveIndicatorLeft())
+				{
+					this->uiManager->drawSequenceScreen();
+				}
+			}
+			break;
+
+		case 68:	//D
+			if(this->uiManager->mode() == Mode::EDIT)
+			{
+				if(this->seq.moveIndicatorRight(this->uiManager->pianoRollWidth))
+				{
+					this->uiManager->drawSequenceScreen();
+				}
+			}
+			break;
+
 		case 77:	//M
 			if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
 			{
@@ -76,6 +96,26 @@ void EventManager::sequenceScreenLoop() const
 				this->uiManager->action(Action::NONE);
 				this->uiManager->drawSequenceScreen();
 			}
+			else
+			{
+				if(this->uiManager->mode() == Mode::EDIT)
+				{
+					if(this->seq.moveIndicatorDown(this->uiManager->pianoRollHeight))
+					{
+						this->uiManager->drawSequenceScreen();
+					}
+				}
+			}
+			break;
+
+		case 87:	//W
+			if (this->uiManager->mode() == Mode::EDIT)
+			{
+				if (this->seq.moveIndicatorUp())
+				{
+					this->uiManager->drawSequenceScreen();
+				}
+			}
 			break;
 
 		#pragma region Numbers
@@ -97,28 +137,28 @@ void EventManager::sequenceScreenLoop() const
 		#pragma region Arrows
 
 		case VK_LEFT:
-			if (this->seq.previousMeasure())
+			if (this->seq.showPreviousMeasure())
 			{
 				this->uiManager->drawSequenceScreen();
 			}
 			break;
 
 		case VK_UP:
-			if (this->seq.previousNote())
+			if (this->seq.showPreviousNote())
 			{
 				this->uiManager->drawSequenceScreen();
 			}
 			break;
 			
 		case VK_RIGHT:
-			if (this->seq.nextMeasure(this->uiManager->pianoRollWidth))
+			if (this->seq.showNextMeasure(this->uiManager->pianoRollWidth))
 			{
 				this->uiManager->drawSequenceScreen();
 			}
 			break;
 
 		case VK_DOWN:
-			if (this->seq.nextNote(this->uiManager->pianoRollHeight))
+			if (this->seq.showNextNote(this->uiManager->pianoRollHeight))
 			{
 				this->uiManager->drawSequenceScreen();
 			}

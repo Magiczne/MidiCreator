@@ -27,8 +27,8 @@ namespace UI
 		UIManager() = delete;
 		explicit UIManager(Sequence& seq);
 
-		unsigned pianoRollWidth = 0;
-		const unsigned pianoRollHeight = 12;
+		uint16_t pianoRollWidth = 0;
+		const uint16_t pianoRollHeight = 12;
 
 		void drawMenu() const;
 		Nullable<COORD> drawSequenceScreen();

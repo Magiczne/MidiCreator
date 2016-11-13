@@ -2,29 +2,29 @@
 
 using namespace SMF;
 
-bool Sequence::previousMeasure()
+bool Sequence::showPreviousMeasure()
 {
-	if (this->currentMeasure > 1)
+	if (this->firstBarToShow > 1)
 	{
-		this->currentMeasure--;
+		this->firstBarToShow--;
 		return true;
 	}
 
 	return false;
 }
 
-bool Sequence::nextMeasure(int pianoRollWidth)
+bool Sequence::showNextMeasure(uint16_t pianoRollWidth)
 {
-	if (this->currentMeasure < Sequence::MAX_MEASURE - (pianoRollWidth / this->_numerator) + 1)
+	if (this->firstBarToShow < Sequence::MAX_MEASURE - (pianoRollWidth / this->_numerator) + 1)
 	{
-		this->currentMeasure++;
+		this->firstBarToShow++;
 		return true;
 	}
 
 	return false;
 }
 
-bool Sequence::previousNote()
+bool Sequence::showPreviousNote()
 {
 	if (this->firstNoteToShow > NotePitch::C_MINUS_1)
 	{
@@ -35,7 +35,7 @@ bool Sequence::previousNote()
 	return false;
 }
 
-bool Sequence::nextNote(int pianoRollHeight)
+bool Sequence::showNextNote(uint16_t pianoRollHeight)
 {
 	if (static_cast<uint8_t>(this->firstNoteToShow) < static_cast<uint8_t>(NotePitch::G9) - pianoRollHeight + 1)
 	{
@@ -45,6 +45,51 @@ bool Sequence::nextNote(int pianoRollHeight)
 
 	return false;
 }
+
+bool Sequence::moveIndicatorUp()
+{
+	if(this->currentNote > 0)
+	{
+		this->currentNote--;
+		return true;
+	}
+
+	return false;
+}
+
+bool Sequence::moveIndicatorDown(uint16_t pianoRollHeight)
+{
+	if(this->currentNote < pianoRollHeight - 1)
+	{
+		this->currentNote++;
+		return true;
+	}
+
+	return false;
+}
+
+bool Sequence::moveIndicatorLeft()
+{
+	if(this->currentBar > 0)
+	{
+		this->currentBar--;
+		return true;
+	}
+
+	return false;
+}
+
+bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
+{
+	if(this->currentBar < pianoRollWidth - 1)
+	{
+		this->currentBar++;
+		return true;
+	}
+
+	return false;
+}
+
 
 void Sequence::setMeasure(const uint16_t& numerator, const uint16_t& denominator)
 {

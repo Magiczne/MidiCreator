@@ -15,14 +15,24 @@ private:
 public:
 	static const unsigned MAX_MEASURE = 35;
 
-	unsigned currentMeasure = 1;
+	unsigned firstBarToShow = 1;
 	SMF::NotePitch firstNoteToShow = SMF::NotePitch::C3;
 
-	bool previousMeasure();
-	bool nextMeasure(int pianoRollWidth);
+	bool showPreviousMeasure();
+	bool showNextMeasure(uint16_t pianoRollWidth);
 
-	bool previousNote();
-	bool nextNote(int pianoRollHeight);
+	bool showPreviousNote();
+	bool showNextNote(uint16_t pianoRollHeight);
+
+	//Edit mode specific
+	unsigned currentBar = 0;
+	unsigned currentNote = 0;
+
+	bool moveIndicatorUp();
+	bool moveIndicatorDown(uint16_t pianoRollHeight);
+
+	bool moveIndicatorLeft();
+	bool moveIndicatorRight(uint16_t pianoRollWidth);
 
 	//Getters/setters
 

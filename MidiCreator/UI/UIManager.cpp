@@ -54,8 +54,8 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	//Bars numbers
 	Util::setColor(Color::Red);
 	cout << "    ";
-	for (unsigned i = 0 + this->seq.currentMeasure;
-		i < this->pianoRollWidth / this->seq.numerator() + this->seq.currentMeasure;
+	for (unsigned i = 0 + this->seq.firstBarToShow;
+		i < this->pianoRollWidth / this->seq.numerator() + this->seq.firstBarToShow;
 		i++)
 	{
 		cout << i;
@@ -76,7 +76,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	for (unsigned k = 0; k < this->pianoRollHeight; k++)
 	{
 		Util::setColor(Color::Red);
-		NotePitch p = NotePitch((uint8_t)this->seq.firstNoteToShow + k);
+		NotePitch p = NotePitch(static_cast<uint8_t>(this->seq.firstNoteToShow) + k);
 		string text = SMF::NotePitchMap[p];
 		cout << text;
 
@@ -88,13 +88,24 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		for (unsigned i = 0;
 			i < this->pianoRollWidth / this->seq.numerator() * this->seq.numerator(); i++)
 		{
+			Color c = Color::Black;
+
+			//Selected note indicator
+			if(this->_mode == Mode::EDIT)
+			{
+				if (i == this->seq.currentBar && k == this->seq.currentNote)
+				{
+					c = Color::DarkRed;
+				}
+			}
+
 			if (i % this->seq.numerator() == 0)
 			{
-				Util::setColor(Color::DarkGreen);
+				Util::setColor(Color::DarkGreen, c);
 			}
 			else
 			{
-				Util::setColor(Color::DarkGray);
+				Util::setColor(Color::DarkGray, c);
 			}
 
 			cout << '*';
@@ -154,7 +165,17 @@ void UIManager::drawViewMenu(ConsoleSize& size) const
 		Util::setColor(Color::Black, Color::Gray);
 		cout << cmds[i];
 		Util::setColor(Color::DarkGray);
-		cout << ' ' << names[i] << '\t';
+		cout << ' ' << names[i];
+	
+		//TODO: Fix for consoleSize
+		if ((i + 1) % 8 == 0)
+		{
+			cout << endl;
+		}
+		else
+		{
+			cout << '\t';
+		}
 	}
 }
 
@@ -164,17 +185,29 @@ void UIManager::drawEditMenu(ConsoleSize& size) const
 
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
-		" N", };
+		" N", 
+		" W", " S", " A", " D" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
-		"View mode" };
+		"View mode",
+		"Note up", "Note down", "Note left", "Note right" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{
 		Util::setColor(Color::Black, Color::Gray);
 		cout << cmds[i];
 		Util::setColor(Color::DarkGray);
-		cout << ' ' << names[i] << '\t';
+		cout << ' ' << names[i];
+
+		//TODO: Fix for consoleSize
+		if((i+1) % 8 == 0)
+		{
+			cout << endl;
+		}
+		else
+		{
+			cout << '\t';
+		}
 	}
 }
 
