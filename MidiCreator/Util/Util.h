@@ -66,5 +66,9 @@ namespace UI
 		//Number util
 
 		static unsigned short getNumberOfDigits(unsigned i);
+
+		//Other util
+
+		static void showLastSystemError();
 	};
 }

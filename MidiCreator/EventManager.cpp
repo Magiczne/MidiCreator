@@ -45,33 +45,38 @@ void EventManager::sequenceScreenLoop()
 			break;
 
 		case 77:	//M
-		{
-			this->uiManager->action(Action::CHANGE_MEASURE);
+			if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
+			{
+				this->uiManager->action(Action::CHANGE_MEASURE);
 
-			Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
+				Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
 
-			Util::setCursorPos(pos.Value);
+				Util::setCursorPos(pos.Value);
+			}
 			break;
-		}
 
 		case 78:	//N
-			this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
-			this->uiManager->drawSequenceScreen();
+			if (this->uiManager->action() == Action::NONE)
+			{
+				this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
+				this->uiManager->drawSequenceScreen();
+			}
 			break;
 
 		case 83:	//S
-		{
-			this->uiManager->action(Action::CHANGE_SEQ_NAME);
+			if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
+			{
+				this->uiManager->action(Action::CHANGE_SEQ_NAME);
 
-			Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
+				Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
 
-			Util::setCursorPos(pos.Value);
-			this->changeSequenceName();
+				Util::setCursorPos(pos.Value);
+				this->changeSequenceName();
 
-			this->uiManager->action(Action::NONE);
-			this->uiManager->drawSequenceScreen();
+				this->uiManager->action(Action::NONE);
+				this->uiManager->drawSequenceScreen();
+			}
 			break;
-		}
 
 		#pragma region Numbers
 

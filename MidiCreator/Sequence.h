@@ -28,6 +28,9 @@ public:
 
 	//Getters/setters
 
+	void setMeasure(const uint16_t& numerator, const uint16_t& denominator);
+
+
 	void name(const std::string& val) { this->_name = val; }
 	const std::string& name() { return this->_name; }
 
@@ -40,6 +43,6 @@ public:
 	void denominator(const uint16_t& val) { this->_denominator = val; }
 	const uint16_t& denominator() { return this->_denominator; }
 
-	void setMeasure(const uint16_t& numerator, const uint16_t& denominator);
+	
 };
 

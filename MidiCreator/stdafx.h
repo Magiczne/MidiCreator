@@ -6,6 +6,8 @@
 //Project properties -> C/C++ -> Advanced -> Force Include Files "stdafx.h"
 #pragma once
 
+#define _WIN32_WINNT 0x0500
+
 #include "targetver.h"
 
 #include <stdio.h>

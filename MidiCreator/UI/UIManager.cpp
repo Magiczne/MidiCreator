@@ -144,10 +144,10 @@ void UIManager::drawViewMenu(ConsoleSize& size)
 
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
-		" N", " S" };
+		" N", " S", " M" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
-		"Edit mode", "Seq name" };
+		"Edit mode", "Seq name", "Set measure" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{
@@ -164,10 +164,10 @@ void UIManager::drawEditMenu(ConsoleSize& size)
 
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
-		" N", " S" };
+		" N", };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
-		"View mode", "Seq name" };
+		"View mode" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{

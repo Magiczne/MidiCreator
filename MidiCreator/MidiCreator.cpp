@@ -21,6 +21,22 @@ MidiCreator::~MidiCreator()
 
 int MidiCreator::exec()
 {
+	try 
+	{
+		Util::setConsoleSize(130, 35);
+	}
+	catch(std::logic_error& ex)
+	{
+		std::cerr << ex.what() << '\n';
+		return 1;
+	}
+	catch (std::exception& ex)
+	{
+		std::cerr << ex.what() << '\n';
+		Util::showLastSystemError();
+		return 2;
+	}
+
 	this->uiManager->drawMenu();
 	switch (this->eventManager->menuLoop())
 	{
@@ -35,6 +51,7 @@ int MidiCreator::exec()
 		case MenuEventType::QUIT:
 			break;
 	}
-	
+
+	std::cin.get();
 	return 0;
 }
