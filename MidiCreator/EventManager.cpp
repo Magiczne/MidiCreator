@@ -45,77 +45,27 @@ void EventManager::sequenceScreenLoop() const
 			break;
 
 		case 65:	//A
-			if(this->uiManager->mode() == Mode::EDIT)
-			{
-				if(this->seq.moveIndicatorLeft())
-				{
-					this->uiManager->drawSequenceScreen();
-				}
-			}
+			this->handleKeyA();
 			break;
 
 		case 68:	//D
-			if(this->uiManager->mode() == Mode::EDIT)
-			{
-				if(this->seq.moveIndicatorRight(this->uiManager->pianoRollWidth))
-				{
-					this->uiManager->drawSequenceScreen();
-				}
-			}
+			this->handleKeyD();
 			break;
 
 		case 77:	//M
-			if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
-			{
-				this->uiManager->action(Action::CHANGE_MEASURE);
-
-				Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
-
-				Util::setCursorPos(pos.Value);
-			}
+			this->handleKeyM();
 			break;
 
 		case 78:	//N
-			if (this->uiManager->action() == Action::NONE)
-			{
-				this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
-				this->uiManager->drawSequenceScreen();
-			}
+			this->handleKeyN();
 			break;
 
 		case 83:	//S
-			if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
-			{
-				this->uiManager->action(Action::CHANGE_SEQ_NAME);
-
-				Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
-
-				Util::setCursorPos(pos.Value);
-				this->changeSequenceName();
-
-				this->uiManager->action(Action::NONE);
-				this->uiManager->drawSequenceScreen();
-			}
-			else
-			{
-				if(this->uiManager->mode() == Mode::EDIT)
-				{
-					if(this->seq.moveIndicatorDown(this->uiManager->pianoRollHeight))
-					{
-						this->uiManager->drawSequenceScreen();
-					}
-				}
-			}
+			this->handleKeyS();
 			break;
 
 		case 87:	//W
-			if (this->uiManager->mode() == Mode::EDIT)
-			{
-				if (this->seq.moveIndicatorUp())
-				{
-					this->uiManager->drawSequenceScreen();
-				}
-			}
+			this->handleKeyW();
 			break;
 
 		#pragma region Numbers
@@ -137,31 +87,19 @@ void EventManager::sequenceScreenLoop() const
 		#pragma region Arrows
 
 		case VK_LEFT:
-			if (this->seq.showPreviousMeasure())
-			{
-				this->uiManager->drawSequenceScreen();
-			}
+			this->handleLeftArrow();
 			break;
 
 		case VK_UP:
-			if (this->seq.showPreviousNote())
-			{
-				this->uiManager->drawSequenceScreen();
-			}
+			this->handleUpArrow();
 			break;
 			
 		case VK_RIGHT:
-			if (this->seq.showNextMeasure(this->uiManager->pianoRollWidth))
-			{
-				this->uiManager->drawSequenceScreen();
-			}
+			this->handleRightArrow();
 			break;
 
 		case VK_DOWN:
-			if (this->seq.showNextNote(this->uiManager->pianoRollHeight))
-			{
-				this->uiManager->drawSequenceScreen();
-			}
+			this->handleDownArrow();
 			break;
 
 		#pragma endregion
@@ -172,6 +110,122 @@ void EventManager::sequenceScreenLoop() const
 
 	} while (true);
 }
+
+#pragma region Key Handlers
+
+void EventManager::handleKeyA() const
+{
+	if (this->uiManager->mode() == Mode::EDIT)
+	{
+		if (this->seq.moveIndicatorLeft())
+		{
+			this->uiManager->drawSequenceScreen();
+		}
+	}
+}
+
+void EventManager::handleKeyD() const
+{
+	if (this->uiManager->mode() == Mode::EDIT)
+	{
+		if (this->seq.moveIndicatorRight(this->uiManager->pianoRollWidth))
+		{
+			this->uiManager->drawSequenceScreen();
+		}
+	}
+}
+
+void EventManager::handleKeyM() const
+{
+	if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
+	{
+		this->uiManager->action(Action::CHANGE_MEASURE);
+
+		Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
+
+		Util::setCursorPos(pos.Value);
+	}
+}
+
+void EventManager::handleKeyN() const
+{
+	if (this->uiManager->action() == Action::NONE)
+	{
+		this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
+		this->uiManager->drawSequenceScreen();
+	}
+}
+
+void EventManager::handleKeyS() const
+{
+	if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
+	{
+		this->uiManager->action(Action::CHANGE_SEQ_NAME);
+
+		Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
+
+		Util::setCursorPos(pos.Value);
+		this->changeSequenceName();
+
+		this->uiManager->action(Action::NONE);
+		this->uiManager->drawSequenceScreen();
+	}
+	else
+	{
+		if (this->uiManager->mode() == Mode::EDIT)
+		{
+			if (this->seq.moveIndicatorDown(this->uiManager->pianoRollHeight))
+			{
+				this->uiManager->drawSequenceScreen();
+			}
+		}
+	}
+}
+
+void EventManager::handleKeyW() const
+{
+	if (this->uiManager->mode() == Mode::EDIT)
+	{
+		if (this->seq.moveIndicatorUp())
+		{
+			this->uiManager->drawSequenceScreen();
+		}
+	}
+}
+
+void EventManager::handleUpArrow() const
+{
+	if (this->seq.showPreviousNote())
+	{
+		this->uiManager->drawSequenceScreen();
+	}
+}
+
+void EventManager::handleDownArrow() const
+{
+	if (this->seq.showNextNote(this->uiManager->pianoRollHeight))
+	{
+		this->uiManager->drawSequenceScreen();
+	}
+}
+
+void EventManager::handleLeftArrow() const
+{
+	if (this->seq.showPreviousMeasure())
+	{
+		this->uiManager->drawSequenceScreen();
+	}
+}
+
+void EventManager::handleRightArrow() const
+{
+	if (this->seq.showNextMeasure(this->uiManager->pianoRollWidth))
+	{
+		this->uiManager->drawSequenceScreen();
+	}
+}
+
+#pragma endregion
 
 void EventManager::changeSequenceName() const
 {
