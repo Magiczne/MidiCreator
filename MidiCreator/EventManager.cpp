@@ -1,11 +1,13 @@
 #include "EventManager.h"
 #include "Sequence.h"
+#include "SMF/Enums/NotePitch.h"
 
 using namespace UI;
+using namespace SMF;
 using namespace std;
 
 EventManager::EventManager(UIManager* ui, Sequence& seq) :
-	uiManager(ui), seq(seq) {}
+	_uiManager(ui), _seq(seq) {}
 
 MenuEventType EventManager::menuLoop()
 {
@@ -52,6 +54,10 @@ void EventManager::sequenceScreenLoop() const
 			this->handleKeyD();
 			break;
 
+		case 73:	//I
+			this->handleKeyI();
+			break;
+
 		case 77:	//M
 			this->handleKeyM();
 			break;
@@ -74,11 +80,11 @@ void EventManager::sequenceScreenLoop() const
 		case 50:	//2
 		case 51:	//3
 		case 52:	//4
-			if (this->uiManager->action() == Action::CHANGE_MEASURE)
+			if (this->_uiManager->action() == Action::CHANGE_MEASURE)
 			{
 				this->changeMeasure(c);
-				this->uiManager->action(Action::NONE);
-				this->uiManager->drawSequenceScreen();
+				this->_uiManager->action(Action::NONE);
+				this->_uiManager->drawSequenceScreen();
 			}
 			break;
 
@@ -115,33 +121,49 @@ void EventManager::sequenceScreenLoop() const
 
 void EventManager::handleKeyA() const
 {
-	if (this->uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == Mode::EDIT)
 	{
-		if (this->seq.moveIndicatorLeft())
+		if (this->_seq.moveIndicatorLeft())
 		{
-			this->uiManager->drawSequenceScreen();
+			this->_uiManager->drawSequenceScreen();
 		}
 	}
 }
 
 void EventManager::handleKeyD() const
 {
-	if (this->uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == Mode::EDIT)
 	{
-		if (this->seq.moveIndicatorRight(this->uiManager->pianoRollWidth))
+		if (this->_seq.moveIndicatorRight(this->_uiManager->pianoRollWidth))
 		{
-			this->uiManager->drawSequenceScreen();
+			this->_uiManager->drawSequenceScreen();
+		}
+	}
+}
+
+void EventManager::handleKeyI() const
+{
+	if(this->_uiManager->mode() == Mode::EDIT)
+	{
+		uint8_t note = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
+		unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
+
+		NotePitch p = NotePitch(note);
+
+		if (this->_seq.addNote({ p, bar }, 100))
+		{
+			this->_uiManager->drawSequenceScreen();
 		}
 	}
 }
 
 void EventManager::handleKeyM() const
 {
-	if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
+	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
 	{
-		this->uiManager->action(Action::CHANGE_MEASURE);
+		this->_uiManager->action(Action::CHANGE_MEASURE);
 
-		Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
+		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
 
 		Util::setCursorPos(pos.Value);
 	}
@@ -149,34 +171,34 @@ void EventManager::handleKeyM() const
 
 void EventManager::handleKeyN() const
 {
-	if (this->uiManager->action() == Action::NONE)
+	if (this->_uiManager->action() == Action::NONE)
 	{
-		this->uiManager->mode(this->uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
-		this->uiManager->drawSequenceScreen();
+		this->_uiManager->mode(this->_uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
 void EventManager::handleKeyS() const
 {
-	if (this->uiManager->action() == Action::NONE && this->uiManager->mode() == Mode::VIEW)
+	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
 	{
-		this->uiManager->action(Action::CHANGE_SEQ_NAME);
+		this->_uiManager->action(Action::CHANGE_SEQ_NAME);
 
-		Nullable<COORD> pos = this->uiManager->drawSequenceScreen();
+		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
 
 		Util::setCursorPos(pos.Value);
 		this->changeSequenceName();
 
-		this->uiManager->action(Action::NONE);
-		this->uiManager->drawSequenceScreen();
+		this->_uiManager->action(Action::NONE);
+		this->_uiManager->drawSequenceScreen();
 	}
 	else
 	{
-		if (this->uiManager->mode() == Mode::EDIT)
+		if (this->_uiManager->mode() == Mode::EDIT)
 		{
-			if (this->seq.moveIndicatorDown(this->uiManager->pianoRollHeight))
+			if (this->_seq.moveIndicatorDown(this->_uiManager->pianoRollHeight))
 			{
-				this->uiManager->drawSequenceScreen();
+				this->_uiManager->drawSequenceScreen();
 			}
 		}
 	}
@@ -184,44 +206,48 @@ void EventManager::handleKeyS() const
 
 void EventManager::handleKeyW() const
 {
-	if (this->uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == Mode::EDIT)
 	{
-		if (this->seq.moveIndicatorUp())
+		if (this->_seq.moveIndicatorUp())
 		{
-			this->uiManager->drawSequenceScreen();
+			this->_uiManager->drawSequenceScreen();
 		}
 	}
 }
 
+#pragma endregion
+
+#pragma region Arrow Handlers
+
 void EventManager::handleUpArrow() const
 {
-	if (this->seq.showPreviousNote())
+	if (this->_seq.showPreviousNote())
 	{
-		this->uiManager->drawSequenceScreen();
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
 void EventManager::handleDownArrow() const
 {
-	if (this->seq.showNextNote(this->uiManager->pianoRollHeight))
+	if (this->_seq.showNextNote(this->_uiManager->pianoRollHeight))
 	{
-		this->uiManager->drawSequenceScreen();
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
 void EventManager::handleLeftArrow() const
 {
-	if (this->seq.showPreviousMeasure())
+	if (this->_seq.showPreviousMeasure())
 	{
-		this->uiManager->drawSequenceScreen();
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
 void EventManager::handleRightArrow() const
 {
-	if (this->seq.showNextMeasure(this->uiManager->pianoRollWidth))
+	if (this->_seq.showNextMeasure(this->_uiManager->pianoRollWidth))
 	{
-		this->uiManager->drawSequenceScreen();
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
@@ -235,7 +261,7 @@ void EventManager::changeSequenceName() const
 
 	if (newName != "")
 	{
-		this->seq.name(newName);
+		this->_seq.name(newName);
 	}
 }
 
@@ -243,18 +269,18 @@ void EventManager::changeMeasure(uint16_t vk) const
 {
 	if (vk == 49)
 	{
-		this->seq.setMeasure(2, 4);
+		this->_seq.setMeasure(2, 4);
 	}
 	else if (vk == 50)
 	{
-		this->seq.setMeasure(3, 4);
+		this->_seq.setMeasure(3, 4);
 	}
 	else if (vk == 51)
 	{
-		this->seq.setMeasure(4, 4);
+		this->_seq.setMeasure(4, 4);
 	}
 	else if (vk == 52)
 	{
-		this->seq.setMeasure(6, 8);
+		this->_seq.setMeasure(6, 8);
 	}
 }

@@ -1,6 +1,17 @@
 #include "Sequence.h"
 
+#include "Note.h"
+
 using namespace SMF;
+using namespace std;
+
+Sequence::~Sequence()
+{
+	for(auto& pair : _notes)
+	{
+		delete pair.second;
+	}
+}
 
 bool Sequence::showPreviousMeasure()
 {
@@ -89,6 +100,29 @@ bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
 
 	return false;
 }
+
+
+Note* Sequence::getNote(pair<NotePitch, unsigned> coords)
+{
+	if(this->_notes.find(coords) == this->_notes.end())
+	{
+		return nullptr;
+	}
+	
+	return this->_notes.at(coords);
+}
+
+bool Sequence::addNote(std::pair<SMF::NotePitch, unsigned> coords, uint16_t duration)
+{
+	if(this->_notes.find(coords) != this->_notes.end())
+	{
+		return false;
+	}
+
+	this->_notes[coords] = new Note(coords.first, duration);
+	return true;
+}
+
 
 
 void Sequence::setMeasure(const uint16_t& numerator, const uint16_t& denominator)

@@ -5,7 +5,7 @@
 #include "Enums/MetaEventType.h"
 #include "Enums/MidiEventType.h"
 #include "Events/TrackEvent.h"
-#include "Util/Note.h"
+#include "Util/SMF_Note.h"
 
 #include "Exceptions/TrackClosedException.h"
 #include "Exceptions\TrackNotClosedException.h"

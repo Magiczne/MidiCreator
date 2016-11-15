@@ -1,5 +1,5 @@
 #include "../../stdafx.h"
-#include "Note.h"
+#include "SMF_Note.h"
 
 using namespace SMF;
 

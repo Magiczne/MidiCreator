@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "../MidiCreator/SMF/Util/Note.h"
+#include "../MidiCreator/SMF/Util/SMF_Note.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace SMF;

@@ -4,6 +4,8 @@
 #include "SMF/Enums/NotePitch.h"
 #include "SMF/Util/Maps.h"
 
+class Note;
+
 class Sequence
 {
 private:
@@ -12,11 +14,19 @@ private:
 	uint16_t _numerator			= 6;
 	uint16_t _denominator		= 8;
 
+	std::map< std::pair<SMF::NotePitch, unsigned>, Note* > _notes;
+
 public:
 	static const unsigned MAX_MEASURE = 35;
 
 	unsigned firstBarToShow = 1;
 	SMF::NotePitch firstNoteToShow = SMF::NotePitch::C3;
+
+	//Edit mode specific
+	unsigned currentBar = 0;
+	unsigned currentNote = 0;
+
+	~Sequence();
 
 	bool showPreviousMeasure();
 	bool showNextMeasure(uint16_t pianoRollWidth);
@@ -24,15 +34,14 @@ public:
 	bool showPreviousNote();
 	bool showNextNote(uint16_t pianoRollHeight);
 
-	//Edit mode specific
-	unsigned currentBar = 0;
-	unsigned currentNote = 0;
-
 	bool moveIndicatorUp();
 	bool moveIndicatorDown(uint16_t pianoRollHeight);
 
 	bool moveIndicatorLeft();
 	bool moveIndicatorRight(uint16_t pianoRollWidth);
+
+	Note* getNote(std::pair<SMF::NotePitch, unsigned> coords);
+	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint16_t duration);
 
 	//Getters/setters
 

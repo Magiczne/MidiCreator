@@ -2,6 +2,7 @@
 
 #include "../Sequence.h"
 #include "Util/Maps.h"
+#include "../Note.h"
 
 using namespace std;
 using namespace SMF;
@@ -10,7 +11,7 @@ using namespace UI;
 //Forward declarations
 int Util::writtenLines;
 
-UIManager::UIManager(Sequence& seq) : seq(seq) {}
+UIManager::UIManager(Sequence& seq) : _seq(seq) {}
 
 void UIManager::drawMenu() const
 {
@@ -30,38 +31,89 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 {
 	Nullable<COORD> ret;
 
-	ConsoleSize size = Util::getConsoleSize();
-
-	this->pianoRollWidth = size.cols - 20;
+	this->_size = Util::getConsoleSize();
+	this->pianoRollWidth = this->_size.cols - PIANO_ROLL_MARGIN;
 
 	Util::clearConsole();
 
-	//this->sequence title + this->sequence Type
+	uint8_t infoOffset = this->drawSequenceInfo();
+
+	this->drawPianoRoll();
+
+	if(this->_mode == Mode::EDIT)
+	{
+		this->drawNoteProperties(infoOffset);
+	}
+
+	//Param Editor
+	switch (this->_action)
+	{
+	case Action::CHANGE_SEQ_NAME:
+		ret = COORD{ 0, this->drawParamEditor("Enter sequence name:") };
+		break;
+
+	case Action::CHANGE_MEASURE:
+		ret = COORD
+		{
+			0, this->drawParamEditor("Choose measure: ",{
+				"1. 2/4",
+				"2. 3/4",
+				"3. 4/4",
+				"4. 6/8"
+			})
+		};
+		break;
+
+	default:
+		break;
+	}
+
+	//Menu
+	if (this->_mode == Mode::VIEW)
+	{
+		this->drawViewMenu();
+	}
+	else
+	{
+		this->drawEditMenu();
+	}
+
+	return ret;
+}
+
+#pragma region Components
+
+uint8_t UIManager::drawSequenceInfo() const
+{
 	Util::setColor(Color::DarkGreen);
 	Util::writeMulti(
-		this->seq.name(), this->seq.getFormatString(), 
+		this->_seq.name(), this->_seq.getFormatString(),
 		Util::createColor(Color::DarkCyan)
 	);
-	
-	//Measure
+
 	Util::setColor(Color::DarkCyan);
 	Util::writeMulti(
 		"Mode: " + ModeMap[this->_mode],
-		"Measure: " + to_string(this->seq.numerator()) + "/" + to_string(this->seq.denominator())
+		"Measure: " + to_string(this->_seq.numerator()) + "/" + to_string(this->_seq.denominator())
 	);
 	Util::newLine(2);
 
+	return Util::writtenLines;
+}
+
+void UIManager::drawPianoRoll() const
+{
 	//Bars numbers
 	Util::setColor(Color::Red);
 	cout << "    ";
-	for (unsigned i = 0 + this->seq.firstBarToShow;
-		i < this->pianoRollWidth / this->seq.numerator() + this->seq.firstBarToShow;
+	for (unsigned i = 0 + this->_seq.firstBarToShow;
+		i < this->pianoRollWidth / this->_seq.numerator() + this->_seq.firstBarToShow;
 		i++)
 	{
 		cout << i;
 
 		for (int j = 0;
-			j < this->seq.numerator() - Util::getNumberOfDigits(i);
+			j < this->_seq.numerator() - Util::getNumberOfDigits(i);
 			j++)
 		{
 			cout << ' ';
@@ -76,7 +128,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	for (unsigned k = 0; k < this->pianoRollHeight; k++)
 	{
 		Util::setColor(Color::Red);
-		NotePitch p = NotePitch(static_cast<uint8_t>(this->seq.firstNoteToShow) + k);
+		NotePitch p = NotePitch(static_cast<uint8_t>(this->_seq.firstNoteToShow) + k);
 		string text = SMF::NotePitchMap[p];
 		cout << text;
 
@@ -86,20 +138,29 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		}
 
 		for (unsigned i = 0;
-			i < this->pianoRollWidth / this->seq.numerator() * this->seq.numerator(); i++)
+			i < this->pianoRollWidth / this->_seq.numerator() * this->_seq.numerator(); i++)
 		{
 			Color c = Color::Black;
 
-			//Selected note indicator
-			if(this->_mode == Mode::EDIT)
+			//Note present on field
+			if (this->_seq.getNote({
+				p,
+				(this->_seq.firstBarToShow - 1) * this->_seq.numerator() + i
+			}) != nullptr)
 			{
-				if (i == this->seq.currentBar && k == this->seq.currentNote)
+				c = Color::DarkBlue;
+			}
+
+			//Selected note indicator
+			if (this->_mode == Mode::EDIT)
+			{
+				if (i == this->_seq.currentBar && k == this->_seq.currentNote)
 				{
 					c = Color::DarkRed;
 				}
 			}
 
-			if (i % this->seq.numerator() == 0)
+			if (i % this->_seq.numerator() == 0)
 			{
 				Util::setColor(Color::DarkGreen, c);
 			}
@@ -113,45 +174,82 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		Util::newLine();
 	}
 	Util::newLine();
-
-
-	switch (this->_action)
-	{
-	case Action::CHANGE_SEQ_NAME:
-		ret = COORD{ 0, this->drawParamEditor(size, "Enter sequence name:") };
-		break;
-
-	case Action::CHANGE_MEASURE:
-		ret = COORD
-		{
-			0, this->drawParamEditor(size, "Choose measure: ",{
-				"1. 2/4",
-				"2. 3/4",
-				"3. 4/4",
-				"4. 6/8"
-			})
-		};
-		break;
-
-	default:
-		break;
-	}
-
-	if (this->_mode == Mode::VIEW)
-	{
-		this->drawViewMenu(size);
-	}
-	else
-	{
-		this->drawEditMenu(size);
-	}
-
-	return ret;
 }
 
-void UIManager::drawViewMenu(ConsoleSize& size) const
+void UIManager::drawNoteProperties(uint8_t offsetTop)  const
 {
-	Util::newLine(size.rows - Util::writtenLines - 2);
+	array<string, 3> properties = { "Pitch:", "Volume:", "Duration:" };
+
+	uint8_t pitch = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
+	unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
+
+	auto note = this->_seq.getNote({ NotePitch(pitch), bar });
+
+	array<string, 3> values;
+
+	if(note != nullptr)
+	{
+		values = {
+			SMF::NotePitchMap[note->pitch()],
+			to_string(note->volume()),
+			to_string(note->duration())
+		};
+	}
+
+	uint8_t offsetLeft = this->_size.cols - PIANO_ROLL_MARGIN + 10;
+
+	Util::setColor(Color::Cyan);
+	Util::setCursorPos(offsetLeft, offsetTop);
+	cout << "Note properties: " << endl;
+
+	Util::setColor(Color::Gray);
+	for(size_t i = 0; i < properties.size(); i++)
+	{
+		if(note == nullptr)
+		{
+			Util::setCursorPos(offsetLeft, offsetTop + i + 1);
+			cout << properties[i] << "\t" << endl;
+		}
+		else
+		{
+			Util::setCursorPos(offsetLeft, offsetTop + i + 1);
+			cout << properties[i] << "\t";
+			cout << values[i];
+			cout << endl;
+		}
+	}
+}
+
+SHORT UIManager::drawParamEditor(string msg, vector<string> additional) const
+{
+	SHORT tmp = Util::writtenLines;
+
+	Util::setColor(Color::DarkRed, Color::Gray);
+	Util::makeLine(this->_size.cols);
+
+	Util::setColor(Color::Red);
+	Util::writeLeft(msg);
+
+	for (auto& m : additional)
+	{
+		Util::writeLeft(m);
+	}
+
+	Util::newLine();	//Here will be cursor
+
+	Util::setColor(Color::DarkRed, Color::Gray);
+	Util::makeLine(this->_size.cols);
+
+	return tmp + 2 + static_cast<SHORT>(additional.size());
+}
+
+#pragma endregion
+
+#pragma region Menu
+
+void UIManager::drawViewMenu() const
+{
+	Util::newLine(this->_size.rows - Util::writtenLines - 2);
 
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
@@ -179,18 +277,20 @@ void UIManager::drawViewMenu(ConsoleSize& size) const
 	}
 }
 
-void UIManager::drawEditMenu(ConsoleSize& size) const
+void UIManager::drawEditMenu() const
 {
-	Util::newLine(size.rows - Util::writtenLines - 2);
+	Util::newLine(this->_size.rows - Util::writtenLines - 2);
 
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
 		" N", 
-		" W", " S", " A", " D" };
+		" W", " S", " A", " D",
+		" I" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
 		"View mode",
-		"Note up", "Note down", "Note left", "Note right" };
+		"Note up", "Note down", "Note left", "Note right",
+		"Ins note" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{
@@ -211,25 +311,4 @@ void UIManager::drawEditMenu(ConsoleSize& size) const
 	}
 }
 
-SHORT UIManager::drawParamEditor(ConsoleSize& size, string msg, vector<string> additional) const
-{
-	SHORT tmp = Util::writtenLines;
-
-	Util::setColor(Color::DarkRed, Color::Gray);
-	Util::makeLine(size.cols);
-
-	Util::setColor(Color::Red);
-	Util::writeLeft(msg);
-
-	for (auto& m : additional)
-	{
-		Util::writeLeft(m);
-	}
-
-	Util::newLine();	//Here will be cursor
-
-	Util::setColor(Color::DarkRed, Color::Gray);
-	Util::makeLine(size.cols);
-
-	return tmp + 2 + static_cast<SHORT>(additional.size());
-}
+#pragma endregion

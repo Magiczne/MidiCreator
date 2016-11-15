@@ -13,15 +13,23 @@ namespace UI
 	class UIManager
 	{
 	private:
-		Sequence& seq;
+		const uint8_t PIANO_ROLL_MARGIN = 30;
 
 		Mode _mode = Mode::VIEW;
 		Action _action = Action::NONE;
 
-		void drawViewMenu(ConsoleSize& size) const;
-		void drawEditMenu(ConsoleSize& size) const;
+		Sequence& _seq;
+		ConsoleSize _size;
 
-		SHORT drawParamEditor(ConsoleSize& size, std::string msg, std::vector<std::string> = {}) const;
+		//Sequence screen components
+		uint8_t drawSequenceInfo() const;
+		void drawPianoRoll() const;
+		void drawNoteProperties(uint8_t offsetTop) const;
+		SHORT drawParamEditor(std::string msg, std::vector<std::string> additional = {}) const;
+
+		
+		void drawViewMenu() const;
+		void drawEditMenu() const;
 
 	public:
 		UIManager() = delete;

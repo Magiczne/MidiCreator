@@ -1,6 +1,6 @@
 #include "MidiCreator.h"
 #include "EventManager.h"
-#include "UI\UIManager.h"
+#include "UI/UIManager.h"
 #include "Sequence.h"
 
 using namespace UI;

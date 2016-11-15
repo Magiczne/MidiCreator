@@ -13,8 +13,8 @@ enum MenuEventType
 class EventManager
 {
 private:
-	UI::UIManager* uiManager;
-	Sequence& seq;
+	UI::UIManager* _uiManager;
+	Sequence& _seq;
 
 	void changeSequenceName() const;
 	void changeMeasure(uint16_t vk) const;
@@ -22,6 +22,7 @@ private:
 	//Handling keys:
 	void handleKeyA() const;
 	void handleKeyD() const;
+	void handleKeyI() const;
 	void handleKeyM() const;
 	void handleKeyN() const;
 	void handleKeyS() const;
