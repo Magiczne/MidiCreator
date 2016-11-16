@@ -40,11 +40,6 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 
 	this->drawPianoRoll();
 
-	if(this->_mode == Mode::EDIT)
-	{
-		this->drawNoteProperties(infoOffset);
-	}
-
 	//Param Editor
 	switch (this->_action)
 	{
@@ -76,6 +71,13 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	else
 	{
 		this->drawEditMenu();
+	}
+
+	//Note properites, last cause we're setting
+	//Cursor position here
+	if (this->_mode == Mode::EDIT)
+	{
+		this->drawNoteProperties(infoOffset);
 	}
 
 	return ret;
@@ -205,18 +207,15 @@ void UIManager::drawNoteProperties(uint8_t offsetTop)  const
 	Util::setColor(Color::Gray);
 	for(size_t i = 0; i < properties.size(); i++)
 	{
-		if(note == nullptr)
+		Util::setCursorPos(offsetLeft, offsetTop + i + 1);
+		cout << properties[i] << "\t";
+
+		if(note != nullptr)
 		{
-			Util::setCursorPos(offsetLeft, offsetTop + i + 1);
-			cout << properties[i] << "\t" << endl;
-		}
-		else
-		{
-			Util::setCursorPos(offsetLeft, offsetTop + i + 1);
-			cout << properties[i] << "\t";
 			cout << values[i];
-			cout << endl;
 		}
+
+		cout << endl;
 	}
 }
 

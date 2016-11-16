@@ -15,6 +15,8 @@ public:
 	Note(SMF::NotePitch pitch, uint16_t duration);
 	Note(SMF::NotePitch pitch, uint8_t volume, uint16_t duration);
 
+	//Getters/setters
+
 	void pitch(const SMF::NotePitch& val) { this->_pitch = val; }
 	const SMF::NotePitch& pitch() const { return this->_pitch; }
 
