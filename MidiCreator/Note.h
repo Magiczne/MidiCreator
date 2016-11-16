@@ -8,6 +8,7 @@ private:
 	SMF::NotePitch _pitch;
 	uint8_t _volume;
 	uint16_t _duration;
+	bool _connected = false;
 
 public:
 	static const uint8_t MAX_VOLUME = 127;

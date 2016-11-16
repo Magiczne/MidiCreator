@@ -24,6 +24,7 @@ namespace UI
 		//Sequence screen components
 		uint8_t drawSequenceInfo() const;
 		void drawPianoRoll() const;
+		void drawBarCloseUp() const;
 		void drawNoteProperties(uint8_t offsetTop) const;
 		SHORT drawParamEditor(std::string msg, std::vector<std::string> additional = {}) const;
 

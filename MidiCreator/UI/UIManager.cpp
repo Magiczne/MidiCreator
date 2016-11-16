@@ -39,6 +39,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	uint8_t infoOffset = this->drawSequenceInfo();
 
 	this->drawPianoRoll();
+	this->drawBarCloseUp();
 
 	//Param Editor
 	switch (this->_action)
@@ -177,6 +178,24 @@ void UIManager::drawPianoRoll() const
 	}
 	Util::newLine();
 }
+
+void UIManager::drawBarCloseUp() const
+{
+	//Only 4 or 8 are used denominators.
+	//TODO: Maybe fix for all denominators
+	uint8_t numOfNotes = (this->_seq.denominator() == 4 ? 16 : 8);
+	string ret;
+
+	for (uint8_t i = 0; i < numOfNotes; i++)
+	{
+		ret += (i == numOfNotes - 1 ? "*" : "* ");
+	}
+
+	Util::writeLeft("Bar close-up: (32nd notes)");
+	Util::writeLeft(ret);
+	Util::newLine();
+}
+
 
 void UIManager::drawNoteProperties(uint8_t offsetTop)  const
 {
