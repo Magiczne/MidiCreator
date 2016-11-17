@@ -5,11 +5,20 @@
 using namespace SMF;
 using namespace std;
 
+Sequence::Sequence()
+{
+	this->setMeasure(6, 8);
+	this->_notes.clear();
+}
+
 Sequence::~Sequence()
 {
-	for(auto& pair : _notes)
+	for (auto& pair : _notes)
 	{
-		delete pair.second;
+		for(auto& note : pair.second)
+		{
+			delete note;
+		}
 	}
 }
 
@@ -59,7 +68,7 @@ bool Sequence::showNextNote(uint16_t pianoRollHeight)
 
 bool Sequence::moveIndicatorUp()
 {
-	if(this->currentNote > 0)
+	if (this->currentNote > 0)
 	{
 		this->currentNote--;
 		return true;
@@ -70,7 +79,7 @@ bool Sequence::moveIndicatorUp()
 
 bool Sequence::moveIndicatorDown(uint16_t pianoRollHeight)
 {
-	if(this->currentNote < pianoRollHeight - 1)
+	if (this->currentNote < pianoRollHeight - 1)
 	{
 		this->currentNote++;
 		return true;
@@ -81,7 +90,7 @@ bool Sequence::moveIndicatorDown(uint16_t pianoRollHeight)
 
 bool Sequence::moveIndicatorLeft()
 {
-	if(this->currentBar > 0)
+	if (this->currentBar > 0)
 	{
 		this->currentBar--;
 		return true;
@@ -92,7 +101,7 @@ bool Sequence::moveIndicatorLeft()
 
 bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
 {
-	if(this->currentBar < pianoRollWidth - 1)
+	if (this->currentBar < pianoRollWidth - 1)
 	{
 		this->currentBar++;
 		return true;
@@ -101,29 +110,75 @@ bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
 	return false;
 }
 
-
-Note* Sequence::getNote(pair<NotePitch, unsigned> coords)
+bool Sequence::moveCloseUpIndicatorLeft()
 {
-	if(this->_notes.find(coords) == this->_notes.end())
+	if(this->currentNoteInBar > 0)
+	{
+		this->currentNoteInBar--;
+		return true;
+	}
+
+	return false;
+}
+
+bool Sequence::moveCloseUpIndicatorRight()
+{
+	//TODO: Maybe move to a member var
+	uint8_t numOfNotes = static_cast<uint8_t>(pow(2, 5 - log2(this->_denominator))) - 1;
+	
+	if(this->currentNoteInBar < numOfNotes)
+	{
+		this->currentNoteInBar++;
+		return true;
+	}
+
+	return false;
+}
+
+
+
+vector<Note*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
+{
+	return this->_notes[coords];
+}
+
+Note* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
+{
+	if(this->_notes[coords].size() == 0)
 	{
 		return nullptr;
 	}
-	
-	return this->_notes.at(coords);
+
+	return this->_notes[coords][index];
 }
 
-bool Sequence::addNote(std::pair<SMF::NotePitch, unsigned> coords, uint16_t duration)
+bool Sequence::addNote(pair<NotePitch, unsigned> coords, 
+	uint8_t index, uint16_t duration)
 {
-	if(this->_notes.find(coords) != this->_notes.end())
+	if(this->_notes.find(coords) == this->_notes.end())
+	{
+		this->_notes[coords] = vector<Note*>(0);
+	}
+
+	if (this->_notes[coords].size() == 0)
+	{
+		size_t newSize = pow(2, 5 - log2(this->_denominator));
+		this->_notes[coords].resize(newSize);
+
+		for(auto& a : this->_notes[coords])
+		{
+			a = nullptr;
+		}
+	}
+
+	if(this->_notes[coords][index] != nullptr)
 	{
 		return false;
 	}
 
-	this->_notes[coords] = new Note(coords.first, duration);
+	this->_notes[coords][index] = new Note(coords.first, duration);
 	return true;
 }
-
-
 
 void Sequence::setMeasure(const uint16_t& numerator, const uint16_t& denominator)
 {

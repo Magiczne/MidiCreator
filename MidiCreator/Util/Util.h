@@ -70,5 +70,12 @@ namespace UI
 		//Other util
 
 		static void showLastSystemError();
+
+#ifdef DEBUG_MSG
+		//Debug util
+
+		static void debug(std::string msg);
+		static void debug(int msg);
+#endif
 	};
 }

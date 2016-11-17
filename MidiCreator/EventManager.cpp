@@ -50,6 +50,10 @@ void EventManager::sequenceScreenLoop() const
 			this->handleKeyA();
 			break;
 
+		case 66:	//B
+			this->handleKeyB();
+			break;
+
 		case 68:	//D
 			this->handleKeyD();
 			break;
@@ -123,10 +127,30 @@ void EventManager::handleKeyA() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT)
 	{
-		if (this->_seq.moveIndicatorLeft())
+		if(this->_uiManager->action() == Action::BAR_EDIT)
 		{
-			this->_uiManager->drawSequenceScreen();
+			if(this->_seq.moveCloseUpIndicatorLeft())
+			{
+				this->_uiManager->drawSequenceScreen();
+			}
 		}
+		else
+		{
+			if (this->_seq.moveIndicatorLeft())
+			{
+				this->_uiManager->drawSequenceScreen();
+			}
+		}
+	}
+}
+
+void EventManager::handleKeyB() const
+{
+	if (this->_uiManager->mode() == Mode::EDIT)
+	{
+		Action action = this->_uiManager->action() == Action::BAR_EDIT ? Action::NONE : Action::BAR_EDIT;
+		this->_uiManager->action(action);
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
@@ -134,38 +158,53 @@ void EventManager::handleKeyD() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT)
 	{
-		if (this->_seq.moveIndicatorRight(this->_uiManager->pianoRollWidth))
+		if(this->_uiManager->action() == Action::BAR_EDIT)
 		{
-			this->_uiManager->drawSequenceScreen();
+			if(this->_seq.moveCloseUpIndicatorRight())
+			{
+				this->_uiManager->drawSequenceScreen();
+			}
+		}
+		else
+		{
+			if (this->_seq.moveIndicatorRight(this->_uiManager->pianoRollWidth))
+			{
+				this->_uiManager->drawSequenceScreen();
+			}
 		}
 	}
 }
 
 void EventManager::handleKeyI() const
 {
-	if(this->_uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::BAR_EDIT)
 	{
 		uint8_t note = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
 		unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
+		uint8_t index = this->_seq.currentNoteInBar;
 
-		NotePitch p = NotePitch(note);
-
-		if (this->_seq.addNote({ p, bar }, 100))
+		if (this->_seq.addNote({ NotePitch(note), bar }, index, 100))
 		{
 			this->_uiManager->drawSequenceScreen();
 		}
 	}
 }
 
+
 void EventManager::handleKeyM() const
 {
 	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
 	{
-		this->_uiManager->action(Action::CHANGE_MEASURE);
+		//CRITICAL: Throws an exception when notes are in the roll. FIX
+		//TODO: changing measure when notes are in the roll
+		try
+		{
+			this->_uiManager->action(Action::CHANGE_MEASURE);
 
-		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
-
-		Util::setCursorPos(pos.Value);
+			Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
+			Util::setCursorPos(pos.Value);
+		}
+		catch (...){}
 	}
 }
 
@@ -192,21 +231,18 @@ void EventManager::handleKeyS() const
 		this->_uiManager->action(Action::NONE);
 		this->_uiManager->drawSequenceScreen();
 	}
-	else
+	else if(this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::EDIT)
 	{
-		if (this->_uiManager->mode() == Mode::EDIT)
+		if (this->_seq.moveIndicatorDown(this->_uiManager->pianoRollHeight))
 		{
-			if (this->_seq.moveIndicatorDown(this->_uiManager->pianoRollHeight))
-			{
-				this->_uiManager->drawSequenceScreen();
-			}
+			this->_uiManager->drawSequenceScreen();
 		}
 	}
 }
 
 void EventManager::handleKeyW() const
 {
-	if (this->_uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::NONE)
 	{
 		if (this->_seq.moveIndicatorUp())
 		{

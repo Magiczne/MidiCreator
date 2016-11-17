@@ -6,6 +6,7 @@ namespace UI
 	{
 		NONE,
 		CHANGE_SEQ_NAME,
-		CHANGE_MEASURE
+		CHANGE_MEASURE,
+		BAR_EDIT
 	};
 }

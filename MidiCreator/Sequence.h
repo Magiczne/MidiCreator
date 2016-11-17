@@ -11,10 +11,16 @@ class Sequence
 private:
 	std::string _name			= "New sequence";
 	SMF::FileFormat _format		= SMF::FileFormat::SINGLE_TRACK;
-	uint16_t _numerator			= 6;
-	uint16_t _denominator		= 8;
+	uint16_t _numerator;
+	uint16_t _denominator;
 
-	std::map< std::pair<SMF::NotePitch, unsigned>, Note* > _notes;
+	//TODO: Maybe switch to unordered map
+	/**
+	 * Pair:
+	 *	NotePitch
+	 *	bar
+	 */
+	std::map< std::pair<SMF::NotePitch, unsigned>, std::vector<Note*> > _notes;
 
 public:
 	static const unsigned MAX_MEASURE = 35;
@@ -26,6 +32,9 @@ public:
 	unsigned currentBar = 0;
 	unsigned currentNote = 0;
 
+	uint8_t currentNoteInBar = 0;
+
+	Sequence();
 	~Sequence();
 
 	bool showPreviousMeasure();
@@ -40,9 +49,13 @@ public:
 	bool moveIndicatorLeft();
 	bool moveIndicatorRight(uint16_t pianoRollWidth);
 
-	Note* getNote(std::pair<SMF::NotePitch, unsigned> coords);
-	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint16_t duration);
+	bool moveCloseUpIndicatorLeft();
+	bool moveCloseUpIndicatorRight();
 
+	std::vector<Note*>& getBar(std::pair<SMF::NotePitch, unsigned> coords);
+	Note* getNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index, uint16_t duration);
+	bool hasNotes() const { return !this->_notes.empty(); }
 	//Getters/setters
 
 	void setMeasure(const uint16_t& numerator, const uint16_t& denominator);

@@ -25,3 +25,4 @@
 #include <windows.h>
 
 //#define METHOD_DEBUG
+#define DEBUG_MSG

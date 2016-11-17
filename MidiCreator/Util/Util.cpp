@@ -252,3 +252,19 @@ void Util::showLastSystemError()
 	std::cerr << messageBuffer << '\n';
 	LocalFree(messageBuffer);
 }
+
+#ifdef DEBUG_MSG
+
+void Util::debug(std::string c)
+{
+	OutputDebugStringA(c.c_str());
+}
+
+void Util::debug(int msg)
+{
+	string m = to_string(msg);
+	Util::debug(m);
+}
+
+
+#endif

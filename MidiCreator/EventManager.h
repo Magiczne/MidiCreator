@@ -21,6 +21,7 @@ private:
 
 	//Handling keys:
 	void handleKeyA() const;
+	void handleKeyB() const;
 	void handleKeyD() const;
 	void handleKeyI() const;
 	void handleKeyM() const;

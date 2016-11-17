@@ -81,6 +81,8 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		this->drawNoteProperties(infoOffset);
 	}
 
+	Util::setCursorPos(0, this->_size.rows - 3);
+
 	return ret;
 }
 
@@ -145,11 +147,14 @@ void UIManager::drawPianoRoll() const
 		{
 			Color c = Color::Black;
 
-			//Note present on field
-			if (this->_seq.getNote({
+			//TODO: INDEX
+			int index = 0;
+
+			//Bar has notes
+			if(this->_seq.getBar({
 				p,
 				(this->_seq.firstBarToShow - 1) * this->_seq.numerator() + i
-			}) != nullptr)
+			}).size() > 0)
 			{
 				c = Color::DarkBlue;
 			}
@@ -181,30 +186,48 @@ void UIManager::drawPianoRoll() const
 
 void UIManager::drawBarCloseUp() const
 {
-	//Only 4 or 8 are used denominators.
-	//TODO: Maybe fix for all denominators
-	uint8_t numOfNotes = (this->_seq.denominator() == 4 ? 16 : 8);
-	string ret;
+	uint8_t pitch = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
+	unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
+
+	uint8_t numOfNotes = pow(2, 5 - log2(this->_seq.denominator()));
+	Color c;
+
+	Util::writeLeft("Bar close-up: (32nd notes)");
 
 	for (uint8_t i = 0; i < numOfNotes; i++)
 	{
-		ret += (i == numOfNotes - 1 ? "*" : "* ");
+		c = Color::Black;
+
+		//Note present
+		if(this->_seq.getNote({ NotePitch(pitch), bar }, i) != nullptr)
+		{
+			c = Color::DarkBlue;
+		}
+
+		//Indicator
+		if (this->_action == Action::BAR_EDIT && i == this->_seq.currentNoteInBar)
+		{
+			c = Color::DarkRed;
+		}
+
+		Util::setColor(Color::Gray, c);
+		cout << (i == numOfNotes - 1 ? "*" : "* ");
 	}
 
-	Util::writeLeft("Bar close-up: (32nd notes)");
-	Util::writeLeft(ret);
-	Util::newLine();
+	Util::newLine(2);
 }
 
 
 void UIManager::drawNoteProperties(uint8_t offsetTop)  const
 {
+	int detailsPosition = 0;
+
 	array<string, 3> properties = { "Pitch:", "Volume:", "Duration:" };
 
 	uint8_t pitch = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
 	unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
 
-	auto note = this->_seq.getNote({ NotePitch(pitch), bar });
+	auto note = this->_seq.getNote({ NotePitch(pitch), bar }, detailsPosition);
 
 	array<string, 3> values;
 
@@ -303,12 +326,12 @@ void UIManager::drawEditMenu() const
 		"UP", "DN", "LT", "RT", 
 		" N", 
 		" W", " S", " A", " D",
-		" I" };
+		" B", " I" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
 		"View mode",
 		"Note up", "Note down", "Note left", "Note right",
-		"Ins note" };
+		"Bar Edit", "Ins note" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{
