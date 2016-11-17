@@ -192,21 +192,17 @@ void UIManager::drawPianoRoll() const
 
 void UIManager::drawBarCloseUp() const
 {
-	uint8_t pitch = static_cast<uint8_t>(this->_seq.firstNoteToShow()) + this->_seq.currentNotePitch();
-	unsigned bar = (this->_seq.firstBarToShow() - 1) * this->_seq.numerator() + this->_seq.currentBar();
-
-	uint8_t numOfNotes = static_cast<uint8_t>(pow(2, 5 - log2(this->_seq.denominator())));
 	Color c;
 
 	Util::writeLeft("Bar close-up: (32nd notes)");
 
 	Note* currentNote;
-	for (uint8_t i = 0; i < numOfNotes; i++)
+	for (uint8_t i = 0; i < this->_seq.numOf32NotesInBar(); i++)
 	{
 		c = Color::Black;
 
 		//Note present
-		currentNote = this->_seq.getNote({ NotePitch(pitch), bar }, i);
+		currentNote = this->_seq.getNote(this->_seq.getCurrentNoteCoords(), i);
 		if(currentNote != nullptr)
 		{
 			c = Color::DarkBlue;
@@ -223,7 +219,7 @@ void UIManager::drawBarCloseUp() const
 		}
 
 		Util::setColor(Color::Gray, c);
-		cout << (i == numOfNotes - 1 ? "*" : "* ");
+		cout << (i == this->_seq.numOf32NotesInBar() - 1 ? "*" : "* ");
 	}
 
 	Util::newLine(2);

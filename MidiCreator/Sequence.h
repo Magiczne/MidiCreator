@@ -103,5 +103,8 @@ public:
 	void currentNoteInBar(const uint8_t& val) { this->_currentNoteInBar = val; }
 	const uint8_t& currentNoteInBar() const { return this->_currentNoteInBar; }
 
+	void numOf32NotesInBar(const uint8_t& val) { this->_numOf32NotesInBar = val; }
+	const uint8_t& numOf32NotesInBar() const { return this->_numOf32NotesInBar; }
+
 	#pragma endregion
 };
