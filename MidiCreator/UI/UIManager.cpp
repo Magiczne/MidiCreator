@@ -200,14 +200,20 @@ void UIManager::drawBarCloseUp() const
 
 	Util::writeLeft("Bar close-up: (32nd notes)");
 
+	Note* currentNote;
 	for (uint8_t i = 0; i < numOfNotes; i++)
 	{
 		c = Color::Black;
 
 		//Note present
-		if(this->_seq.getNote({ NotePitch(pitch), bar }, i) != nullptr)
+		currentNote = this->_seq.getNote({ NotePitch(pitch), bar }, i);
+		if(currentNote != nullptr)
 		{
 			c = Color::DarkBlue;
+			if(currentNote->ligature())
+			{
+				c = Color::DarkMagenta;
+			}
 		}
 
 		//Indicator
