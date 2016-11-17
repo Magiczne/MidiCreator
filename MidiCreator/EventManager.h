@@ -19,12 +19,14 @@ private:
 	void changeSequenceName() const;
 	void changeMeasure(uint16_t vk) const;
 	void changeNoteVolume() const;
+	void toggleNoteLigature() const;
 
 	//Handling keys:
 	void handleKeyA() const;
 	void handleKeyB() const;
 	void handleKeyD() const;
 	void handleKeyI() const;
+	void handleKeyL() const;
 	void handleKeyM() const;
 	void handleKeyN() const;
 	void handleKeyS() const;

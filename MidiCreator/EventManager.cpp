@@ -63,6 +63,10 @@ void EventManager::sequenceScreenLoop() const
 			this->handleKeyI();
 			break;
 
+		case 76:	//L
+			this->handleKeyL();
+			break;
+
 		case 77:	//M
 			this->handleKeyM();
 			break;
@@ -188,6 +192,18 @@ void EventManager::handleKeyI() const
 		{
 			this->_uiManager->drawSequenceScreen();
 		}
+	}
+}
+
+void EventManager::handleKeyL() const
+{
+	if(
+		this->_uiManager->action() == Action::BAR_EDIT &&
+		this->_uiManager->mode() == Mode::EDIT &&
+		this->_seq.getCurrentNote()  != nullptr)
+	{
+		this->toggleNoteLigature();
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
@@ -357,4 +373,10 @@ void EventManager::changeMeasure(uint16_t vk) const
 	{
 		this->_seq.setMeasure(6, 8);
 	}
+}
+
+void EventManager::toggleNoteLigature() const
+{
+	auto currentNote = this->_seq.getCurrentNote();
+	currentNote->ligature(!currentNote->ligature());
 }

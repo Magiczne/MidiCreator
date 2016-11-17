@@ -55,7 +55,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	case Action::CHANGE_MEASURE:
 		ret = COORD
 		{
-			0, this->drawParamEditor("Choose measure: ",{
+			0, this->drawParamEditor("Choose measure: ", {
 				"1. 2/4",
 				"2. 3/4",
 				"3. 4/4",
@@ -327,12 +327,12 @@ void UIManager::drawEditMenu() const
 		"UP", "DN", "LT", "RT", 
 		" N", 
 		" W", " S", " A", " D",
-		" B", " I", " V" };
+		" B", " I", " V", " L" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
 		"View mode",
 		"Note up", "Note down", "Note left", "Note right",
-		"Bar Edit", "Ins note", "Chg vol" };
+		"Bar Edit", "Ins note", "Chg vol", "Ligature" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{

@@ -14,7 +14,7 @@ private:
 public:
 	static const uint8_t MAX_VOLUME = 127;
 
-	Note(SMF::NotePitch pitch);
+	explicit Note(SMF::NotePitch pitch);
 	Note(SMF::NotePitch pitch, uint16_t duration);
 	Note(SMF::NotePitch pitch, uint8_t volume, uint16_t duration);
 
