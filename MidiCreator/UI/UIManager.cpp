@@ -39,7 +39,11 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	uint8_t infoOffset = this->drawSequenceInfo();
 
 	this->drawPianoRoll();
-	this->drawBarCloseUp();
+
+	if(this->_mode == Mode::EDIT)
+	{
+		this->drawBarCloseUp();
+	}
 
 	//Param Editor
 	switch (this->_action)
@@ -59,6 +63,11 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 			})
 		};
 		break;
+
+	case Action::CHANGE_NOTE_VOLUME:
+		ret = COORD{ 0, this->drawParamEditor("Enter note volume(0 - 127):") }; 
+		break;
+		
 
 	default:
 		break;
@@ -111,8 +120,8 @@ void UIManager::drawPianoRoll() const
 	//Bars numbers
 	Util::setColor(Color::Red);
 	cout << "    ";
-	for (unsigned i = 0 + this->_seq.firstBarToShow;
-		i < this->pianoRollWidth / this->_seq.numerator() + this->_seq.firstBarToShow;
+	for (unsigned i = 0 + this->_seq.firstBarToShow();
+		i < this->pianoRollWidth / this->_seq.numerator() + this->_seq.firstBarToShow();
 		i++)
 	{
 		cout << i;
@@ -133,7 +142,7 @@ void UIManager::drawPianoRoll() const
 	for (unsigned k = 0; k < this->pianoRollHeight; k++)
 	{
 		Util::setColor(Color::Red);
-		NotePitch p = NotePitch(static_cast<uint8_t>(this->_seq.firstNoteToShow) + k);
+		NotePitch p = NotePitch(static_cast<uint8_t>(this->_seq.firstNoteToShow()) + k);
 		string text = SMF::NotePitchMap[p];
 		cout << text;
 
@@ -142,18 +151,15 @@ void UIManager::drawPianoRoll() const
 			cout << ' ';
 		}
 
-		for (unsigned i = 0;
+		for (uint16_t i = 0;
 			i < this->pianoRollWidth / this->_seq.numerator() * this->_seq.numerator(); i++)
 		{
 			Color c = Color::Black;
 
-			//TODO: INDEX
-			int index = 0;
-
 			//Bar has notes
 			if(this->_seq.getBar({
 				p,
-				(this->_seq.firstBarToShow - 1) * this->_seq.numerator() + i
+				(this->_seq.firstBarToShow() - 1) * this->_seq.numerator() + i
 			}).size() > 0)
 			{
 				c = Color::DarkBlue;
@@ -162,7 +168,7 @@ void UIManager::drawPianoRoll() const
 			//Selected note indicator
 			if (this->_mode == Mode::EDIT)
 			{
-				if (i == this->_seq.currentBar && k == this->_seq.currentNote)
+				if (i == this->_seq.currentBar() && k == this->_seq.currentNotePitch())
 				{
 					c = Color::DarkRed;
 				}
@@ -186,10 +192,10 @@ void UIManager::drawPianoRoll() const
 
 void UIManager::drawBarCloseUp() const
 {
-	uint8_t pitch = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
-	unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
+	uint8_t pitch = static_cast<uint8_t>(this->_seq.firstNoteToShow()) + this->_seq.currentNotePitch();
+	unsigned bar = (this->_seq.firstBarToShow() - 1) * this->_seq.numerator() + this->_seq.currentBar();
 
-	uint8_t numOfNotes = pow(2, 5 - log2(this->_seq.denominator()));
+	uint8_t numOfNotes = static_cast<uint8_t>(pow(2, 5 - log2(this->_seq.denominator())));
 	Color c;
 
 	Util::writeLeft("Bar close-up: (32nd notes)");
@@ -205,7 +211,7 @@ void UIManager::drawBarCloseUp() const
 		}
 
 		//Indicator
-		if (this->_action == Action::BAR_EDIT && i == this->_seq.currentNoteInBar)
+		if (this->_action == Action::BAR_EDIT && i == this->_seq.currentNoteInBar())
 		{
 			c = Color::DarkRed;
 		}
@@ -217,26 +223,21 @@ void UIManager::drawBarCloseUp() const
 	Util::newLine(2);
 }
 
-
 void UIManager::drawNoteProperties(uint8_t offsetTop)  const
 {
-	int detailsPosition = 0;
+	array<string, 4> properties = { "Pitch:", "Volume:", "Duration:", "Ligature:" };
 
-	array<string, 3> properties = { "Pitch:", "Volume:", "Duration:" };
+	auto note = this->_seq.getCurrentNote();
 
-	uint8_t pitch = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
-	unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
-
-	auto note = this->_seq.getNote({ NotePitch(pitch), bar }, detailsPosition);
-
-	array<string, 3> values;
+	array<string, 4> values;
 
 	if(note != nullptr)
 	{
 		values = {
 			SMF::NotePitchMap[note->pitch()],
 			to_string(note->volume()),
-			to_string(note->duration())
+			to_string(note->duration()),
+			note->ligatureToString()
 		};
 	}
 
@@ -249,7 +250,7 @@ void UIManager::drawNoteProperties(uint8_t offsetTop)  const
 	Util::setColor(Color::Gray);
 	for(size_t i = 0; i < properties.size(); i++)
 	{
-		Util::setCursorPos(offsetLeft, offsetTop + i + 1);
+		Util::setCursorPos(offsetLeft, offsetTop + static_cast<SHORT>(i) + 1);
 		cout << properties[i] << "\t";
 
 		if(note != nullptr)
@@ -326,12 +327,12 @@ void UIManager::drawEditMenu() const
 		"UP", "DN", "LT", "RT", 
 		" N", 
 		" W", " S", " A", " D",
-		" B", " I" };
+		" B", " I", " V" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
 		"View mode",
 		"Note up", "Note down", "Note left", "Note right",
-		"Bar Edit", "Ins note" };
+		"Bar Edit", "Ins note", "Chg vol" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{

@@ -1,6 +1,7 @@
 #include "Sequence.h"
 
 #include "Note.h"
+#include "Util/Util.h"
 
 using namespace SMF;
 using namespace std;
@@ -24,9 +25,9 @@ Sequence::~Sequence()
 
 bool Sequence::showPreviousMeasure()
 {
-	if (this->firstBarToShow > 1)
+	if (this->_firstBarToShow > 1)
 	{
-		this->firstBarToShow--;
+		this->_firstBarToShow--;
 		return true;
 	}
 
@@ -35,9 +36,9 @@ bool Sequence::showPreviousMeasure()
 
 bool Sequence::showNextMeasure(uint16_t pianoRollWidth)
 {
-	if (this->firstBarToShow < Sequence::MAX_MEASURE - (pianoRollWidth / this->_numerator) + 1)
+	if (this->_firstBarToShow < Sequence::MAX_MEASURE - (pianoRollWidth / this->_numerator) + 1)
 	{
-		this->firstBarToShow++;
+		this->_firstBarToShow++;
 		return true;
 	}
 
@@ -46,9 +47,9 @@ bool Sequence::showNextMeasure(uint16_t pianoRollWidth)
 
 bool Sequence::showPreviousNote()
 {
-	if (this->firstNoteToShow > NotePitch::C_MINUS_1)
+	if (this->_firstNoteToShow > NotePitch::C_MINUS_1)
 	{
-		this->firstNoteToShow = NotePitch(static_cast<uint8_t>(this->firstNoteToShow) - 1);
+		this->_firstNoteToShow = NotePitch(static_cast<uint8_t>(this->_firstNoteToShow) - 1);
 		return true;
 	}
 
@@ -57,9 +58,9 @@ bool Sequence::showPreviousNote()
 
 bool Sequence::showNextNote(uint16_t pianoRollHeight)
 {
-	if (static_cast<uint8_t>(this->firstNoteToShow) < static_cast<uint8_t>(NotePitch::G9) - pianoRollHeight + 1)
+	if (static_cast<uint8_t>(this->_firstNoteToShow) < static_cast<uint8_t>(NotePitch::G9) - pianoRollHeight + 1)
 	{
-		this->firstNoteToShow = NotePitch(static_cast<uint8_t>(this->firstNoteToShow) + 1);
+		this->_firstNoteToShow = NotePitch(static_cast<uint8_t>(this->_firstNoteToShow) + 1);
 		return true;
 	}
 
@@ -68,9 +69,9 @@ bool Sequence::showNextNote(uint16_t pianoRollHeight)
 
 bool Sequence::moveIndicatorUp()
 {
-	if (this->currentNote > 0)
+	if (this->_currentNotePitch > 0)
 	{
-		this->currentNote--;
+		this->_currentNotePitch--;
 		return true;
 	}
 
@@ -79,9 +80,9 @@ bool Sequence::moveIndicatorUp()
 
 bool Sequence::moveIndicatorDown(uint16_t pianoRollHeight)
 {
-	if (this->currentNote < pianoRollHeight - 1)
+	if (this->_currentNotePitch < pianoRollHeight - 1U)
 	{
-		this->currentNote++;
+		this->_currentNotePitch++;
 		return true;
 	}
 
@@ -90,9 +91,9 @@ bool Sequence::moveIndicatorDown(uint16_t pianoRollHeight)
 
 bool Sequence::moveIndicatorLeft()
 {
-	if (this->currentBar > 0)
+	if (this->_currentBar > 0)
 	{
-		this->currentBar--;
+		this->_currentBar--;
 		return true;
 	}
 
@@ -101,9 +102,9 @@ bool Sequence::moveIndicatorLeft()
 
 bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
 {
-	if (this->currentBar < pianoRollWidth - 1)
+	if (this->_currentBar < pianoRollWidth - 1U)
 	{
-		this->currentBar++;
+		this->_currentBar++;
 		return true;
 	}
 
@@ -112,9 +113,9 @@ bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
 
 bool Sequence::moveCloseUpIndicatorLeft()
 {
-	if(this->currentNoteInBar > 0)
+	if(this->_currentNoteInBar > 0)
 	{
-		this->currentNoteInBar--;
+		this->_currentNoteInBar--;
 		return true;
 	}
 
@@ -123,19 +124,14 @@ bool Sequence::moveCloseUpIndicatorLeft()
 
 bool Sequence::moveCloseUpIndicatorRight()
 {
-	//TODO: Maybe move to a member var
-	uint8_t numOfNotes = static_cast<uint8_t>(pow(2, 5 - log2(this->_denominator))) - 1;
-	
-	if(this->currentNoteInBar < numOfNotes)
+	if(this->_currentNoteInBar < this->_numOf32NotesInBar -1)
 	{
-		this->currentNoteInBar++;
+		this->_currentNoteInBar++;
 		return true;
 	}
 
 	return false;
 }
-
-
 
 vector<Note*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
 {
@@ -144,6 +140,11 @@ vector<Note*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
 
 Note* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
 {
+	if(this->_notes.find(coords) == this->_notes.end())
+	{
+		return nullptr;
+	}
+
 	if(this->_notes[coords].size() == 0)
 	{
 		return nullptr;
@@ -152,17 +153,34 @@ Note* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
 	return this->_notes[coords][index];
 }
 
-bool Sequence::addNote(pair<NotePitch, unsigned> coords, 
-	uint8_t index, uint16_t duration)
+Note* Sequence::getCurrentNote()
+{
+	auto coords = this->getCurrentNoteCoords();
+	auto note = this->getNote({ coords.first, coords.second }, this->_currentNoteInBar);
+
+	return note;
+}
+
+pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
+{
+	uint8_t pitch = static_cast<uint8_t>(this->_firstNoteToShow) + this->_currentNotePitch;
+	unsigned bar = (this->_firstBarToShow - 1) * this->_numerator + this->_currentBar;
+
+	return{ NotePitch(pitch), bar };
+}
+
+bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
 {
 	if(this->_notes.find(coords) == this->_notes.end())
 	{
 		this->_notes[coords] = vector<Note*>(0);
 	}
-
+	
+	//These things are in seperate loops, cause of
+	//option to delete note
 	if (this->_notes[coords].size() == 0)
 	{
-		size_t newSize = pow(2, 5 - log2(this->_denominator));
+		size_t newSize = static_cast<size_t>(pow(2, 5 - log2(this->_denominator)));
 		this->_notes[coords].resize(newSize);
 
 		for(auto& a : this->_notes[coords])
@@ -176,12 +194,20 @@ bool Sequence::addNote(pair<NotePitch, unsigned> coords,
 		return false;
 	}
 
-	this->_notes[coords][index] = new Note(coords.first, duration);
+	this->_notes[coords][index] = new Note(coords.first);
 	return true;
 }
+
+bool Sequence::addNoteAtCurrentPosition()
+{
+	auto coords = this->getCurrentNoteCoords();
+	return this->addNote(coords, this->_currentNoteInBar);
+}
+
 
 void Sequence::setMeasure(const uint16_t& numerator, const uint16_t& denominator)
 {
 	this->_numerator = numerator;
 	this->_denominator = denominator;
+	this->_numOf32NotesInBar = static_cast<uint8_t>(pow(2, 5 - log2(this->_denominator)));
 }

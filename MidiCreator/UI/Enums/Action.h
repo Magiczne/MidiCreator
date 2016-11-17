@@ -7,6 +7,7 @@ namespace UI
 		NONE,
 		CHANGE_SEQ_NAME,
 		CHANGE_MEASURE,
-		BAR_EDIT
+		BAR_EDIT,
+		CHANGE_NOTE_VOLUME
 	};
 }

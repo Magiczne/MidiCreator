@@ -18,6 +18,7 @@ private:
 
 	void changeSequenceName() const;
 	void changeMeasure(uint16_t vk) const;
+	void changeNoteVolume() const;
 
 	//Handling keys:
 	void handleKeyA() const;
@@ -27,6 +28,7 @@ private:
 	void handleKeyM() const;
 	void handleKeyN() const;
 	void handleKeyS() const;
+	void handleKeyV() const;
 	void handleKeyW() const;
 
 	void handleUpArrow() const;

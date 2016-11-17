@@ -1,5 +1,6 @@
 #include "EventManager.h"
 #include "Sequence.h"
+#include "Note.h"
 #include "SMF/Enums/NotePitch.h"
 
 using namespace UI;
@@ -72,6 +73,10 @@ void EventManager::sequenceScreenLoop() const
 
 		case 83:	//S
 			this->handleKeyS();
+			break;
+
+		case 86:	//V
+			this->handleKeyV();
 			break;
 
 		case 87:	//W
@@ -179,17 +184,12 @@ void EventManager::handleKeyI() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::BAR_EDIT)
 	{
-		uint8_t note = static_cast<uint8_t>(this->_seq.firstNoteToShow) + this->_seq.currentNote;
-		unsigned bar = (this->_seq.firstBarToShow - 1) * this->_seq.numerator() + this->_seq.currentBar;
-		uint8_t index = this->_seq.currentNoteInBar;
-
-		if (this->_seq.addNote({ NotePitch(note), bar }, index, 100))
+		if (this->_seq.addNoteAtCurrentPosition())
 		{
 			this->_uiManager->drawSequenceScreen();
 		}
 	}
 }
-
 
 void EventManager::handleKeyM() const
 {
@@ -237,6 +237,25 @@ void EventManager::handleKeyS() const
 		{
 			this->_uiManager->drawSequenceScreen();
 		}
+	}
+}
+
+void EventManager::handleKeyV() const
+{
+	//TODO: Check if note is present
+	if(
+		this->_uiManager->action() == Action::BAR_EDIT && 
+		this->_uiManager->mode() == Mode::EDIT &&
+		this->_seq.getCurrentNote() != nullptr)
+	{
+		this->_uiManager->action(Action::CHANGE_NOTE_VOLUME);
+		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
+
+		Util::setCursorPos(pos.Value);
+		this->changeNoteVolume();
+
+		this->_uiManager->action(Action::BAR_EDIT);
+		this->_uiManager->drawSequenceScreen();
 	}
 }
 
@@ -288,6 +307,25 @@ void EventManager::handleRightArrow() const
 }
 
 #pragma endregion
+
+void EventManager::changeNoteVolume() const
+{
+	string vol;
+	cin >> vol;
+
+	if(vol != "")
+	{
+		try
+		{
+			int val = stoi(vol);
+			this->_seq.getCurrentNote()->volume(val);
+		}
+		catch (invalid_argument)
+		{
+			//TODO: Some error message
+		}
+	}
+}
 
 void EventManager::changeSequenceName() const
 {
