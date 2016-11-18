@@ -1,14 +1,24 @@
 #include "Sequence.h"
 
 #include "Note.h"
-#include "Util/Util.h"
 
 using namespace SMF;
 using namespace std;
 
 Sequence::Sequence()
 {
+	this->_name = "New sequence";
+	this->_format = FileFormat::SINGLE_TRACK;
 	this->setMeasure(6, 8);
+
+	this->_firstBarToShow = 1;
+	this->_firstNoteToShow = NotePitch::C3;
+
+	this->_currentChannel = MIDIChannel::CHANNEL_1;
+	this->_currentBar = 0;
+	this->_currentNotePitch = 0;
+	this->_currentNoteInBar = 0;
+
 	this->_notes.clear();
 }
 

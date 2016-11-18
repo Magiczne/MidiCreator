@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "SMF/Enums/NotePitch.h"
+#include "SMF/Enums/MIDIChannel.h"
 #include "SMF/Util/Maps.h"
 
 class Note;
@@ -9,20 +10,19 @@ class Note;
 class Sequence
 {
 private:
-	std::string _name = "New sequence";
-	SMF::FileFormat _format	= SMF::FileFormat::SINGLE_TRACK;
+	std::string _name;
+	SMF::FileFormat _format;
 	uint16_t _numerator;
 	uint16_t _denominator;
 
-	unsigned _firstBarToShow = 1;
-	SMF::NotePitch _firstNoteToShow = SMF::NotePitch::C3;
+	unsigned _firstBarToShow;
+	SMF::NotePitch _firstNoteToShow;
 
-	//Edit mode specific
-	unsigned _currentBar = 0;
-	unsigned _currentNotePitch = 0;
-
-	uint8_t _currentNoteInBar = 0;
-
+	SMF::MIDIChannel _currentChannel;
+	unsigned _currentBar;
+	unsigned _currentNotePitch;
+	uint8_t _currentNoteInBar;	
+	
 	uint8_t _numOf32NotesInBar;
 
 	//TODO: Maybe switch to unordered map
@@ -93,6 +93,9 @@ public:
 
 	void firstNoteToShow(const SMF::NotePitch& val) { this->_firstNoteToShow = val; }
 	const SMF::NotePitch& firstNoteToShow() const { return this->_firstNoteToShow; }
+
+	void currentChannel(const SMF::MIDIChannel& val) { this->_currentChannel = val; }
+	const SMF::MIDIChannel& currentChannel() const { return this->_currentChannel; }
 
 	void currentBar(const unsigned& val) { this->_currentBar = val; }
 	const unsigned& currentBar() const { return this->_currentBar; }

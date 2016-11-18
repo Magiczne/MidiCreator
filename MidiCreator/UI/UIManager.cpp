@@ -110,6 +110,8 @@ uint8_t UIManager::drawSequenceInfo() const
 		"Mode: " + ModeMap[this->_mode],
 		"Measure: " + to_string(this->_seq.numerator()) + "/" + to_string(this->_seq.denominator())
 	);
+
+	Util::writeLeft("Current channel: " + MIDIChannelMap[this->_seq.currentChannel()]);
 	Util::newLine(2);
 
 	return Util::writtenLines;
@@ -136,8 +138,7 @@ void UIManager::drawPianoRoll() const
 	Util::newLine();
 
 	cout << "    ";
-	Util::makeLine(this->pianoRollWidth,
-		Util::createColor(Color::DarkRed));
+	Util::makeLine(this->pianoRollWidth, Util::createColor(Color::DarkRed));
 
 	for (unsigned k = 0; k < this->pianoRollHeight; k++)
 	{

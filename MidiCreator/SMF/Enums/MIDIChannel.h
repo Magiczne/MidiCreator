@@ -13,7 +13,7 @@ namespace SMF
 		CHANNEL_7		= 6,
 		CHANNEL_8		= 7,
 		CHANNEL_9		= 8,
-		PERCUSSION		= 9,
+		CHANNEL_10		= 9,
 		CHANNEL_11		= 10,
 		CHANNEL_12		= 11,
 		CHANNEL_13		= 12,

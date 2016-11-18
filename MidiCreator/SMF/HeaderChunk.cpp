@@ -2,7 +2,7 @@
 
 using namespace SMF;
 
-HeaderChunk::HeaderChunk(FileFormat ff, short numOfTracks = 0, short division = 0) :
+HeaderChunk::HeaderChunk(FileFormat ff, short numOfTracks, short division) :
 	_fileFormat(ff),
 	_numberOfTracks(numOfTracks),
 	_division(division)
@@ -18,7 +18,7 @@ std::vector<uint8_t> HeaderChunk::toByteVector()
 		ret[i] = this->_chunkType[i];
 
 	ret[7] = this->_headerLength;
-	ret[9] = this->_fileFormat;
+	ret[9] = static_cast<uint8_t>(this->_fileFormat);
 
 	//To get bits in range x -> y we need to
 	//Shift right bits that we want to the lowest position

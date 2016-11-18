@@ -21,7 +21,7 @@ namespace SMF
 		short _division;
 
 	public:
-		HeaderChunk(FileFormat, short, short);
+		explicit HeaderChunk(FileFormat ff, short numOfTracks = 0, short division = 0);
 
 		void addTrack() { this->_numberOfTracks++; }
 

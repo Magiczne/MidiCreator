@@ -2,6 +2,7 @@
 
 #include "../../stdafx.h"
 #include "../Enums/FileFormat.h"
+#include "../Enums/MIDIChannel.h"
 #include "../Enums/NotePitch.h"
 
 namespace SMF
@@ -164,5 +165,25 @@ namespace SMF
 		{ NotePitch::F9, "F9" },
 		{ NotePitch::F9_SHARP, "F#9" },
 		{ NotePitch::G9, "G9" }
+	};
+
+	static std::map<MIDIChannel, std::string> MIDIChannelMap =
+	{
+		{ MIDIChannel::CHANNEL_1, "1" },
+		{ MIDIChannel::CHANNEL_2, "2" },
+		{ MIDIChannel::CHANNEL_3, "3" },
+		{ MIDIChannel::CHANNEL_4, "4" },
+		{ MIDIChannel::CHANNEL_5, "5" },
+		{ MIDIChannel::CHANNEL_6, "6" },
+		{ MIDIChannel::CHANNEL_7, "7" },
+		{ MIDIChannel::CHANNEL_8, "8" },
+		{ MIDIChannel::CHANNEL_9, "9" },
+		{ MIDIChannel::CHANNEL_10, "Percussion" },
+		{ MIDIChannel::CHANNEL_11, "11" },
+		{ MIDIChannel::CHANNEL_12, "12" },
+		{ MIDIChannel::CHANNEL_13, "13" },
+		{ MIDIChannel::CHANNEL_14, "14" },
+		{ MIDIChannel::CHANNEL_15, "15" },
+		{ MIDIChannel::CHANNEL_16, "16" }
 	};
 }
