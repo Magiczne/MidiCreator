@@ -19,16 +19,22 @@ Sequence::Sequence()
 	this->_currentNotePitch = 0;
 	this->_currentNoteInBar = 0;
 
-	this->_notes.clear();
+	for(auto& map : this->_notes)
+	{
+		map.clear();
+	}
 }
 
 Sequence::~Sequence()
 {
-	for (auto& pair : _notes)
+	for (auto& map : _notes)
 	{
-		for(auto& note : pair.second)
+		for (auto& pair : map)
 		{
-			delete note;
+			for (auto& note : pair.second)
+			{
+				delete note;
+			}
 		}
 	}
 }
@@ -145,22 +151,24 @@ bool Sequence::moveCloseUpIndicatorRight()
 
 vector<Note*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
 {
-	return this->_notes[coords];
+	return this->_notes[static_cast<uint8_t>(this->_currentChannel)][coords];
 }
 
 Note* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
 {
-	if(this->_notes.find(coords) == this->_notes.end())
+	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
+
+	if(this->_notes[channel].find(coords) == this->_notes[channel].end())
 	{
 		return nullptr;
 	}
 
-	if(this->_notes[coords].size() == 0)
+	if(this->_notes[channel][coords].size() == 0)
 	{
 		return nullptr;
 	}
 
-	return this->_notes[coords][index];
+	return this->_notes[channel][coords][index];
 }
 
 Note* Sequence::getCurrentNote()
@@ -181,30 +189,32 @@ pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
 
 bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
 {
-	if(this->_notes.find(coords) == this->_notes.end())
+	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
+
+	if(this->_notes[channel].find(coords) == this->_notes[channel].end())
 	{
-		this->_notes[coords] = vector<Note*>(0);
+		this->_notes[channel][coords] = vector<Note*>(0);
 	}
 	
 	//These things are in seperate loops, cause of
 	//option to delete note
-	if (this->_notes[coords].size() == 0)
+	if (this->_notes[channel][coords].size() == 0)
 	{
 		size_t newSize = static_cast<size_t>(pow(2, 5 - log2(this->_denominator)));
-		this->_notes[coords].resize(newSize);
+		this->_notes[channel][coords].resize(newSize);
 
-		for(auto& a : this->_notes[coords])
+		for(auto& a : this->_notes[channel][coords])
 		{
 			a = nullptr;
 		}
 	}
 
-	if(this->_notes[coords][index] != nullptr)
+	if(this->_notes[channel][coords][index] != nullptr)
 	{
 		return false;
 	}
 
-	this->_notes[coords][index] = new Note(coords.first);
+	this->_notes[channel][coords][index] = new Note(coords.first);
 	return true;
 }
 

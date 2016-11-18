@@ -31,7 +31,12 @@ private:
 	 *	NotePitch
 	 *	bar
 	 */
-	std::map< std::pair<SMF::NotePitch, unsigned>, std::vector<Note*> > _notes;
+	std::array< 
+		std::map< 
+			std::pair<SMF::NotePitch, unsigned>, 
+			std::vector<Note*> 
+		>, 
+	16> _notes;
 
 public:
 	static const unsigned MAX_MEASURE = 35;
