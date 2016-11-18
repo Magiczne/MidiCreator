@@ -55,6 +55,10 @@ void EventManager::sequenceScreenLoop() const
 			this->handleKeyB();
 			break;
 
+		case 67:	//C
+			this->handleKeyC();
+			break;
+
 		case 68:	//D
 			this->handleKeyD();
 			break;
@@ -163,6 +167,21 @@ void EventManager::handleKeyB() const
 	}
 }
 
+void EventManager::handleKeyC() const
+{
+	if(this->_uiManager->mode() == Mode::VIEW && this->_uiManager->action() == Action::NONE)
+	{
+		this->_uiManager->action(Action::CHANGE_MIDI_CHANNEL);
+		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
+
+		Util::setCursorPos(pos.Value);
+		this->changeMidiChannel();
+
+		this->_uiManager->action(Action::NONE);
+		this->_uiManager->drawSequenceScreen();
+	}
+}
+
 void EventManager::handleKeyD() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT)
@@ -238,7 +257,6 @@ void EventManager::handleKeyS() const
 	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
 	{
 		this->_uiManager->action(Action::CHANGE_SEQ_NAME);
-
 		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
 
 		Util::setCursorPos(pos.Value);
@@ -379,4 +397,34 @@ void EventManager::toggleNoteLigature() const
 {
 	auto currentNote = this->_seq.getCurrentNote();
 	currentNote->ligature(!currentNote->ligature());
+}
+
+void EventManager::changeMidiChannel() const
+{
+	string channel;
+	cin >> channel;
+
+	if(channel != "")
+	{
+		int val;
+
+		try
+		{
+			val = stoi(channel);
+		}
+		catch(invalid_argument)
+		{
+			//TODO: Some error message
+			return;
+		}
+
+		if(val >= 1 && val <= 16)
+		{
+			this->_seq.currentChannel(MIDIChannel(val - 1));
+		}
+		else
+		{
+			//TODO: Some error message
+		}
+	}
 }

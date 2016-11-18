@@ -48,8 +48,13 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	//Param Editor
 	switch (this->_action)
 	{
-	case Action::CHANGE_SEQ_NAME:
-		ret = COORD{ 0, this->drawParamEditor("Enter sequence name:") };
+	case Action::CHANGE_MIDI_CHANNEL:
+		ret = COORD
+		{
+			0, this->drawParamEditor("Choose channel(1-16): ", {
+				"Channel 10 is the percussion channel"
+			})
+		};
 		break;
 
 	case Action::CHANGE_MEASURE:
@@ -67,7 +72,10 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	case Action::CHANGE_NOTE_VOLUME:
 		ret = COORD{ 0, this->drawParamEditor("Enter note volume(0 - 127):") }; 
 		break;
-		
+
+	case Action::CHANGE_SEQ_NAME:
+		ret = COORD{ 0, this->drawParamEditor("Enter sequence name:") };
+		break;		
 
 	default:
 		break;
@@ -298,10 +306,10 @@ void UIManager::drawViewMenu() const
 
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
-		" N", " S", " M" };
+		" N", " S", " M", " C" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
-		"Edit mode", "Seq name", "Set measure" };
+		"Edit mode", "Seq name", "Set measure", "Set channel" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{
