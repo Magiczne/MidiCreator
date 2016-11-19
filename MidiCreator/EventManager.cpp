@@ -1,7 +1,6 @@
 #include "EventManager.h"
 #include "Sequence.h"
 #include "Note.h"
-#include "SMF/Enums/NotePitch.h"
 
 using namespace UI;
 using namespace SMF;
@@ -276,7 +275,6 @@ void EventManager::handleKeyS() const
 
 void EventManager::handleKeyV() const
 {
-	//TODO: Check if note is present
 	if(
 		this->_uiManager->action() == Action::BAR_EDIT && 
 		this->_uiManager->mode() == Mode::EDIT &&
@@ -356,7 +354,7 @@ void EventManager::changeNoteVolume() const
 		}
 		catch (invalid_argument)
 		{
-			//TODO: Some error message
+			this->_uiManager->lastMessage("Volume has to be a number(0-127)");
 		}
 	}
 }
@@ -414,7 +412,7 @@ void EventManager::changeMidiChannel() const
 		}
 		catch(invalid_argument)
 		{
-			//TODO: Some error message
+			this->_uiManager->lastMessage("MIDI Channel has to be a number!");
 			return;
 		}
 
@@ -424,7 +422,7 @@ void EventManager::changeMidiChannel() const
 		}
 		else
 		{
-			//TODO: Some error message
+			this->_uiManager->lastMessage("MIDI Channel has to be betwwen 1 and 16");
 		}
 	}
 }

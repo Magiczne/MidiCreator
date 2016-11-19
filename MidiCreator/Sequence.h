@@ -25,7 +25,6 @@ private:
 	
 	uint8_t _numOf32NotesInBar;
 
-	//TODO: Maybe switch to unordered map
 	/**
 	 * Pair:
 	 *	NotePitch

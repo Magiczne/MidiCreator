@@ -81,6 +81,8 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		break;
 	}
 
+	this->drawLastInfo();
+
 	//Menu
 	if (this->_mode == Mode::VIEW)
 	{
@@ -99,6 +101,11 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	}
 
 	Util::setCursorPos(0, this->_size.rows - 3);
+
+	if (this->_lastMessage != "") 
+	{
+		this->_lastMessage = "";
+	};
 
 	return ret;
 }
@@ -148,14 +155,29 @@ void UIManager::drawPianoRoll() const
 	cout << "    ";
 	Util::makeLine(this->pianoRollWidth, Util::createColor(Color::DarkRed));
 
+	NotePitch p;
+	string rowText;
+	uint8_t key;
+	size_t textOffset = (this->_seq.currentChannel() == MIDIChannel::CHANNEL_10 ? 18 : 4);
+
 	for (unsigned k = 0; k < this->pianoRollHeight; k++)
 	{
 		Util::setColor(Color::Red);
-		NotePitch p = NotePitch(static_cast<uint8_t>(this->_seq.firstNoteToShow()) + k);
-		string text = SMF::NotePitchMap[p];
-		cout << text;
+		key = static_cast<uint8_t>(this->_seq.firstNoteToShow()) + k;
+		p = NotePitch(key);
+		
+		if(this->_seq.currentChannel() == MIDIChannel::CHANNEL_10)
+		{
+			rowText = SMF::GMPercussionMap[ GMPercussion(key) ];
+		}
+		else
+		{
+			rowText = SMF::NotePitchMap[p];
+		}
 
-		for (size_t i = 0; i < 4 - text.size(); i++)
+		cout << rowText;
+
+		for (size_t i = 0; i < textOffset - rowText.size(); i++)
 		{
 			cout << ' ';
 		}
@@ -296,14 +318,21 @@ SHORT UIManager::drawParamEditor(string msg, vector<string> additional) const
 	return tmp + 2 + static_cast<SHORT>(additional.size());
 }
 
+void UIManager::drawLastInfo() const
+{
+	Util::newLine(this->_size.rows - Util::writtenLines - 4);
+	Util::setColor(Color::Gray);
+	Util::writeLeft("Last message: " + this->_lastMessage);
+	Util::newLine();
+}
+
+
 #pragma endregion
 
 #pragma region Menu
 
 void UIManager::drawViewMenu() const
 {
-	Util::newLine(this->_size.rows - Util::writtenLines - 2);
-
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
 		" N", " S", " M", " C" };
@@ -332,8 +361,6 @@ void UIManager::drawViewMenu() const
 
 void UIManager::drawEditMenu() const
 {
-	Util::newLine(this->_size.rows - Util::writtenLines - 2);
-
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
 		" N", 

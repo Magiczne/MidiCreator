@@ -4,6 +4,7 @@
 #include "../Enums/FileFormat.h"
 #include "../Enums/MIDIChannel.h"
 #include "../Enums/NotePitch.h"
+#include "../Enums/GMPercussion.h"
 
 namespace SMF
 {
@@ -185,5 +186,56 @@ namespace SMF
 		{ MIDIChannel::CHANNEL_14, "14" },
 		{ MIDIChannel::CHANNEL_15, "15" },
 		{ MIDIChannel::CHANNEL_16, "16" }
+	};
+
+	static std::map<GMPercussion, std::string> GMPercussionMap = 
+	{
+		{ GMPercussion::ACOUSTIC_BASS_DRUM, "Acoustic Bass Drum" },
+		{ GMPercussion::BASS_DRUM_1, "Bass Drum 1" },
+		{ GMPercussion::SIDE_STICK, "Side Stick" },
+		{ GMPercussion::ACOUSTIC_SNARE, "Acoustic Snare" },
+		{ GMPercussion::HAND_CLAP, "Hand Clap" },
+		{ GMPercussion::ELECTRIC_SNARE, "Electric Snare" },
+		{ GMPercussion::LOW_FLOOR_TOM, "Low Floor Tom" },
+		{ GMPercussion::CLOSED_HIHAT, "Closed Hi-Hat" },
+		{ GMPercussion::HIGH_FLOOR_TOM, "High Floor Tom" },
+		{ GMPercussion::PEDAL_HIHAT, "Pedal Hi-Hat" },
+		{ GMPercussion::LOW_TOM, "Low Tom" },
+		{ GMPercussion::OPEN_HIHAT, "Open Hi-Hat" },
+		{ GMPercussion::LOW_MID_TOM, "Low Mid Tom" },
+		{ GMPercussion::HI_MID_TOM, "Hi Mid Tom" },
+		{ GMPercussion::CRASH_CYMBAL_1, "Crash Cymbal 1" },
+		{ GMPercussion::HIGH_TOM, "High Tom" },
+		{ GMPercussion::RIDE_CYMBAL_1, "Ride Cymbal 1" },
+		{ GMPercussion::CHINESE_CYMBAL, "Chinese Cymbal" },
+		{ GMPercussion::RIDE_BELL, "Ride Bell" },
+		{ GMPercussion::TAMBUORINE, "Tambuorine" },
+		{ GMPercussion::SPLASH_CYMBAL, "Splash Cymbal" },
+		{ GMPercussion::COWBELL, "Cowbell" },
+		{ GMPercussion::CRASH_CYMBAL_2, "Crash Cymbal 2" },
+		{ GMPercussion::VIBRASLAP, "Vibraslap" },
+		{ GMPercussion::RIDE_CYMBAL_2, "Ride Cymbal 2" },
+		{ GMPercussion::HI_BONGO, "Hi Bongo" },
+		{ GMPercussion::LOW_BONGO, "Low Bongo" },
+		{ GMPercussion::MUTE_HI_CONGA, "Mute Hi Conga" },
+		{ GMPercussion::OPEN_HI_CONGA, "Open Hi Conga" },
+		{ GMPercussion::LOW_CONGA, "Low Conga" },
+		{ GMPercussion::HIGH_TIMABLE, "High Timable" },
+		{ GMPercussion::LOW_TIMABLE, "Low Timable" },
+		{ GMPercussion::HIGH_AGOGO, "High Agogo" },
+		{ GMPercussion::LOW_AGOGO, "Low Agogo" },
+		{ GMPercussion::CABASA, "Cabasa" },
+		{ GMPercussion::MARACAS, "Maracas" },
+		{ GMPercussion::SHORT_WHISTLE, "Short Whistle" },
+		{ GMPercussion::LONG_WHISTLE, "Long Whistle" },
+		{ GMPercussion::SHORT_GUIRO, "Short Guiro" },
+		{ GMPercussion::LONG_GUIRO, "Long Guiro" },
+		{ GMPercussion::CLAVES, "Claves" },
+		{ GMPercussion::HI_WOOD_BLOCK, "Hi Wood Block" },
+		{ GMPercussion::LOW_WOOD_BLOCK, "Low Wood Block" },
+		{ GMPercussion::MUTE_CUICA, "Mute Cuica" },
+		{ GMPercussion::OPEN_CUICA, "Open Cuica" },
+		{ GMPercussion::MUTE_TRIANGLE, "Mute Triangle" },
+		{ GMPercussion::OPEN_TRIANGLE, "Open Triangle" }
 	};
 }

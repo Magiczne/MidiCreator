@@ -21,6 +21,8 @@ namespace UI
 		Sequence& _seq;
 		ConsoleSize _size;
 
+		std::string _lastMessage;
+
 		//Sequence screen components
 		uint8_t drawSequenceInfo() const;
 		void drawPianoRoll() const;
@@ -28,7 +30,7 @@ namespace UI
 		void drawNoteProperties(uint8_t offsetTop) const;
 		SHORT drawParamEditor(std::string msg, std::vector<std::string> additional = {}) const;
 
-		
+		void drawLastInfo() const;
 		void drawViewMenu() const;
 		void drawEditMenu() const;
 
@@ -49,6 +51,9 @@ namespace UI
 
 		void action(const Action& val) { this->_action = val; }
 		const Action& action() const { return this->_action; }
+
+		void lastMessage(const std::string& val) { this->_lastMessage = val; }
+		const std::string& lastMessage() const { return this->_lastMessage; }
 	};
 }
 
