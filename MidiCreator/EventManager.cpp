@@ -206,9 +206,19 @@ void EventManager::handleKeyI() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::BAR_EDIT)
 	{
-		if (this->_seq.addNoteAtCurrentPosition())
+		if(this->_seq.getCurrentNote() == nullptr)
 		{
-			this->_uiManager->drawSequenceScreen();
+			if (this->_seq.addNoteAtCurrentPosition())
+			{
+				this->_uiManager->drawSequenceScreen();
+			}
+		}
+		else
+		{
+			if(this->_seq.removeNoteAtCurrentPosition())
+			{
+				this->_uiManager->drawSequenceScreen();
+			}
 		}
 	}
 }

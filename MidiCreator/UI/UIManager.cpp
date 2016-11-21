@@ -81,6 +81,8 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		break;
 	}
 
+	//TODO: Draw this after menu is drawn to ensure
+	//that we don't go off-screen
 	this->drawLastInfo();
 
 	//Menu
@@ -326,7 +328,6 @@ void UIManager::drawLastInfo() const
 	Util::newLine();
 }
 
-
 #pragma endregion
 
 #pragma region Menu
@@ -347,8 +348,7 @@ void UIManager::drawViewMenu() const
 		Util::setColor(Color::DarkGray);
 		cout << ' ' << names[i];
 	
-		//TODO: Fix for consoleSize
-		if ((i + 1) % 8 == 0)
+		if ((i + 1) % (this->_size.cols / 16) == 0)
 		{
 			cout << endl;
 		}
@@ -370,7 +370,7 @@ void UIManager::drawEditMenu() const
 		"Roll up", "Roll down", "Roll left", "Roll right", 
 		"View mode",
 		"Note up", "Note down", "Note left", "Note right",
-		"Bar Edit", "Ins note", "Chg vol", "Ligature" };
+		"Bar Edit", "Toggle note", "Chg vol", "Ligature" };
 
 	for (size_t i = 0; i < names.size(); i++)
 	{
@@ -379,8 +379,7 @@ void UIManager::drawEditMenu() const
 		Util::setColor(Color::DarkGray);
 		cout << ' ' << names[i];
 
-		//TODO: Fix for consoleSize
-		if((i+1) % 8 == 0)
+		if((i+1) % (this->_size.cols / 16) == 0)
 		{
 			cout << endl;
 		}

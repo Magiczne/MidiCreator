@@ -66,6 +66,9 @@ public:
 
 	bool addNoteAtCurrentPosition();
 	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	bool removeNoteAtCurrentPosition();
+	bool removeNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+
 	bool hasNotes() const { return !this->_notes.empty(); }
 
 

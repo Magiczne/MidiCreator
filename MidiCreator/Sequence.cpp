@@ -187,6 +187,8 @@ pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
 	return{ NotePitch(pitch), bar };
 }
 
+#pragma region Note manipulation
+
 bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
@@ -223,6 +225,35 @@ bool Sequence::addNoteAtCurrentPosition()
 	auto coords = this->getCurrentNoteCoords();
 	return this->addNote(coords, this->_currentNoteInBar);
 }
+
+bool Sequence::removeNote(pair<NotePitch, unsigned> coords, uint8_t index)
+{
+	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
+
+	if(this->_notes[channel].find(coords) == this->_notes[channel].end())
+	{
+		return false;
+	}
+
+	if(this->_notes[channel][coords][index] == nullptr)
+	{
+		return false;
+	}
+
+	delete this->_notes[channel][coords][index];
+	this->_notes[channel][coords][index] = nullptr;
+	return true;
+}
+
+bool Sequence::removeNoteAtCurrentPosition()
+{
+	auto coords = this->getCurrentNoteCoords();
+	return this->removeNote(coords, this->_currentNoteInBar);
+}
+
+
+
+#pragma endregion
 
 
 void Sequence::setMeasure(const uint16_t& numerator, const uint16_t& denominator)
