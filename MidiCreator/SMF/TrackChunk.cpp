@@ -237,4 +237,3 @@ std::vector<uint8_t> TrackChunk::toByteVector()
 
 	return ret;
 }
-

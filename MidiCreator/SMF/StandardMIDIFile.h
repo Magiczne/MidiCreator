@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Abstract/IConvertibleToByteCollection.h"
+#include "Abstract/IConvertibleToByteCollection.h"
 
 namespace SMF
 {

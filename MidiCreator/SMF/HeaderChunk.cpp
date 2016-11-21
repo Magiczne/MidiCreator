@@ -32,4 +32,3 @@ std::vector<uint8_t> HeaderChunk::toByteVector()
 
 	return ret;
 }
-

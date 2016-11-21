@@ -60,9 +60,6 @@
     <ClInclude Include="SMF\Enums\FileFormat.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="Abstract\IConvertibleToByteCollection.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="SMF\Enums\MidiEventType.h">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
@@ -158,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="SMF\Util\SMF_Note.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Abstract\IConvertibleToByteCollection.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

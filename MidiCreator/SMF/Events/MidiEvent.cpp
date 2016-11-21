@@ -57,4 +57,3 @@ bool MidiEvent::isInitialized()
 	}
 	return true;
 }
-

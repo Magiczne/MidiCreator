@@ -15,4 +15,3 @@ namespace SMF
 		std::vector<uint8_t> toByteVector() override;
 	};
 }
-

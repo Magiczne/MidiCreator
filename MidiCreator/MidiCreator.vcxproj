@@ -175,7 +175,7 @@
     <ClInclude Include="SMF\Exceptions\TrackNotClosedException.h" />
     <ClInclude Include="SMF\Exceptions\TrackNumberOutOfRangeException.h" />
     <ClInclude Include="SMF\HeaderChunk.h" />
-    <ClInclude Include="Abstract\IConvertibleToByteCollection.h" />
+    <ClInclude Include="SMF\Abstract\IConvertibleToByteCollection.h" />
     <ClInclude Include="SMF\Abstract\IEvent.h" />
     <ClInclude Include="SMF\Events\MetaEvent.h" />
     <ClInclude Include="SMF\StandardMIDIFile.h" />

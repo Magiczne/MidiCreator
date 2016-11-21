@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../stdafx.h"
-#include "../../Abstract/IConvertibleToByteCollection.h"
+#include "../Abstract/IConvertibleToByteCollection.h"
 #include "../../Util/VLQ.h"
 
 namespace SMF

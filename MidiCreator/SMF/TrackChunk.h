@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Abstract/IConvertibleToByteCollection.h"
+#include "Abstract/IConvertibleToByteCollection.h"
 #include "Enums/EventType.h"
 #include "Enums/GMPatch.h"
 #include "Enums/MIDIChannel.h"
@@ -42,4 +42,3 @@ namespace SMF
 		std::vector<uint8_t> toByteVector() override;		
 	};
 }
-

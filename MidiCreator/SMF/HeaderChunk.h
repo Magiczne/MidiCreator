@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../stdafx.h"
-#include "../Abstract/IConvertibleToByteCollection.h"
+#include "Abstract/IConvertibleToByteCollection.h"
 #include "Enums/FileFormat.h"
 
 namespace SMF

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../stdafx.h"
-#include "../../Abstract/IConvertibleToByteCollection.h"
+#include "../Abstract/IConvertibleToByteCollection.h"
 #include "../Abstract/IEvent.h"
 #include "../Enums/EventType.h"
 #include "../Exceptions/EventNotInitializedException.h"

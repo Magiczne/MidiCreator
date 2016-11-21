@@ -56,4 +56,3 @@ namespace UI
 		const std::string& lastMessage() const { return this->_lastMessage; }
 	};
 }
-

@@ -23,4 +23,3 @@ public:
 
 	int exec() const;
 };
-
