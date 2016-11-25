@@ -38,7 +38,7 @@ private:
 	16> _notes;
 
 public:
-	static const unsigned MAX_MEASURE = 35;
+	static const unsigned MAX_BAR = 500;
 	
 	Sequence();
 	~Sequence();
@@ -70,7 +70,6 @@ public:
 	bool removeNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
 
 	bool hasNotes() const { return !this->_notes.empty(); }
-
 
 	//Getters/setters
 

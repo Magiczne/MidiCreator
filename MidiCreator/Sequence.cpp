@@ -52,7 +52,7 @@ bool Sequence::showPreviousMeasure()
 
 bool Sequence::showNextMeasure(uint16_t pianoRollWidth)
 {
-	if (this->_firstBarToShow < Sequence::MAX_MEASURE - (pianoRollWidth / this->_numerator) + 1)
+	if (this->_firstBarToShow < Sequence::MAX_BAR - (pianoRollWidth / this->_numerator) + 1)
 	{
 		this->_firstBarToShow++;
 		return true;
