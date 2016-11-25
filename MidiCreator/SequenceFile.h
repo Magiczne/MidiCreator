@@ -72,12 +72,21 @@ class SequenceFile
 		uint8_t noteLigature;
 	};
 
+	uint32_t notesDataLength;
 	std::vector<NoteData> notesData;
 
 	#pragma endregion 
 
-	SequenceFile() {};
+	std::vector<uint8_t> byteSequence;
 
+	SequenceFile();
+	void toByteVector();
+
+	void add2ByteValueToByteVector(uint16_t);
+	void add4ByteValueToByteVector(uint16_t);
+	void addStringToByteVector(std::string);
 public:
-	SequenceFile fromSequence(Sequence& seq);
+	static SequenceFile fromSequence(Sequence& seq);
+
+	bool saveFile(std::string path);
 };

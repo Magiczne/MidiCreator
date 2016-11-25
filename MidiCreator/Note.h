@@ -4,6 +4,8 @@
 
 class Note
 {
+	friend class SequenceFile;
+
 private:
 
 	SMF::NotePitch _pitch;
