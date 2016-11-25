@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 
+class Sequence;
+
 class SequenceFile
 {
 	#pragma region FileHeader
@@ -73,4 +75,9 @@ class SequenceFile
 	std::vector<NoteData> notesData;
 
 	#pragma endregion 
+
+	SequenceFile() {};
+
+public:
+	SequenceFile fromSequence(Sequence& seq);
 };

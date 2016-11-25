@@ -9,6 +9,8 @@ class Note;
 
 class Sequence
 {
+	friend class SequenceFile;
+
 private:
 	std::string _name;
 	SMF::FileFormat _format;
