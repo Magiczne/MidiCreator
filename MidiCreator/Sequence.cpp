@@ -27,9 +27,9 @@ Sequence::Sequence()
 
 Sequence::~Sequence()
 {
-	for (auto& map : _notes)
+	for (const auto& map : _notes)
 	{
-		for (auto& pair : map)
+		for (const auto& pair : map)
 		{
 			for (auto& note : pair.second)
 			{

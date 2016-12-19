@@ -72,7 +72,9 @@ class SequenceFile
 		uint8_t noteLigature;
 	};
 
-	uint32_t notesDataLength;
+	//4B Size of notes data vector
+	uint32_t numberOfNotes;
+
 	std::vector<NoteData> notesData;
 
 	#pragma endregion 
@@ -80,6 +82,11 @@ class SequenceFile
 	std::vector<uint8_t> byteSequence;
 
 	SequenceFile();
+
+	void calculateDataLength();
+	void calculateDataOffset();
+	void calculateCRC();
+
 	void toByteVector();
 
 	void add2ByteValueToByteVector(uint16_t);

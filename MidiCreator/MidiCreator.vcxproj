@@ -189,6 +189,7 @@
     <ClInclude Include="UI\Enums\Mode.h" />
     <ClInclude Include="UI\UIManager.h" />
     <ClInclude Include="UI\Util\Maps.h" />
+    <ClInclude Include="Util\CRC32.h" />
     <ClInclude Include="Util\Nullable.h" />
     <ClInclude Include="Util\Util.h" />
     <ClInclude Include="Util\VLQ.h" />

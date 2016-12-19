@@ -1,6 +1,7 @@
 #include "SequenceFile.h"
 #include "Sequence.h"
 #include "Note.h"
+#include "Util/CRC32.h"
 
 SequenceFile::SequenceFile()
 {
@@ -12,6 +13,8 @@ SequenceFile::SequenceFile()
 	this->fileFormat = 0;
 	this->numerator = 0;
 	this->denominator = 0;
+
+	this->numberOfNotes = 0;
 }
 
 SequenceFile SequenceFile::fromSequence(Sequence& seq)
@@ -21,7 +24,7 @@ SequenceFile SequenceFile::fromSequence(Sequence& seq)
 	#pragma region Basic Sequence Data
 
 	file.name = seq._name;;
-	file.nameLength = file.name.length();
+	file.nameLength = static_cast<uint8_t>(file.name.length());
 	file.fileFormat = static_cast<uint8_t>(seq._format);
 	file.numerator = seq._numerator;
 	file.denominator = seq._denominator;
@@ -30,23 +33,23 @@ SequenceFile SequenceFile::fromSequence(Sequence& seq)
 
 	uint8_t track = 0;
 	uint8_t barPosition;
-	for(auto& map : seq._notes)
+	for(const auto& map : seq._notes)
 	{
-		for(auto& pair : map)
+		for(const auto& pair : map)
 		{
 			barPosition = 0;
-			for(auto& note : pair.second)
+			for(const auto& note : pair.second)
 			{
 				if(note != nullptr)
 				{
 					file.notesData.push_back({
-						track,									//Track number
-						static_cast<uint8_t>(note->_pitch),		//Note pitch
-						pair.first.second,						//Bar number
+						track,										//Track number
+						static_cast<uint8_t>(note->_pitch),			//Note pitch
+						static_cast<uint16_t>(pair.first.second),	//Bar number
 						barPosition,
 						note->_volume,
 						note->_duration,
-						note->_ligature == true ? 0x01 : 0x00
+						note->_ligature == true ? static_cast<uint8_t>(0x01) : static_cast<uint8_t>(0x00)
 					});
 				}
 				barPosition++;
@@ -55,14 +58,49 @@ SequenceFile SequenceFile::fromSequence(Sequence& seq)
 		track++;
 	}
 
-	file.notesDataLength = file.notesData.size();
+	file.numberOfNotes = file.notesData.size();
 
-	//TODO: Calculate dataLength
-	//TODO: Calculate dataOffset
-	//TODO: Calculate CRC For header
+	//Header calculation
+	file.calculateDataLength();
+	file.calculateDataOffset();
+	file.calculateCRC();
 
 	return file;
 }
+
+void SequenceFile::calculateDataLength()
+{
+	uint32_t len = 16 +						//Header length
+		2 + this->nameLength +				//Name
+		1 + 2 + 4 + 						//Rest of basic sequence data
+		4 +									//Number of notes
+		this->numberOfNotes * (1 + 1 + 4 + 1 + 1 + 2 + 1);
+
+	this->dataLength = len;
+}
+
+void SequenceFile::calculateDataOffset()
+{
+	uint16_t offset = 2 + this->nameLength + 1 + 2 + 4;
+	this->dataOffset = offset;
+}
+
+void SequenceFile::calculateCRC()
+{
+	CRC32<> crc;
+	std::vector<uint8_t> header = {
+		static_cast<uint8_t>(this->magicNumber[0]), 
+		static_cast<uint8_t>(this->magicNumber[1]),
+		static_cast<uint8_t>(this->magicNumber[2]),
+		static_cast<uint8_t>(this->magicNumber[3]),
+		this->versionNumber, this->pad
+	};
+	crc.update(header);
+
+	this->crc32 = static_cast<uint32_t>(crc);
+}
+
+
 
 void SequenceFile::toByteVector()
 {
@@ -93,9 +131,9 @@ void SequenceFile::toByteVector()
 
 	#pragma region Notes
 
-	this->add4ByteValueToByteVector(notesDataLength);
+	this->add4ByteValueToByteVector(numberOfNotes);
 
-	for(auto& noteData : this->notesData)
+	for(const auto& noteData : this->notesData)
 	{
 		this->byteSequence.push_back(noteData.track);
 		this->byteSequence.push_back(noteData.notePitch);
