@@ -22,5 +22,7 @@
 #include <vector>
 #include <windows.h>
 
+#define BIG_ENDIAN
+
 //#define METHOD_DEBUG
 #define DEBUG_MSG

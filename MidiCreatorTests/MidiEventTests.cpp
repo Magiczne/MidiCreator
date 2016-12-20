@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "Util.h"
 
 #include "../MidiCreator/SMF/Events/MidiEvent.h"
 

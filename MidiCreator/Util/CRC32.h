@@ -61,7 +61,7 @@ public:
 	DT update(UInt8 *data, unsigned len);
 
 	//Magiczne 2016
-	DT update(const std::vector<uint8_t>& data);
+	DT update(std::vector<uint8_t>& data);
 
 private:
 	// CRC value
@@ -220,17 +220,21 @@ DT CRC32<DT, QUOTIENT>::update(UInt8 *data, unsigned len)
 
 //Magiczne 2016
 template <class DT, DT QUOTIENT>
-DT CRC32<DT, QUOTIENT>::update(const std::vector<uint8_t>& data)
+DT CRC32<DT, QUOTIENT>::update(std::vector<uint8_t>& data)
 {
-	unsigned len1 = data.size() & 0x03;
-	unsigned len2 = data.size() - len1;
+	unsigned len = data.size();
+
+	unsigned len1 = len & 0x03;
+	unsigned len2 = len - len1;
+
+	auto arrData = data.data();
 
 	if (len2>0) {
-		crc = crc32DW(&data[0], len2, crc);
+		crc = crc32DW(arrData, len2, crc);
 	}
 
 	if (len1>0) {
-		crc = crc32B(&data[0] + len2, len1, crc);
+		crc = crc32B(arrData + len2, len1, crc);
 	}
 
 	return crc;

@@ -10,8 +10,11 @@
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
 
+#include <array>
 #include <string>
 #include <iomanip>
 #include <iostream>
 #include <vector>
 #include <random>
+
+#define BIG_ENDIAN

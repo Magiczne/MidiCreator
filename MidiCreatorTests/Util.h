@@ -13,11 +13,20 @@ namespace MidiCreatorTests
 		for (auto &v : arr)
 		{
 			stream << setfill('0') << setw(2);
-			stream << hex << (int)v << ' ';
+			stream << hex << static_cast<int>(v) << ' ';
 		}
 
 		stream << endl;
 
+		string s = stream.str();
+
+		Logger::WriteMessage(s.c_str());
+	}
+
+	static void printHex(int var)
+	{
+		stringstream stream;
+		stream << hex << var;
 		string s = stream.str();
 
 		Logger::WriteMessage(s.c_str());

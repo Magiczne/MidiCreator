@@ -3,6 +3,7 @@
 #include "Util.h"
 
 #include "../MidiCreator/SMF/HeaderChunk.h"
+#include "../MidiCreator/SMF/Util/Maps.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace SMF;
@@ -21,8 +22,7 @@ namespace MidiCreatorTests
 			Assert::AreEqual(
 				FileFormat::MULTIPLE_SONG,
 				h.fileFormat(), 
-				L"Not Equal\n",
-				LINE_INFO());
+				L"Not Equal\n");
 		}
 
 		TEST_METHOD(IncrementingTrackCounter)
@@ -32,10 +32,9 @@ namespace MidiCreatorTests
 			h.addTrack();
 
 			Assert::AreEqual(
-				(short)(n + 1),
+				static_cast<short>(n + 1),
 				h.numberOfTracks(),
-				L"TrackCounter is not incrementing!\n",
-				LINE_INFO());
+				L"TrackCounter is not incrementing!\n");
 		}
 
 		TEST_METHOD(ConvertingToByteCollection)
@@ -46,7 +45,7 @@ namespace MidiCreatorTests
 			vector<uint8_t> expected = {
 				'M', 'T' ,'h', 'd', 
 				0x00, 0x00, 0x00, 0x06,
-				0x00, (short)FileFormat::MULTIPLE_SONG,
+				0x00, static_cast<short>(FileFormat::MULTIPLE_SONG),
 				0x00, 0x00,
 				0x00, 0x00
 			};
@@ -61,22 +60,18 @@ namespace MidiCreatorTests
 			Assert::AreEqual(
 				true,
 				flag,
-				L"Byte vectors are not the same!\n",
-				LINE_INFO()
-			);
+				L"Byte vectors are not the same!\n");
 		}
 		
 		TEST_METHOD(SettingAndGettingDivision)
 		{
 			HeaderChunk h(FileFormat::MULTIPLE_SONG, 0, 0);
-			h.setDivision(96);
+			h.division(96);
 
 			Assert::AreEqual(
-				(short)96,
+				static_cast<short>(96),
 				h.division(),
-				L"Division is not changing!\n",
-				LINE_INFO()
-			);
+				L"Division is not changing!\n");
 		}
 	};
 }
@@ -88,9 +83,10 @@ namespace Microsoft
 		namespace CppUnitTestFramework
 		{
 			template<>
-			static std::wstring ToString<FileFormat>(const FileFormat& hc)
+			static std::wstring ToString<FileFormat>(const FileFormat& ff)
 			{
-				return std::to_wstring(hc);
+				auto str = FileFormatMap[ff];
+				return wstring(str.begin(), str.end());
 			}
 		}
 	}
