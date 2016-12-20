@@ -56,6 +56,7 @@ public:
 	CRC32() { Reset(); }
 	void Reset() { crc = 0; }
 	explicit operator DT () { return crc; }
+	DT getChecksum() { return crc; }
 
 	// update
 	DT update(UInt8 *data, unsigned len);

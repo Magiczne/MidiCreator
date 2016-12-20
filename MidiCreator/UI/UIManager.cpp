@@ -336,10 +336,12 @@ void UIManager::drawViewMenu() const
 {
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
-		" N", " S", " M", " C" };
+		" N", " S", " M", " C", 
+		"F5", "F6" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
-		"Edit mode", "Seq name", "Set measure", "Set channel" };
+		"Edit mode", "Seq name", "Set measure", "Set channel",
+		"Save seq", "Export MIDI"};
 
 	for (size_t i = 0; i < names.size(); i++)
 	{

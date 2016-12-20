@@ -23,17 +23,20 @@ private:
 	void changeMidiChannel() const;
 
 	//Handling keys:
-	void handleKeyA() const;
-	void handleKeyB() const;
-	void handleKeyC() const;
-	void handleKeyD() const;
-	void handleKeyI() const;
-	void handleKeyL() const;
-	void handleKeyM() const;
-	void handleKeyN() const;
-	void handleKeyS() const;
-	void handleKeyV() const;
-	void handleKeyW() const;
+	void handleA() const;
+	void handleB() const;
+	void handleC() const;
+	void handleD() const;
+	void handleI() const;
+	void handleL() const;
+	void handleM() const;
+	void handleN() const;
+	void handleS() const;
+	void handleV() const;
+	void handleW() const;
+	
+	void handleF5() const;
+	void handleF6() const;
 
 	void handleUpArrow() const;
 	void handleDownArrow() const;

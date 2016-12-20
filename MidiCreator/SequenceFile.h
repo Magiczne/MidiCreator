@@ -6,6 +6,8 @@ class Sequence;
 
 class SequenceFile
 {
+	//File header
+	//16B
 	#pragma region FileHeader
 
 	//+00 4B Magic number
@@ -49,6 +51,7 @@ class SequenceFile
 
 	#pragma region Notes
 
+	//11B
 	struct NoteData {
 		//1B Track Number [0-15]
 		uint8_t track;
@@ -90,10 +93,10 @@ class SequenceFile
 	void toByteVector();
 
 	void add2ByteValueToByteVector(uint16_t);
-	void add4ByteValueToByteVector(uint16_t);
+	void add4ByteValueToByteVector(uint32_t);
 	void addStringToByteVector(std::string);
 public:
-	static SequenceFile fromSequence(Sequence& seq);
+	static SequenceFile fromSequence(const Sequence& seq);
 
 	bool saveFile(std::string path);
 };

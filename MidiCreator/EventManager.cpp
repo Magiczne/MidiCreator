@@ -1,6 +1,7 @@
 #include "EventManager.h"
 #include "Sequence.h"
 #include "Note.h"
+#include "SequenceFile.h"
 
 using namespace UI;
 using namespace SMF;
@@ -47,47 +48,47 @@ void EventManager::sequenceScreenLoop() const
 			break;
 
 		case 65:	//A
-			this->handleKeyA();
+			this->handleA();
 			break;
 
 		case 66:	//B
-			this->handleKeyB();
+			this->handleB();
 			break;
 
 		case 67:	//C
-			this->handleKeyC();
+			this->handleC();
 			break;
 
 		case 68:	//D
-			this->handleKeyD();
+			this->handleD();
 			break;
 
 		case 73:	//I
-			this->handleKeyI();
+			this->handleI();
 			break;
 
 		case 76:	//L
-			this->handleKeyL();
+			this->handleL();
 			break;
 
 		case 77:	//M
-			this->handleKeyM();
+			this->handleM();
 			break;
 
 		case 78:	//N
-			this->handleKeyN();
+			this->handleN();
 			break;
 
 		case 83:	//S
-			this->handleKeyS();
+			this->handleS();
 			break;
 
 		case 86:	//V
-			this->handleKeyV();
+			this->handleV();
 			break;
 
 		case 87:	//W
-			this->handleKeyW();
+			this->handleW();
 			break;
 
 		#pragma region Numbers
@@ -126,6 +127,18 @@ void EventManager::sequenceScreenLoop() const
 
 		#pragma endregion
 
+		#pragma region Function Keys
+
+		case VK_F5:
+			this->handleF5();
+			break;
+
+		case VK_F6:
+			this->handleF6();
+			break;
+
+		#pragma endregion
+
 		default:
 			break;
 		}
@@ -135,7 +148,7 @@ void EventManager::sequenceScreenLoop() const
 
 #pragma region Key Handlers
 
-void EventManager::handleKeyA() const
+void EventManager::handleA() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT)
 	{
@@ -156,7 +169,7 @@ void EventManager::handleKeyA() const
 	}
 }
 
-void EventManager::handleKeyB() const
+void EventManager::handleB() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT)
 	{
@@ -166,7 +179,7 @@ void EventManager::handleKeyB() const
 	}
 }
 
-void EventManager::handleKeyC() const
+void EventManager::handleC() const
 {
 	if(this->_uiManager->mode() == Mode::VIEW && this->_uiManager->action() == Action::NONE)
 	{
@@ -181,7 +194,7 @@ void EventManager::handleKeyC() const
 	}
 }
 
-void EventManager::handleKeyD() const
+void EventManager::handleD() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT)
 	{
@@ -202,7 +215,7 @@ void EventManager::handleKeyD() const
 	}
 }
 
-void EventManager::handleKeyI() const
+void EventManager::handleI() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::BAR_EDIT)
 	{
@@ -223,7 +236,7 @@ void EventManager::handleKeyI() const
 	}
 }
 
-void EventManager::handleKeyL() const
+void EventManager::handleL() const
 {
 	if(
 		this->_uiManager->action() == Action::BAR_EDIT &&
@@ -235,7 +248,7 @@ void EventManager::handleKeyL() const
 	}
 }
 
-void EventManager::handleKeyM() const
+void EventManager::handleM() const
 {
 	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
 	{
@@ -252,7 +265,7 @@ void EventManager::handleKeyM() const
 	}
 }
 
-void EventManager::handleKeyN() const
+void EventManager::handleN() const
 {
 	if (this->_uiManager->action() == Action::NONE)
 	{
@@ -261,7 +274,7 @@ void EventManager::handleKeyN() const
 	}
 }
 
-void EventManager::handleKeyS() const
+void EventManager::handleS() const
 {
 	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
 	{
@@ -283,7 +296,7 @@ void EventManager::handleKeyS() const
 	}
 }
 
-void EventManager::handleKeyV() const
+void EventManager::handleV() const
 {
 	if(
 		this->_uiManager->action() == Action::BAR_EDIT && 
@@ -301,7 +314,7 @@ void EventManager::handleKeyV() const
 	}
 }
 
-void EventManager::handleKeyW() const
+void EventManager::handleW() const
 {
 	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::NONE)
 	{
@@ -310,6 +323,27 @@ void EventManager::handleKeyW() const
 			this->_uiManager->drawSequenceScreen();
 		}
 	}
+}
+
+#pragma endregion
+
+#pragma region Function Key Handlers
+
+void EventManager::handleF5() const
+{
+	if (this->_uiManager->mode() == Mode::VIEW && this->_uiManager->action() == Action::NONE)
+	{
+		auto seqFile = SequenceFile::fromSequence(this->_seq);
+		seqFile.saveFile("magicznyplik.msq");
+		this->_uiManager->lastMessage("Sequence was saved to magicznyplik.msq");
+		this->_uiManager->drawSequenceScreen();
+		//TODO: Ask user for filename and place
+	}
+}
+
+void EventManager::handleF6() const
+{
+	//TODO: Implement 
 }
 
 #pragma endregion

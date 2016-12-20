@@ -2,6 +2,7 @@
 #include "Sequence.h"
 #include "Note.h"
 #include "Util/CRC32.h"
+#include "Util/Util.h"
 
 SequenceFile::SequenceFile()
 {
@@ -17,7 +18,7 @@ SequenceFile::SequenceFile()
 	this->numberOfNotes = 0;
 }
 
-SequenceFile SequenceFile::fromSequence(Sequence& seq)
+SequenceFile SequenceFile::fromSequence(const Sequence& seq)
 {
 	SequenceFile file;
 
@@ -65,6 +66,9 @@ SequenceFile SequenceFile::fromSequence(Sequence& seq)
 	file.calculateDataOffset();
 	file.calculateCRC();
 
+	//Creating data vector
+	file.toByteVector();
+
 	return file;
 }
 
@@ -95,12 +99,10 @@ void SequenceFile::calculateCRC()
 		static_cast<uint8_t>(this->magicNumber[3]),
 		this->versionNumber, this->pad
 	};
-	crc.update(header);
+	this->crc32 = crc.update(header.data(), 6);
 
-	this->crc32 = static_cast<uint32_t>(crc);
+	UI::Util::debug(this->crc32);
 }
-
-
 
 void SequenceFile::toByteVector()
 {
@@ -137,7 +139,7 @@ void SequenceFile::toByteVector()
 	{
 		this->byteSequence.push_back(noteData.track);
 		this->byteSequence.push_back(noteData.notePitch);
-		this->add2ByteValueToByteVector(noteData.barNumber);
+		this->add4ByteValueToByteVector(noteData.barNumber);
 		this->byteSequence.push_back(noteData.barPosition);
 		this->byteSequence.push_back(noteData.noteVolume);
 		this->add2ByteValueToByteVector(noteData.noteDuration);
@@ -154,9 +156,9 @@ void SequenceFile::add2ByteValueToByteVector(uint16_t val)
 		this->byteSequence.push_back((val >> i) & 0xFF);
 	}
 }
-void SequenceFile::add4ByteValueToByteVector(uint16_t val)
+void SequenceFile::add4ByteValueToByteVector(uint32_t val)
 {
-	for(int8_t i = 24; i >= 0; i++)
+	for(int8_t i = 24; i >= 0; i -= 8)
 	{
 		this->byteSequence.push_back((val >> i) & 0xFF);
 	}
@@ -172,6 +174,8 @@ void SequenceFile::addStringToByteVector(std::string val)
 bool SequenceFile::saveFile(std::string path)
 {
 	std::ofstream file(path, std::ios::trunc | std::ios::binary);
+
+	UI::Util::debug(this->byteSequence.size());
 
 	if (file.good())
 	{
