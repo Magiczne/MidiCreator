@@ -40,22 +40,21 @@ int MidiCreator::exec() const
 	this->uiManager->drawMenu();
 	switch (this->eventManager->menuLoop())
 	{
-		case MenuEventType::NEW_SEQUENCE:
+		case NEW_SEQUENCE:
 			this->uiManager->drawSequenceScreen();
 			this->eventManager->sequenceScreenLoop();
 			break;
 
-		case MenuEventType::OPEN_SEQUENCE:
+		case OPEN_SEQUENCE:
 			//TODO:
 			break;
 
-		case MenuEventType::QUIT:
+		case QUIT:
 			break;
 
 		default: 
 			break;
 	}
 
-	std::cin.get();
 	return 0;
 }

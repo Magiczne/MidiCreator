@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 //
 // crc.h is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,11 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-
-
-typedef unsigned int   UInt32;
-typedef unsigned short UInt16;
-typedef unsigned char  UInt8;
+//Modified by Magiczne
 
 /**
 * htonl()
@@ -49,7 +46,7 @@ typedef unsigned char  UInt8;
 /**
 * CRC32
 */
-template <class DT = UInt32, DT QUOTIENT = 0x04c11db7>
+template <class DT = uint32_t, DT QUOTIENT = 0x04c11db7>
 class CRC32
 {
 public:
@@ -59,32 +56,32 @@ public:
 	DT getChecksum() { return crc; }
 
 	// update
-	DT update(UInt8 *data, unsigned len);
+	DT update(uint8_t *data, unsigned len);
 
-	//Magiczne 2016
-	DT update(std::vector<uint8_t>& data);
+	///Magiczne 2016
+	DT update(const std::vector<uint8_t>& data);
 
 private:
 	// CRC value
 	DT crc;
 
 	// help function
-	static DT crc32B(UInt8 *data, unsigned len, UInt32 result = 0);
-	static DT crc32DW(UInt8 *data, unsigned len, UInt32 result = 0);
+	static DT crc32B(uint8_t *data, unsigned len, uint32_t result = 0);
+	static DT crc32DW(uint8_t *data, unsigned len, uint32_t result = 0);
 };
 
 
 // CRC-32-IEEE 802.3  (V.42, MPEG-2, PNG [15], POSIX cksum)
-typedef CRC32<UInt32, 0x04c11db7> CRC32_IEEE802;
+typedef CRC32<uint32_t, 0x04c11db7> CRC32_IEEE802;
 
 // CRC-32C (Castagnoli)
-typedef CRC32<UInt32, 0x1EDC6F41> CRC32_C;
+typedef CRC32<uint32_t, 0x1EDC6F41> CRC32_C;
 
 // CRC-32K (Koopman)
-typedef CRC32<UInt32, 0x741B8CD7> CRC32_K;
+typedef CRC32<uint32_t, 0x741B8CD7> CRC32_K;
 
 // CRC-32Q (aviation; AIXM [16])
-typedef CRC32<UInt32, 0x814141AB> CRC32_A;
+typedef CRC32<uint32_t, 0x814141AB> CRC32_A;
 
 
 /**
@@ -93,10 +90,10 @@ typedef CRC32<UInt32, 0x814141AB> CRC32_A;
 *
 */
 template <class DT, DT QUOTIENT>
-DT CRC32<DT, QUOTIENT>::crc32B(UInt8 *data, unsigned len, UInt32 result)
+DT CRC32<DT, QUOTIENT>::crc32B(uint8_t *data, unsigned len, uint32_t result)
 {
 	unsigned                 i, j;
-	UInt8       octet;
+	uint8_t       octet;
 
 	result = ~result;
 
@@ -128,16 +125,16 @@ DT CRC32<DT, QUOTIENT>::crc32B(UInt8 *data, unsigned len, UInt32 result)
 *
 */
 
-template <UInt32 QUOTIENT>
+template <uint32_t QUOTIENT>
 struct crc32_table_t {
 
-	UInt32 crctab[256];
+	uint32_t crctab[256];
 
 	crc32_table_t() {
 
 		unsigned i, j;
 
-		UInt32 crc;
+		uint32_t crc;
 
 		for (i = 0; i < 256; i++)
 		{
@@ -157,15 +154,13 @@ struct crc32_table_t {
 
 
 template <class DT, DT QUOTIENT>
-DT CRC32<DT, QUOTIENT>::crc32DW(UInt8 *data, unsigned len, UInt32 result)
+DT CRC32<DT, QUOTIENT>::crc32DW(uint8_t *data, unsigned len, uint32_t result)
 {
 	static crc32_table_t<QUOTIENT> table;
-	// ReSharper disable CppEntityNeverUsed
-	UInt32 *crctab = table.crctab;
-	// ReSharper restore CppEntityNeverUsed
+	uint32_t *crctab = table.crctab;
 
-	UInt32 *p = reinterpret_cast<UInt32 *>(data);
-	UInt32 *e = reinterpret_cast<UInt32 *>(data + len);
+	uint32_t *p = reinterpret_cast<uint32_t *>(data);
+	uint32_t *e = reinterpret_cast<uint32_t *>(data + len);
 
 	// assert( (len&0x03) == 0 );
 
@@ -202,7 +197,7 @@ DT CRC32<DT, QUOTIENT>::crc32DW(UInt8 *data, unsigned len, UInt32 result)
 *
 */
 template <class DT, DT QUOTIENT>
-DT CRC32<DT, QUOTIENT>::update(UInt8 *data, unsigned len)
+DT CRC32<DT, QUOTIENT>::update(uint8_t *data, unsigned len)
 {
 	unsigned len1 = len & 0x03;
 	unsigned len2 = len - len1;
@@ -221,7 +216,7 @@ DT CRC32<DT, QUOTIENT>::update(UInt8 *data, unsigned len)
 
 //Magiczne 2016
 template <class DT, DT QUOTIENT>
-DT CRC32<DT, QUOTIENT>::update(std::vector<uint8_t>& data)
+DT CRC32<DT, QUOTIENT>::update(const std::vector<uint8_t>& data)
 {
 	unsigned len = data.size();
 

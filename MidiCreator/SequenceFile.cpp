@@ -99,9 +99,7 @@ void SequenceFile::calculateCRC()
 		static_cast<uint8_t>(this->magicNumber[3]),
 		this->versionNumber, this->pad
 	};
-	this->crc32 = crc.update(header.data(), 6);
-
-	UI::Util::debug(this->crc32);
+	this->crc32 = crc.update(header);
 }
 
 void SequenceFile::toByteVector()

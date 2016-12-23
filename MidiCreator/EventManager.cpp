@@ -23,15 +23,15 @@ MenuEventType EventManager::menuLoop()
 		case 0:
 			break;
 		case '1':
-			return MenuEventType::NEW_SEQUENCE;
+			return NEW_SEQUENCE;
 		case '2':
-			return MenuEventType::OPEN_SEQUENCE;
+			return OPEN_SEQUENCE;
 		default:
 			break;
 		}
 	} while (c != '3');
 
-	return MenuEventType::QUIT;
+	return QUIT;
 }
 
 void EventManager::sequenceScreenLoop() const
@@ -150,9 +150,9 @@ void EventManager::sequenceScreenLoop() const
 
 void EventManager::handleA() const
 {
-	if (this->_uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == EDIT)
 	{
-		if(this->_uiManager->action() == Action::BAR_EDIT)
+		if(this->_uiManager->action() == BAR_EDIT)
 		{
 			if(this->_seq.moveCloseUpIndicatorLeft())
 			{
@@ -171,9 +171,9 @@ void EventManager::handleA() const
 
 void EventManager::handleB() const
 {
-	if (this->_uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == EDIT)
 	{
-		Action action = this->_uiManager->action() == Action::BAR_EDIT ? Action::NONE : Action::BAR_EDIT;
+		Action action = this->_uiManager->action() == BAR_EDIT ? NONE : BAR_EDIT;
 		this->_uiManager->action(action);
 		this->_uiManager->drawSequenceScreen();
 	}
@@ -181,24 +181,24 @@ void EventManager::handleB() const
 
 void EventManager::handleC() const
 {
-	if(this->_uiManager->mode() == Mode::VIEW && this->_uiManager->action() == Action::NONE)
+	if(this->_uiManager->mode() == VIEW && this->_uiManager->action() == NONE)
 	{
-		this->_uiManager->action(Action::CHANGE_MIDI_CHANNEL);
+		this->_uiManager->action(CHANGE_MIDI_CHANNEL);
 		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
 
 		Util::setCursorPos(pos.Value);
 		this->changeMidiChannel();
 
-		this->_uiManager->action(Action::NONE);
+		this->_uiManager->action(NONE);
 		this->_uiManager->drawSequenceScreen();
 	}
 }
 
 void EventManager::handleD() const
 {
-	if (this->_uiManager->mode() == Mode::EDIT)
+	if (this->_uiManager->mode() == EDIT)
 	{
-		if(this->_uiManager->action() == Action::BAR_EDIT)
+		if(this->_uiManager->action() == BAR_EDIT)
 		{
 			if(this->_seq.moveCloseUpIndicatorRight())
 			{
@@ -217,7 +217,7 @@ void EventManager::handleD() const
 
 void EventManager::handleI() const
 {
-	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::BAR_EDIT)
+	if (this->_uiManager->mode() == EDIT && this->_uiManager->action() == BAR_EDIT)
 	{
 		if(this->_seq.getCurrentNote() == nullptr)
 		{
@@ -239,8 +239,8 @@ void EventManager::handleI() const
 void EventManager::handleL() const
 {
 	if(
-		this->_uiManager->action() == Action::BAR_EDIT &&
-		this->_uiManager->mode() == Mode::EDIT &&
+		this->_uiManager->action() == BAR_EDIT &&
+		this->_uiManager->mode() == EDIT &&
 		this->_seq.getCurrentNote()  != nullptr)
 	{
 		this->toggleNoteLigature();
@@ -250,13 +250,13 @@ void EventManager::handleL() const
 
 void EventManager::handleM() const
 {
-	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
+	if (this->_uiManager->action() == NONE && this->_uiManager->mode() == VIEW)
 	{
 		//CRITICAL: Throws an exception when notes are in the roll. FIX
 		//TODO: changing measure when notes are in the roll
 		try
 		{
-			this->_uiManager->action(Action::CHANGE_MEASURE);
+			this->_uiManager->action(CHANGE_MEASURE);
 
 			Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
 			Util::setCursorPos(pos.Value);
@@ -267,31 +267,34 @@ void EventManager::handleM() const
 
 void EventManager::handleN() const
 {
-	if (this->_uiManager->action() == Action::NONE)
+	if (this->_uiManager->action() == NONE)
 	{
-		this->_uiManager->mode(this->_uiManager->mode() == Mode::EDIT ? Mode::VIEW : Mode::EDIT);
+		this->_uiManager->mode(this->_uiManager->mode() == EDIT ? VIEW : EDIT);
 		this->_uiManager->drawSequenceScreen();
 	}
 }
 
 void EventManager::handleS() const
 {
-	if (this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::VIEW)
+	if (this->_uiManager->action() == NONE)
 	{
-		this->_uiManager->action(Action::CHANGE_SEQ_NAME);
-		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
-
-		Util::setCursorPos(pos.Value);
-		this->changeSequenceName();
-
-		this->_uiManager->action(Action::NONE);
-		this->_uiManager->drawSequenceScreen();
-	}
-	else if(this->_uiManager->action() == Action::NONE && this->_uiManager->mode() == Mode::EDIT)
-	{
-		if (this->_seq.moveIndicatorDown(this->_uiManager->pianoRollHeight))
+		if(this->_uiManager->mode() == VIEW)
 		{
+			this->_uiManager->action(CHANGE_SEQ_NAME);
+			Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
+
+			Util::setCursorPos(pos.Value);
+			this->changeSequenceName();
+
+			this->_uiManager->action(NONE);
 			this->_uiManager->drawSequenceScreen();
+		}
+		else
+		{
+			if (this->_seq.moveIndicatorDown(this->_uiManager->pianoRollHeight))
+			{
+				this->_uiManager->drawSequenceScreen();
+			}
 		}
 	}
 }
@@ -299,24 +302,24 @@ void EventManager::handleS() const
 void EventManager::handleV() const
 {
 	if(
-		this->_uiManager->action() == Action::BAR_EDIT && 
-		this->_uiManager->mode() == Mode::EDIT &&
+		this->_uiManager->action() == BAR_EDIT && 
+		this->_uiManager->mode() == EDIT &&
 		this->_seq.getCurrentNote() != nullptr)
 	{
-		this->_uiManager->action(Action::CHANGE_NOTE_VOLUME);
+		this->_uiManager->action(CHANGE_NOTE_VOLUME);
 		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
 
 		Util::setCursorPos(pos.Value);
 		this->changeNoteVolume();
 
-		this->_uiManager->action(Action::BAR_EDIT);
+		this->_uiManager->action(BAR_EDIT);
 		this->_uiManager->drawSequenceScreen();
 	}
 }
 
 void EventManager::handleW() const
 {
-	if (this->_uiManager->mode() == Mode::EDIT && this->_uiManager->action() == Action::NONE)
+	if (this->_uiManager->mode() == EDIT && this->_uiManager->action() == NONE)
 	{
 		if (this->_seq.moveIndicatorUp())
 		{
@@ -331,7 +334,7 @@ void EventManager::handleW() const
 
 void EventManager::handleF5() const
 {
-	if (this->_uiManager->mode() == Mode::VIEW && this->_uiManager->action() == Action::NONE)
+	if (this->_uiManager->mode() == VIEW && this->_uiManager->action() == NONE)
 	{
 		auto seqFile = SequenceFile::fromSequence(this->_seq);
 		seqFile.saveFile("magicznyplik.msq");
