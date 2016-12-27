@@ -15,8 +15,8 @@ namespace UI
 	private:
 		const uint8_t PIANO_ROLL_MARGIN = 30;
 
-		Mode _mode = Mode::VIEW;
-		Action _action = Action::NONE;
+		Mode _mode = VIEW;
+		Action _action = NONE;
 
 		Sequence& _seq;
 		ConsoleSize _size;
@@ -34,6 +34,8 @@ namespace UI
 		void drawViewMenu() const;
 		void drawEditMenu() const;
 
+		//
+
 	public:
 		UIManager() = delete;
 		explicit UIManager(Sequence& seq);
@@ -43,6 +45,7 @@ namespace UI
 
 		void drawMenu() const;
 		Nullable<COORD> drawSequenceScreen();
+		void drawOpenFileScreen();
 
 		//Getters/setters
 

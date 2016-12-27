@@ -165,6 +165,18 @@
     <ClInclude Include="Util\CRC32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Exceptions\InvalidFileFormatException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\InvalidChecksumException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\InvalidFileVersionException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\InvalidHeaderPaddingException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

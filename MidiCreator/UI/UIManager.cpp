@@ -29,6 +29,8 @@ void UIManager::drawMenu() const
 
 Nullable<COORD> UIManager::drawSequenceScreen()
 {
+	Util::writtenLines = 0;
+
 	Nullable<COORD> ret;
 
 	this->_size = Util::getConsoleSize();
@@ -40,7 +42,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 
 	this->drawPianoRoll();
 
-	if(this->_mode == Mode::EDIT)
+	if(this->_mode == EDIT)
 	{
 		this->drawBarCloseUp();
 	}
@@ -48,7 +50,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	//Param Editor
 	switch (this->_action)
 	{
-	case Action::CHANGE_MIDI_CHANNEL:
+	case CHANGE_MIDI_CHANNEL:
 		ret = COORD
 		{
 			0, this->drawParamEditor("Choose channel(1-16): ", {
@@ -57,7 +59,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		};
 		break;
 
-	case Action::CHANGE_MEASURE:
+	case CHANGE_MEASURE:
 		ret = COORD
 		{
 			0, this->drawParamEditor("Choose measure: ", {
@@ -69,11 +71,11 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		};
 		break;
 
-	case Action::CHANGE_NOTE_VOLUME:
+	case CHANGE_NOTE_VOLUME:
 		ret = COORD{ 0, this->drawParamEditor("Enter note volume(0 - 127):") }; 
 		break;
 
-	case Action::CHANGE_SEQ_NAME:
+	case CHANGE_SEQ_NAME:
 		ret = COORD{ 0, this->drawParamEditor("Enter sequence name:") };
 		break;		
 
@@ -111,6 +113,12 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 
 	return ret;
 }
+
+void UIManager::drawOpenFileScreen()
+{
+	Util::writtenLines = 0;
+}
+
 
 #pragma region Components
 

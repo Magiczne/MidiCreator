@@ -2,6 +2,7 @@
 #include "EventManager.h"
 #include "UI/UIManager.h"
 #include "Sequence.h"
+#include "SequenceFile.h"
 
 using namespace UI;
 
@@ -46,7 +47,21 @@ int MidiCreator::exec() const
 			break;
 
 		case OPEN_SEQUENCE:
-			//TODO:
+			this->uiManager->drawOpenFileScreen();
+			
+			try
+			{
+				SequenceFile::open("magicznyplik.msq");
+			}
+			catch(...)
+			{
+				//TODO: handle
+			}
+
+			//this->uiManager->drawSequenceScreen();
+			//this->eventManager->sequenceScreenLoop();
+
+			std::cin.get();
 			break;
 
 		case QUIT:

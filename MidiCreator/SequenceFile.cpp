@@ -3,6 +3,14 @@
 #include "Note.h"
 #include "Util/CRC32.h"
 #include "Util/Util.h"
+#include "Exceptions/InvalidFileFormatException.h"
+#include "Exceptions/InvalidChecksumException.h"
+#include "Exceptions/InvalidFileVersionException.h"
+#include "Exceptions/InvalidHeaderPaddingException.h"
+
+using namespace std;
+
+int SequenceFile::currentOffset = 0;
 
 SequenceFile::SequenceFile()
 {
@@ -72,6 +80,131 @@ SequenceFile SequenceFile::fromSequence(const Sequence& seq)
 	return file;
 }
 
+SequenceFile SequenceFile::open(const string filepath)
+{
+	ifstream input(filepath, ios_base::binary);
+
+	vector<uint8_t> buffer {
+		istreambuf_iterator<char>(input),
+		istreambuf_iterator<char>()
+	};
+
+	SequenceFile file;
+
+	currentOffset = 0x4;
+
+	#pragma region Header
+
+	//Magic number
+	vector<uint8_t> magicNumber(buffer.begin(), buffer.begin() + currentOffset);
+
+	if(string(magicNumber.begin(), magicNumber.end()) != file.magicNumber)
+	{
+		throw new Exceptions::InvalidFileFormatException;
+	}
+
+	//Version number
+	
+	if(extractFromByteVector<uint8_t>(buffer) != file.versionNumber)
+	{
+		throw new Exceptions::InvalidFileVersionException;
+	}
+
+	//Padding byte
+	if(extractFromByteVector<uint8_t>(buffer) != file.pad)
+	{
+		throw new Exceptions::InvalidHeaderPaddingException;
+	}
+
+	//CRC 32
+	auto header = vector<uint8_t>(buffer.begin(), buffer.begin() + currentOffset);
+	CRC32<> crc;
+	uint32_t expectedCRC = crc.update(header);
+
+	uint32_t crc32 = extractFromByteVector<uint32_t>(buffer);
+
+	if(expectedCRC != crc32)
+	{
+		throw new Exceptions::InvalidChecksumException;
+	}
+
+	file.crc32 = crc32;
+
+	//Data length and data offset
+	file.dataLength = extractFromByteVector<uint32_t>(buffer);
+
+	file.dataOffset = extractFromByteVector<uint16_t>(buffer);
+
+	#pragma endregion 
+
+	#pragma region Basic data
+
+	//Name length and name
+	file.nameLength = extractFromByteVector<uint8_t>(buffer);
+	file.nameLength = extractFromByteVector<uint8_t>(buffer);
+
+	vector<uint8_t> sequenceName;
+	for(int i = 0; i < file.nameLength; i++)
+	{
+		sequenceName.push_back(buffer[currentOffset + i]);
+	}
+	file.name = string(sequenceName.begin(), sequenceName.end());
+	currentOffset += file.nameLength;
+
+	//File format
+	file.fileFormat = extractFromByteVector<uint8_t>(buffer);
+
+	//Numerator
+	file.numerator = extractFromByteVector<uint16_t>(buffer);
+
+	file.denominator = extractFromByteVector<uint16_t>(buffer);
+
+	#pragma endregion
+
+	#pragma region Notes
+
+	file.numberOfNotes = extractFromByteVector<uint32_t>(buffer);
+
+	for(int i = 0; i < file.numberOfNotes; i++)
+	{
+		file.notesData.push_back({
+			extractFromByteVector<uint8_t>(buffer),		//Track number
+			extractFromByteVector<uint8_t>(buffer),		//Note pitch
+			extractFromByteVector<uint16_t>(buffer),	//Bar numer
+			extractFromByteVector<uint8_t>(buffer),		//Bar position
+			extractFromByteVector<uint8_t>(buffer),		//Volume
+			extractFromByteVector<uint16_t>(buffer),	//Duration
+			extractFromByteVector<uint8_t>(buffer)		//Ligature
+		});
+	}
+
+	#pragma endregion
+
+	return file;
+}
+
+bool SequenceFile::saveFile(string path)
+{
+	ofstream file(path, ios::trunc | ios::binary);
+
+	UI::Util::debug(this->byteSequence.size());
+
+	if (file.good())
+	{
+		for (auto &e : this->byteSequence)
+		{
+			file << e;
+		}
+
+		file.close();
+		return true;
+	}
+
+	return false;
+}
+
+#pragma region Private
+
 void SequenceFile::calculateDataLength()
 {
 	uint32_t len = 16 +						//Header length
@@ -92,7 +225,7 @@ void SequenceFile::calculateDataOffset()
 void SequenceFile::calculateCRC()
 {
 	CRC32<> crc;
-	std::vector<uint8_t> header = {
+	vector<uint8_t> header = {
 		static_cast<uint8_t>(this->magicNumber[0]), 
 		static_cast<uint8_t>(this->magicNumber[1]),
 		static_cast<uint8_t>(this->magicNumber[2]),
@@ -161,7 +294,7 @@ void SequenceFile::add4ByteValueToByteVector(uint32_t val)
 		this->byteSequence.push_back((val >> i) & 0xFF);
 	}
 }
-void SequenceFile::addStringToByteVector(std::string val)
+void SequenceFile::addStringToByteVector(string val)
 {
 	for (auto& ch : val)
 	{
@@ -169,22 +302,4 @@ void SequenceFile::addStringToByteVector(std::string val)
 	}
 }
 
-bool SequenceFile::saveFile(std::string path)
-{
-	std::ofstream file(path, std::ios::trunc | std::ios::binary);
-
-	UI::Util::debug(this->byteSequence.size());
-
-	if (file.good())
-	{
-		for (auto &e : this->byteSequence)
-		{
-			file << e;
-		}
-
-		file.close();
-		return true;
-	}
-
-	return false;
-}
+#pragma endregion

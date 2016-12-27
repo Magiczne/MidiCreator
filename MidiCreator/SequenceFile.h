@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "Util/Util.h"
 
 class Sequence;
 
@@ -32,10 +33,10 @@ class SequenceFile
 
 	#pragma region Basic Sequence Data
 
-	//2B Sequence Name Length
+	//+12 2B Sequence Name Length
 	uint16_t nameLength;
 
-	//[nameLength]B	Name
+	//+14 [nameLength]B	Name
 	std::string name;
 
 	//1B FileFormat
@@ -95,8 +96,51 @@ class SequenceFile
 	void add2ByteValueToByteVector(uint16_t);
 	void add4ByteValueToByteVector(uint32_t);
 	void addStringToByteVector(std::string);
+
+	///Extraction
+	static int currentOffset;
+
+	template<typename T>
+	static T extractFromByteVector(const std::vector<uint8_t>&);
+
+	template<typename T>
+	static T swapEndian(const T&);
 public:
 	static SequenceFile fromSequence(const Sequence& seq);
+	static SequenceFile open(const std::string filepath);
 
 	bool saveFile(std::string path);
 };
+
+template <typename T>
+T SequenceFile::extractFromByteVector(const std::vector<uint8_t>& v)
+{
+	T value = *reinterpret_cast<const T*>(&v[currentOffset]);
+
+	currentOffset += sizeof(T);
+
+	UI::Util::debug(std::string(typeid(T).name()) + " -> " + std::to_string(sizeof(T)) + " (" + std::to_string(currentOffset) + ")\n");
+
+	return sizeof(T) > 1 ? swapEndian<T>(value) : value;
+}
+
+template <typename T>
+T SequenceFile::swapEndian(const T& num)
+{
+	static_assert(CHAR_BIT == 8, "CHAR_BIT != 8");
+
+	union
+	{
+		T u;
+		uint8_t u8[sizeof(T)];
+	} source, dest;
+
+	source.u = num;
+
+	for(size_t i = 0; i < sizeof(T); i++)
+	{
+		dest.u8[i] = source.u8[sizeof(T) - i - 1];
+	}
+
+	return dest.u;
+}
