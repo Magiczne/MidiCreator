@@ -4,6 +4,7 @@
 #MidiCrator specific files
 *.mid
 *.midi
+*.msq
 
 # User-specific files
 *.suo
