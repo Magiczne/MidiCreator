@@ -62,10 +62,10 @@ int MidiCreator::exec() const
 				//TODO: File does not exists
 				throw;
 			}
-			catch(Exceptions::SequenceFileException const& e)
+			catch(Exceptions::SequenceFileException const&)
 			{
 				//TODO: Error with sequence file
-				throw e;
+				throw;
 			}
 			catch (...)
 			{
