@@ -2,7 +2,6 @@
 #include "Sequence.h"
 #include "Note.h"
 #include "Util/CRC32.h"
-#include "Util/Util.h"
 #include "Exceptions/InvalidFileFormatException.h"
 #include "Exceptions/InvalidChecksumException.h"
 #include "Exceptions/InvalidFileVersionException.h"
@@ -82,7 +81,10 @@ SequenceFile SequenceFile::fromSequence(const Sequence& seq)
 
 SequenceFile SequenceFile::open(const string filepath)
 {
-	ifstream input(filepath, ios_base::binary);
+	ifstream input;
+	input.exceptions(ifstream::failbit);
+
+	input.open(filepath, ios_base::binary);
 
 	vector<uint8_t> buffer {
 		istreambuf_iterator<char>(input),

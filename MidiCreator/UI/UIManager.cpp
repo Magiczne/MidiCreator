@@ -116,9 +116,18 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 
 void UIManager::drawOpenFileScreen()
 {
-	Util::writtenLines = 0;
-}
+	this->_size = Util::getConsoleSize();
 
+	Util::writtenLines = 0;
+
+	Util::clearConsole();
+	Util::newLine(3);
+	Util::writeLeft("Enter filepath to your sequence file: (*.msq)");
+	Util::makeLine(this->_size.cols, static_cast<int8_t>(Color::Yellow));
+	Util::newLine();
+	Util::makeLine(this->_size.cols);
+	Util::setCursorPos({ 0, 5 });
+}
 
 #pragma region Components
 

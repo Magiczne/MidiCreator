@@ -39,7 +39,7 @@ int MidiCreator::exec() const
 	}
 
 	this->uiManager->drawMenu();
-	switch (this->eventManager->menuLoop())
+	switch (EventManager::menuLoop())
 	{
 		case NEW_SEQUENCE:
 			this->uiManager->drawSequenceScreen();
@@ -47,15 +47,18 @@ int MidiCreator::exec() const
 			break;
 
 		case OPEN_SEQUENCE:
+		{
 			this->uiManager->drawOpenFileScreen();
-			
+			auto filepath = EventManager::readFilepathFromUser();
+
 			try
 			{
-				auto file = SequenceFile::open("magicznyplik.msq");
+				auto file = SequenceFile::open(filepath);
 				this->sequence->loadFromFile(file);
 			}
-			catch(...)
+			catch (...)
 			{
+				throw;
 				//TODO: handle
 			}
 
@@ -64,6 +67,7 @@ int MidiCreator::exec() const
 
 			std::cin.get();
 			break;
+		}
 
 		case QUIT:
 			break;

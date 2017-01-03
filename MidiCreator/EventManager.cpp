@@ -34,6 +34,15 @@ MenuEventType EventManager::menuLoop()
 	return QUIT;
 }
 
+string EventManager::readFilepathFromUser()
+{
+	string filepath;
+
+	cin >> filepath;
+
+	return filepath;
+}
+
 void EventManager::sequenceScreenLoop() const
 {
 	char c;

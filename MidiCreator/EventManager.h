@@ -48,5 +48,8 @@ public:
 	EventManager(UI::UIManager* ui, Sequence& seq);
 
 	static MenuEventType menuLoop();
+
+	static std::string readFilepathFromUser();
+
 	void sequenceScreenLoop() const;
 };
