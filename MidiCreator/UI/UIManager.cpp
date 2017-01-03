@@ -18,7 +18,7 @@ void UIManager::drawMenu() const
 	Util::clearConsole();
 	Util::newLine(2);
 	Util::setColor(Color::DarkGreen);
-	Util::writeCentered("MIDI Creator v0.0.41");
+	Util::writeCentered("MIDI Creator v0.0.80");
 	Util::newLine();
 
 	Util::setColor(Color::Gray);
