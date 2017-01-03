@@ -1,6 +1,7 @@
 #include "Sequence.h"
 
 #include "Note.h"
+#include "SequenceFile.h"
 
 using namespace SMF;
 using namespace std;
@@ -36,6 +37,34 @@ Sequence::~Sequence()
 				delete note;
 			}
 		}
+	}
+}
+
+void Sequence::loadFromFile(const SequenceFile& file)
+{
+	this->name(file.name);
+	this->format(static_cast<FileFormat>(file.fileFormat));
+	this->numerator(file.numerator);
+	this->denominator(file.denominator);
+
+	if(this->hasNotes())
+	{
+		for (auto& map : this->_notes)
+		{
+			map.clear();
+		}
+	}
+
+	for(const auto& note : file.notesData)
+	{
+		this->currentChannel(static_cast<MIDIChannel>(note.channel));
+		this->addNote(
+			{ static_cast<NotePitch>(note.notePitch), note.barNumber },
+			note.barPosition,
+			note.noteVolume,
+			note.noteDuration,
+			note.noteLigature == 0x00 ? false : true
+		);
 	}
 }
 
@@ -184,20 +213,18 @@ pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
 	uint8_t pitch = static_cast<uint8_t>(this->_firstNoteToShow) + this->_currentNotePitch;
 	unsigned bar = (this->_firstBarToShow - 1) * this->_numerator + this->_currentBar;
 
-	return{ NotePitch(pitch), bar };
+	return { NotePitch(pitch), bar };
 }
 
 #pragma region Note manipulation
 
-bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
+bool Sequence::isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel)
 {
-	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
-
-	if(this->_notes[channel].find(coords) == this->_notes[channel].end())
+	if (this->_notes[channel].find(coords) == this->_notes[channel].end())
 	{
 		this->_notes[channel][coords] = vector<Note*>(0);
 	}
-	
+
 	//These things are in seperate loops, cause of
 	//option to delete note
 	if (this->_notes[channel][coords].size() == 0)
@@ -205,19 +232,48 @@ bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
 		size_t newSize = static_cast<size_t>(pow(2, 5 - log2(this->_denominator)));
 		this->_notes[channel][coords].resize(newSize);
 
-		for(auto& a : this->_notes[channel][coords])
+		for (auto& a : this->_notes[channel][coords])
 		{
 			a = nullptr;
 		}
 	}
 
-	if(this->_notes[channel][coords][index] != nullptr)
+	if (this->_notes[channel][coords][index] != nullptr)
 	{
 		return false;
 	}
 
-	this->_notes[channel][coords][index] = new Note(coords.first);
 	return true;
+}
+
+bool Sequence::addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature)
+{
+	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
+
+	auto res = isNotePositionEmpty(coords, index, channel);
+
+	if(res)
+	{
+		this->_notes[channel][coords][index] = new Note(coords.first, volume, duration, ligature);
+		return true;
+	}
+
+	return res;
+}
+
+bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
+{
+	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
+
+	auto res = isNotePositionEmpty(coords, index, channel);
+
+	if (res)
+	{
+		this->_notes[channel][coords][index] = new Note(coords.first);
+		return true;
+	}
+
+	return res;
 }
 
 bool Sequence::addNoteAtCurrentPosition()
@@ -250,8 +306,6 @@ bool Sequence::removeNoteAtCurrentPosition()
 	auto coords = this->getCurrentNoteCoords();
 	return this->removeNote(coords, this->_currentNoteInBar);
 }
-
-
 
 #pragma endregion
 

@@ -7,6 +7,8 @@ class Sequence;
 
 class SequenceFile
 {
+	friend class Sequence;
+
 	//File header
 	//16B
 	#pragma region FileHeader
@@ -45,22 +47,22 @@ class SequenceFile
 	//2B Measure Numerator
 	uint16_t numerator;
 
-	//4B Measure Denominator
+	//2B Measure Denominator
 	uint16_t denominator;
 
 	#pragma endregion
 
 	#pragma region Notes
 
-	//11B
+	//9B
 	struct NoteData {
 		//1B Track Number [0-15]
-		uint8_t track;
+		uint8_t channel;
 
 		//1B Note Pitch [0-127]
 		uint8_t notePitch;
 
-		//4B Bar Number
+		//2B Bar Number
 		uint16_t barNumber;
 
 		//1B 32nd note in bar
@@ -105,6 +107,7 @@ class SequenceFile
 
 	template<typename T>
 	static T swapEndian(const T&);
+	///Extraction
 public:
 	static SequenceFile fromSequence(const Sequence& seq);
 	static SequenceFile open(const std::string filepath);

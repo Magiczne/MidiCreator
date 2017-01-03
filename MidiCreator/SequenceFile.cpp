@@ -187,8 +187,6 @@ bool SequenceFile::saveFile(string path)
 {
 	ofstream file(path, ios::trunc | ios::binary);
 
-	UI::Util::debug(this->byteSequence.size());
-
 	if (file.good())
 	{
 		for (auto &e : this->byteSequence)
@@ -268,9 +266,9 @@ void SequenceFile::toByteVector()
 
 	for(const auto& noteData : this->notesData)
 	{
-		this->byteSequence.push_back(noteData.track);
+		this->byteSequence.push_back(noteData.channel);
 		this->byteSequence.push_back(noteData.notePitch);
-		this->add4ByteValueToByteVector(noteData.barNumber);
+		this->add2ByteValueToByteVector(noteData.barNumber);
 		this->byteSequence.push_back(noteData.barPosition);
 		this->byteSequence.push_back(noteData.noteVolume);
 		this->add2ByteValueToByteVector(noteData.noteDuration);

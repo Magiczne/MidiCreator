@@ -19,6 +19,7 @@ public:
 	explicit Note(SMF::NotePitch pitch);
 	Note(SMF::NotePitch pitch, uint16_t duration);
 	Note(SMF::NotePitch pitch, uint8_t volume, uint16_t duration);
+	Note(SMF::NotePitch pitch, uint8_t volume, uint16_t duration, bool ligature);
 
 	//Getters/setters
 

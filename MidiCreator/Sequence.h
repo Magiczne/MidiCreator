@@ -45,6 +45,8 @@ public:
 	Sequence();
 	~Sequence();
 
+	void loadFromFile(const SequenceFile& file);
+
 	bool showPreviousMeasure();
 	bool showNextMeasure(uint16_t pianoRollWidth);
 
@@ -68,8 +70,10 @@ public:
 
 	bool addNoteAtCurrentPosition();
 	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature);
 	bool removeNoteAtCurrentPosition();
 	bool removeNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	bool isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel);
 
 	bool hasNotes() const { return !this->_notes.empty(); }
 

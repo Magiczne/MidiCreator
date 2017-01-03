@@ -277,9 +277,9 @@ void UIManager::drawNoteProperties(uint8_t offsetTop)  const
 	if(note != nullptr)
 	{
 		values = {
-			SMF::NotePitchMap[note->pitch()],
+			NotePitchMap[note->pitch()],
 			to_string(note->volume()),
-			to_string(note->duration()),
+			to_string(note->duration() * 32),
 			note->ligatureToString()
 		};
 	}

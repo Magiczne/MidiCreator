@@ -51,15 +51,16 @@ int MidiCreator::exec() const
 			
 			try
 			{
-				SequenceFile::open("magicznyplik.msq");
+				auto file = SequenceFile::open("magicznyplik.msq");
+				this->sequence->loadFromFile(file);
 			}
 			catch(...)
 			{
 				//TODO: handle
 			}
 
-			//this->uiManager->drawSequenceScreen();
-			//this->eventManager->sequenceScreenLoop();
+			this->uiManager->drawSequenceScreen();
+			this->eventManager->sequenceScreenLoop();
 
 			std::cin.get();
 			break;
