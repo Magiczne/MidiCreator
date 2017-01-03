@@ -408,7 +408,7 @@ void EventManager::changeNoteVolume() const
 			int val = stoi(vol);
 			this->_seq.getCurrentNote()->volume(val);
 		}
-		catch (invalid_argument)
+		catch (invalid_argument const&)
 		{
 			this->_uiManager->lastMessage("Volume has to be a number(0-127)");
 		}
@@ -466,7 +466,7 @@ void EventManager::changeMidiChannel() const
 		{
 			val = stoi(channel);
 		}
-		catch(invalid_argument)
+		catch(invalid_argument const&)
 		{
 			this->_uiManager->lastMessage("MIDI Channel has to be a number!");
 			return;

@@ -34,7 +34,7 @@ namespace SMF
 	{
 		if (this->_event == nullptr)
 		{
-			throw new Exceptions::EventNotInitializedException;
+			throw Exceptions::EventNotInitializedException();
 		}
 
 		return dynamic_cast<T*>(this->_event);

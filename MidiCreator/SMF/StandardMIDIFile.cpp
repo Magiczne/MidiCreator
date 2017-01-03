@@ -27,12 +27,12 @@ void StandardMIDIFile::setCurrentTrack(size_t track)
 {
 	if (this->trackChunks.empty())
 	{
-		throw new NoTracksException;
+		throw NoTracksException();
 	}
 
 	if (track >= this->trackChunks.size())
 	{
-		throw new TrackNumberOutOfRangeException;
+		throw TrackNumberOutOfRangeException();
 	}
 
 	this->currentTrack = track;
@@ -51,14 +51,14 @@ void StandardMIDIFile::setTimeSignature(
 	double convertedDenominator = log2(denominator);
 	if (floor(convertedDenominator) != convertedDenominator)
 	{
-		throw new IllegalDenominatorException;
+		throw IllegalDenominatorException();
 	}
 
 	if (this->headerChunk->fileFormat() == FileFormat::SINGLE_TRACK)
 	{
 		if (this->trackChunks.empty())
 		{
-			throw new NoTracksException;
+			throw NoTracksException();
 		}
 
 		this->trackChunks.front()
@@ -88,9 +88,9 @@ throws SMF::NoTrackException
 */
 void StandardMIDIFile::setTempo(short bpm)
 {
-	if (bpm < StandardMIDIFile::MIN_BPM || bpm > StandardMIDIFile::MAX_BPM) 
+	if (bpm < MIN_BPM || bpm > MAX_BPM) 
 	{
-		throw new BpmOutOfRangeException;
+		throw BpmOutOfRangeException();
 	}
 
 	int microSecoundsPerQuarterNote = 60000000 / bpm;
@@ -99,7 +99,7 @@ void StandardMIDIFile::setTempo(short bpm)
 	{
 		if (this->trackChunks.empty())
 		{
-			throw new NoTracksException;
+			throw NoTracksException();
 		}
 
 		this->trackChunks.front()
@@ -146,7 +146,7 @@ std::vector<uint8_t> StandardMIDIFile::toByteVector()
 {
 	if (this->trackChunks.empty())
 	{
-		throw new NoTracksException;
+		throw NoTracksException();
 	}
 
 	std::vector<uint8_t> ret = this->headerChunk->toByteVector();

@@ -23,7 +23,7 @@ TrackEvent::TrackEvent(EventType eventType)
 			this->_event = new SystemExclusiveEvent();
 			break;
 		default:
-			throw new EventTypeNotSupportedException;
+			throw EventTypeNotSupportedException();
 	}
 }
 
@@ -40,7 +40,7 @@ std::vector<uint8_t> TrackEvent::toByteVector()
 
 	if (!this->isInitialized())
 	{
-		throw new EventNotInitializedException;
+		throw EventNotInitializedException();
 	}
 	
 	std::vector<uint8_t> ret = this->_deltaTime->getVlq();

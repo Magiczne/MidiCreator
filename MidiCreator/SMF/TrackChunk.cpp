@@ -8,7 +8,7 @@
 #include "Util/SMF_Note.h"
 
 #include "Exceptions/TrackClosedException.h"
-#include "Exceptions\TrackNotClosedException.h"
+#include "Exceptions/TrackNotClosedException.h"
 
 using namespace SMF;
 using namespace SMF::Exceptions;
@@ -36,7 +36,7 @@ TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
 	if (this->closed)
 	{
-		throw new TrackClosedException;
+		throw TrackClosedException();
 	}
 
 	trackEvents.push_back(event);
@@ -47,7 +47,7 @@ TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
 {
 	if (this->closed)
 	{
-		throw new TrackClosedException;
+		throw TrackClosedException();
 	}
 
 	auto event = new TrackEvent(eventType);
@@ -59,7 +59,7 @@ TrackChunk* TrackChunk::setCurrentChannel(MIDIChannel channel)
 {
 	if (this->closed)
 	{
-		throw new TrackClosedException;
+		throw TrackClosedException();
 	}
 
 	this->currentChannel = channel;
@@ -74,7 +74,7 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 
 	if (this->closed)
 	{
-		throw new TrackClosedException;
+		throw TrackClosedException();
 	}
 
 	this->addTrackEvent(EventType::MIDI_EVENT)
@@ -95,7 +95,7 @@ TrackChunk* TrackChunk::addNote(Note* note)
 
 	if (this->closed)
 	{
-		throw new TrackClosedException;
+		throw TrackClosedException();
 	}
 
 	//Note on
@@ -130,7 +130,7 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 
 	if (this->closed)
 	{
-		throw new TrackClosedException;
+		throw TrackClosedException();
 	}
 
 	std::sort(notes.begin(), notes.end(), [](Note* a, Note*b) {
@@ -174,7 +174,7 @@ void TrackChunk::closeTrack()
 {
 	if (this->closed)
 	{
-		throw new TrackClosedException;
+		throw TrackClosedException();
 	}
 
 	#ifdef METHOD_DEBUG
@@ -194,7 +194,7 @@ void TrackChunk::reopenTrack()
 {
 	if (!this->closed)
 	{
-		throw new TrackNotClosedException;
+		throw TrackNotClosedException();
 	}
 
 	this->trackEvents.pop_back();

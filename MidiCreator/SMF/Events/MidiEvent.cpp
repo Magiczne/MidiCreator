@@ -34,7 +34,7 @@ std::vector<uint8_t> MidiEvent::toByteVector()
 
 	if (!this->isInitialized())
 	{
-		throw new EventNotInitializedException;
+		throw EventNotInitializedException();
 	}
 
 	std::vector<uint8_t> a;

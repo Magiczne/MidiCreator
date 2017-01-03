@@ -27,12 +27,12 @@ int MidiCreator::exec() const
 	{
 		Util::setConsoleSize(130, 35);
 	}
-	catch(std::logic_error& ex)
+	catch(std::logic_error const& ex)
 	{
 		std::cerr << ex.what() << '\n';
 		return 1;
 	}
-	catch (std::exception& ex)
+	catch (std::exception const& ex)
 	{
 		std::cerr << ex.what() << '\n';
 		Util::showLastSystemError();
@@ -57,12 +57,12 @@ int MidiCreator::exec() const
 				auto file = SequenceFile::open(filepath);
 				this->sequence->loadFromFile(file);
 			}
-			catch(std::ios_base::failure)
+			catch(std::ios_base::failure const&)
 			{
 				//TODO: File does not exists
 				throw;
 			}
-			catch(Exceptions::SequenceFileException e)
+			catch(Exceptions::SequenceFileException const& e)
 			{
 				//TODO: Error with sequence file
 				throw e;

@@ -37,7 +37,7 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 
 	if (!this->isInitialized())
 	{
-		throw new EventNotInitializedException;
+		throw EventNotInitializedException();
 	}
 
 	std::vector<uint8_t> ret;

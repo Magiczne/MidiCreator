@@ -102,20 +102,20 @@ SequenceFile SequenceFile::open(const string filepath)
 
 	if(string(magicNumber.begin(), magicNumber.end()) != file.magicNumber)
 	{
-		throw new Exceptions::InvalidFileFormatException;
+		throw Exceptions::InvalidFileFormatException();
 	}
 
 	//Version number
 	
 	if(extractFromByteVector<uint8_t>(buffer) != file.versionNumber)
 	{
-		throw new Exceptions::InvalidFileVersionException;
+		throw Exceptions::InvalidFileVersionException();
 	}
 
 	//Padding byte
 	if(extractFromByteVector<uint8_t>(buffer) != file.pad)
 	{
-		throw new Exceptions::InvalidHeaderPaddingException;
+		throw Exceptions::InvalidHeaderPaddingException();
 	}
 
 	//CRC 32
@@ -127,7 +127,7 @@ SequenceFile SequenceFile::open(const string filepath)
 
 	if(expectedCRC != crc32)
 	{
-		throw new Exceptions::InvalidChecksumException;
+		throw Exceptions::InvalidChecksumException();
 	}
 
 	file.crc32 = crc32;
