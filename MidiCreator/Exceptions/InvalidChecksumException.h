@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../stdafx.h"
+#include "SequenceFileException.h"
 
 namespace Exceptions
 {
 	class InvalidChecksumException :
-		public std::exception
+		public SequenceFileException
 	{
 		const char* what() const noexcept override
 		{

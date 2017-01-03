@@ -156,6 +156,7 @@
     <ClInclude Include="Exceptions\InvalidFileFormatException.h" />
     <ClInclude Include="Exceptions\InvalidFileVersionException.h" />
     <ClInclude Include="Exceptions\InvalidHeaderPaddingException.h" />
+    <ClInclude Include="Exceptions\SequenceFileException.h" />
     <ClInclude Include="MidiCreator.h" />
     <ClInclude Include="Note.h" />
     <ClInclude Include="Sequence.h" />

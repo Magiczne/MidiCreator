@@ -3,6 +3,7 @@
 #include "UI/UIManager.h"
 #include "Sequence.h"
 #include "SequenceFile.h"
+#include "Exceptions/SequenceFileException.h"
 
 using namespace UI;
 
@@ -56,16 +57,25 @@ int MidiCreator::exec() const
 				auto file = SequenceFile::open(filepath);
 				this->sequence->loadFromFile(file);
 			}
+			catch(std::ios_base::failure)
+			{
+				//TODO: File does not exists
+				throw;
+			}
+			catch(Exceptions::SequenceFileException e)
+			{
+				//TODO: Error with sequence file
+				throw e;
+			}
 			catch (...)
 			{
 				throw;
-				//TODO: handle
+				//TODO: Other errors, probably just throw
 			}
 
 			this->uiManager->drawSequenceScreen();
 			this->eventManager->sequenceScreenLoop();
 
-			std::cin.get();
 			break;
 		}
 
