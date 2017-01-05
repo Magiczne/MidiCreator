@@ -21,6 +21,7 @@ private:
 	void changeNoteVolume() const;
 	void toggleNoteLigature() const;
 	void changeMidiChannel() const;
+	void changeTempo() const;
 
 	//Handling keys:
 	void handleA() const;
@@ -32,6 +33,7 @@ private:
 	void handleM() const;
 	void handleN() const;
 	void handleS() const;
+	void handleT() const;
 	void handleV() const;
 	void handleW() const;
 	

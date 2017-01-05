@@ -71,6 +71,10 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		};
 		break;
 
+	case CHANGE_TEMPO:
+		ret = COORD { 0, this->drawParamEditor("Enter tempo(1-255):") };
+		break;
+
 	case CHANGE_NOTE_VOLUME:
 		ret = COORD{ 0, this->drawParamEditor("Enter note volume(0 - 127):") }; 
 		break;
@@ -88,7 +92,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	this->drawLastInfo();
 
 	//Menu
-	if (this->_mode == Mode::VIEW)
+	if (this->_mode == VIEW)
 	{
 		this->drawViewMenu();
 	}
@@ -99,7 +103,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 
 	//Note properites, last cause we're setting
 	//Cursor position here
-	if (this->_mode == Mode::EDIT)
+	if (this->_mode == EDIT)
 	{
 		this->drawNoteProperties(infoOffset);
 	}
@@ -145,7 +149,11 @@ uint8_t UIManager::drawSequenceInfo() const
 		"Measure: " + to_string(this->_seq.numerator()) + "/" + to_string(this->_seq.denominator())
 	);
 
-	Util::writeLeft("Current channel: " + MIDIChannelMap[this->_seq.currentChannel()]);
+	Util::writeMulti(
+		"Current channel: " + MIDIChannelMap[this->_seq.currentChannel()],
+		"Tempo: " + to_string(this->_seq.tempo()) + " BPM",
+		static_cast<uint8_t>(Color::DarkYellow)
+	);
 	Util::newLine(2);
 
 	return Util::writtenLines;
@@ -354,11 +362,11 @@ void UIManager::drawViewMenu() const
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
 		" N", " S", " M", " C", 
-		"F5", "F6" };
+		" T", "F5", "F6" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
 		"Edit mode", "Seq name", "Set measure", "Set channel",
-		"Save seq", "Export MIDI"};
+		"Set tempo", "Save seq", "Export MIDI"};
 
 	for (size_t i = 0; i < names.size(); i++)
 	{

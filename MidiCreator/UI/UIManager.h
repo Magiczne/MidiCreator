@@ -34,8 +34,6 @@ namespace UI
 		void drawViewMenu() const;
 		void drawEditMenu() const;
 
-		//
-
 	public:
 		UIManager() = delete;
 		explicit UIManager(Sequence& seq);

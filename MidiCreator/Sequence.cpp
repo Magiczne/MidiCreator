@@ -11,8 +11,9 @@ using namespace std;
 
 Sequence::Sequence()
 {
-	this->_name = "New sequence";
-	this->_format = FileFormat::SINGLE_TRACK;
+	this->name("New Sequence");
+	this->format(FileFormat::SINGLE_TRACK);
+	this->tempo(130);
 	this->setMeasure(6, 8);
 
 	this->_firstBarToShow = 1;

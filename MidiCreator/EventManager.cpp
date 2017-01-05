@@ -92,6 +92,10 @@ void EventManager::sequenceScreenLoop() const
 			this->handleS();
 			break;
 
+		case 84:	//T
+			this->handleT();
+			break;
+
 		case 86:	//V
 			this->handleV();
 			break;
@@ -308,6 +312,21 @@ void EventManager::handleS() const
 	}
 }
 
+void EventManager::handleT() const
+{
+	if(this->_uiManager->action() == NONE && this->_uiManager->mode() == VIEW)
+	{
+		this->_uiManager->action(CHANGE_TEMPO);
+		Nullable<COORD> pos = this->_uiManager->drawSequenceScreen();
+
+		Util::setCursorPos(pos.Value);
+		this->changeTempo();
+
+		this->_uiManager->action(NONE);
+		this->_uiManager->drawSequenceScreen();
+	}
+}
+
 void EventManager::handleV() const
 {
 	if(
@@ -479,6 +498,36 @@ void EventManager::changeMidiChannel() const
 		else
 		{
 			this->_uiManager->lastMessage("MIDI Channel has to be betwwen 1 and 16");
+		}
+	}
+}
+
+void EventManager::changeTempo() const
+{
+	string tempo;
+	cin >> tempo;
+
+	if(tempo != "")
+	{
+		int val;
+
+		try
+		{
+			val = stoi(tempo);
+		}
+		catch(invalid_argument const&)
+		{
+			this->_uiManager->lastMessage("Tempo has to be a number!");
+			return;
+		}
+
+		if(val >= 1 && val <= 255)
+		{
+			this->_seq.tempo(val);
+		}
+		else
+		{
+			this->_uiManager->lastMessage("Tempo has to be between 1 and 255");
 		}
 	}
 }
