@@ -4,6 +4,7 @@
 
 namespace SMF
 {
+	enum class FileFormat : unsigned char;
 	class HeaderChunk;
 	class TrackChunk;
 
@@ -21,7 +22,7 @@ namespace SMF
 
 		~StandardMIDIFile();
 
-		void setHeader(HeaderChunk* hc) { this->headerChunk = hc; }
+		void setHeader(FileFormat ff, short division = 96);
 		void addTrackChunk(TrackChunk* tc) { this->trackChunks.push_back(tc); }
 
 		void setCurrentTrack(size_t track);

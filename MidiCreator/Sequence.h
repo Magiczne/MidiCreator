@@ -5,6 +5,11 @@
 #include "SMF/Enums/MIDIChannel.h"
 #include "SMF/Util/Maps.h"
 
+namespace SMF
+{
+	class StandardMIDIFile;
+}
+
 class Note;
 
 class Sequence
@@ -14,6 +19,7 @@ class Sequence
 private:
 	std::string _name;
 	SMF::FileFormat _format;
+	uint8_t _tempo;
 	uint16_t _numerator;
 	uint16_t _denominator;
 
@@ -69,15 +75,11 @@ public:
 	std::pair<SMF::NotePitch, unsigned> getCurrentNoteCoords() const;
 
 	bool addNoteAtCurrentPosition();
-	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
-	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature);
 	bool removeNoteAtCurrentPosition();
-	bool removeNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
-	bool isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel);
 
-	bool hasNotes() const { return !this->_notes.empty(); }
+	SMF::StandardMIDIFile toMidiFile();
 
-	//Getters/setters
+	#pragma region Getters/setters
 
 	#pragma region Sequence properties
 
@@ -90,8 +92,11 @@ public:
 	void format(const SMF::FileFormat& val) { this->_format = val; }
 	const SMF::FileFormat& format() const { return this->_format; }
 
+	void tempo(const uint8_t& val) { this->_tempo = val; }
+	const uint8_t& tempo() const { return this->_tempo; }
+
 	void numerator(const uint16_t& val) { this->_numerator = val; }
-	const uint16_t& numerator() const { return this->_numerator; };
+	const uint16_t& numerator() const { return this->_numerator; }
 
 	void denominator(const uint16_t& val) { this->_denominator = val; }
 	const uint16_t& denominator() const { return this->_denominator; }
@@ -122,4 +127,17 @@ public:
 	const uint8_t& numOf32NotesInBar() const { return this->_numOf32NotesInBar; }
 
 	#pragma endregion
+
+	#pragma endregion
+
+private:
+	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature);
+
+	bool removeNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	bool isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel);
+
+	bool hasNotes() const { return !this->_notes.empty(); }
+
+	bool hasMultipleTracks();
 };

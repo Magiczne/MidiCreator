@@ -11,7 +11,7 @@
 #include "Exceptions/TrackNumberOutOfRangeException.h"
 
 using namespace SMF;
-using namespace SMF::Exceptions;
+using namespace Exceptions;
 
 StandardMIDIFile::~StandardMIDIFile()
 {
@@ -22,6 +22,12 @@ StandardMIDIFile::~StandardMIDIFile()
 		delete tc;
 	}
 }
+
+void StandardMIDIFile::setHeader(FileFormat ff, short division)
+{
+	this->headerChunk = new HeaderChunk(ff, 0, division);
+}
+
 
 void StandardMIDIFile::setCurrentTrack(size_t track)
 {

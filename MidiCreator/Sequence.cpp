@@ -3,6 +3,9 @@
 #include "Note.h"
 #include "SequenceFile.h"
 
+#include "SMF/StandardMIDIFile.h"
+#include "SMF/HeaderChunk.h"
+
 using namespace SMF;
 using namespace std;
 
@@ -183,16 +186,18 @@ vector<Note*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
 	return this->_notes[static_cast<uint8_t>(this->_currentChannel)][coords];
 }
 
+#pragma region Note manipulation
+
 Note* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
-	if(this->_notes[channel].find(coords) == this->_notes[channel].end())
+	if (this->_notes[channel].find(coords) == this->_notes[channel].end())
 	{
 		return nullptr;
 	}
 
-	if(this->_notes[channel][coords].size() == 0)
+	if (this->_notes[channel][coords].size() == 0)
 	{
 		return nullptr;
 	}
@@ -213,10 +218,8 @@ pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
 	uint8_t pitch = static_cast<uint8_t>(this->_firstNoteToShow) + this->_currentNotePitch;
 	unsigned bar = (this->_firstBarToShow - 1) * this->_numerator + this->_currentBar;
 
-	return { NotePitch(pitch), bar };
+	return{ NotePitch(pitch), bar };
 }
-
-#pragma region Note manipulation
 
 bool Sequence::isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel)
 {
@@ -309,10 +312,45 @@ bool Sequence::removeNoteAtCurrentPosition()
 
 #pragma endregion
 
-
 void Sequence::setMeasure(const uint16_t& numerator, const uint16_t& denominator)
 {
 	this->_numerator = numerator;
 	this->_denominator = denominator;
 	this->_numOf32NotesInBar = static_cast<uint8_t>(pow(2, 5 - log2(this->_denominator)));
+}
+
+bool Sequence::hasMultipleTracks()
+{
+	int trackCounter = 0;
+	for(const auto& map : this->_notes)
+	{
+		for(const auto& pair : map)
+		{
+			for(const auto& ptr : pair.second)
+			{
+				if(ptr != nullptr)
+				{
+					trackCounter++;
+				}
+			}
+		}
+
+		if(trackCounter > 1)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+StandardMIDIFile Sequence::toMidiFile()
+{
+	StandardMIDIFile smf;
+	smf.setHeader(this->hasMultipleTracks() ? FileFormat::MULTIPLE_TRACK : FileFormat::SINGLE_TRACK);
+	//TODO: Set tempo
+	smf.setTimeSignature(this->numerator(), this->denominator());
+
+	return smf;
 }
