@@ -1,12 +1,15 @@
 #include "Sequence.h"
 
-#include "Note.h"
+#include "SequenceNote.h"
 #include "SequenceFile.h"
 
 #include "SMF/StandardMIDIFile.h"
 #include "SMF/HeaderChunk.h"
+#include "SMF/Exceptions/TrackNumberOutOfRangeException.h"
+#include "SMF/Exceptions/NoTracksException.h"
 
 using namespace SMF;
+using namespace SMF::Exceptions;
 using namespace std;
 
 Sequence::Sequence()
@@ -17,17 +20,12 @@ Sequence::Sequence()
 	this->setMeasure(6, 8);
 
 	this->_firstBarToShow = 1;
-	this->_firstNoteToShow = NotePitch::C3;
+	this->_firstPitchToShow = NotePitch::C3;
 
 	this->_currentChannel = MIDIChannel::CHANNEL_1;
-	this->_currentBar = 0;
+	this->_currentNote = 0;
 	this->_currentNotePitch = 0;
-	this->_currentNoteInBar = 0;
-
-	for(auto& map : this->_notes)
-	{
-		map.clear();
-	}
+	this->_current32NoteInBar = 0;
 }
 
 Sequence::~Sequence()
@@ -72,7 +70,7 @@ void Sequence::loadFromFile(const SequenceFile& file)
 	}
 }
 
-bool Sequence::showPreviousMeasure()
+bool Sequence::showPreviousBar()
 {
 	if (this->_firstBarToShow > 1)
 	{
@@ -83,7 +81,7 @@ bool Sequence::showPreviousMeasure()
 	return false;
 }
 
-bool Sequence::showNextMeasure(uint16_t pianoRollWidth)
+bool Sequence::showNextBar(uint16_t pianoRollWidth)
 {
 	if (this->_firstBarToShow < Sequence::MAX_BAR - (pianoRollWidth / this->_numerator) + 1)
 	{
@@ -96,9 +94,9 @@ bool Sequence::showNextMeasure(uint16_t pianoRollWidth)
 
 bool Sequence::showPreviousNote()
 {
-	if (this->_firstNoteToShow > NotePitch::C_MINUS_1)
+	if (this->_firstPitchToShow > NotePitch::C_MINUS_1)
 	{
-		this->_firstNoteToShow = NotePitch(static_cast<uint8_t>(this->_firstNoteToShow) - 1);
+		this->_firstPitchToShow = NotePitch(static_cast<uint8_t>(this->_firstPitchToShow) - 1);
 		return true;
 	}
 
@@ -107,9 +105,9 @@ bool Sequence::showPreviousNote()
 
 bool Sequence::showNextNote(uint16_t pianoRollHeight)
 {
-	if (static_cast<uint8_t>(this->_firstNoteToShow) < static_cast<uint8_t>(NotePitch::G9) - pianoRollHeight + 1)
+	if (static_cast<uint8_t>(this->_firstPitchToShow) < static_cast<uint8_t>(NotePitch::G9) - pianoRollHeight + 1)
 	{
-		this->_firstNoteToShow = NotePitch(static_cast<uint8_t>(this->_firstNoteToShow) + 1);
+		this->_firstPitchToShow = NotePitch(static_cast<uint8_t>(this->_firstPitchToShow) + 1);
 		return true;
 	}
 
@@ -140,9 +138,9 @@ bool Sequence::moveIndicatorDown(uint16_t pianoRollHeight)
 
 bool Sequence::moveIndicatorLeft()
 {
-	if (this->_currentBar > 0)
+	if (this->_currentNote > 0)
 	{
-		this->_currentBar--;
+		this->_currentNote--;
 		return true;
 	}
 
@@ -151,9 +149,9 @@ bool Sequence::moveIndicatorLeft()
 
 bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
 {
-	if (this->_currentBar < pianoRollWidth - 1U)
+	if (this->_currentNote < pianoRollWidth - 1U)
 	{
-		this->_currentBar++;
+		this->_currentNote++;
 		return true;
 	}
 
@@ -162,9 +160,9 @@ bool Sequence::moveIndicatorRight(uint16_t pianoRollWidth)
 
 bool Sequence::moveCloseUpIndicatorLeft()
 {
-	if(this->_currentNoteInBar > 0)
+	if(this->_current32NoteInBar > 0)
 	{
-		this->_currentNoteInBar--;
+		this->_current32NoteInBar--;
 		return true;
 	}
 
@@ -173,23 +171,23 @@ bool Sequence::moveCloseUpIndicatorLeft()
 
 bool Sequence::moveCloseUpIndicatorRight()
 {
-	if(this->_currentNoteInBar < this->_numOf32NotesInBar -1)
+	if(this->_current32NoteInBar < this->_numOf32NotesInBar -1)
 	{
-		this->_currentNoteInBar++;
+		this->_current32NoteInBar++;
 		return true;
 	}
 
 	return false;
 }
 
-vector<Note*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
+vector<SequenceNote*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
 {
 	return this->_notes[static_cast<uint8_t>(this->_currentChannel)][coords];
 }
 
 #pragma region Note manipulation
 
-Note* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
+SequenceNote* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
@@ -206,42 +204,38 @@ Note* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
 	return this->_notes[channel][coords][index];
 }
 
-Note* Sequence::getCurrentNote()
+SequenceNote* Sequence::getCurrentNote()
 {
-	auto coords = this->getCurrentNoteCoords();
-	auto note = this->getNote({ coords.first, coords.second }, this->_currentNoteInBar);
-
-	return note;
+	return this->getNote(this->getCurrentNoteCoords(), this->_current32NoteInBar);
 }
 
 pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
 {
-	uint8_t pitch = static_cast<uint8_t>(this->_firstNoteToShow) + this->_currentNotePitch;
-	unsigned bar = (this->_firstBarToShow - 1) * this->_numerator + this->_currentBar;
+	uint8_t pitch = static_cast<uint8_t>(this->_firstPitchToShow) + this->_currentNotePitch;
+	unsigned note = (this->_firstBarToShow - 1) * this->_numerator + this->_currentNote;
 
-	return{ NotePitch(pitch), bar };
+	return { NotePitch(pitch), note };
 }
 
-bool Sequence::isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel)
+bool Sequence::isNotePositionEmpty(const pair<NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel)
 {
+	//Theoretically can happen
 	if (this->_notes[channel].find(coords) == this->_notes[channel].end())
 	{
-		this->_notes[channel][coords] = vector<Note*>(0);
+		this->_notes[channel][coords] = vector<SequenceNote*>(0);
 	}
 
-	//These things are in seperate loops, cause of
-	//option to delete note
+	//No bar position data found in map. We need to create empty vector of notes
+	//To represent that bar position, and fill them with nullptrs
+	//Size is that many 32nd notes that can be held by denominator
 	if (this->_notes[channel][coords].size() == 0)
 	{
 		size_t newSize = static_cast<size_t>(pow(2, 5 - log2(this->_denominator)));
-		this->_notes[channel][coords].resize(newSize);
+		this->_notes[channel][coords].resize(newSize, nullptr);
 
-		for (auto& a : this->_notes[channel][coords])
-		{
-			a = nullptr;
-		}
+		return true;
 	}
-
+	
 	if (this->_notes[channel][coords][index] != nullptr)
 	{
 		return false;
@@ -250,7 +244,7 @@ bool Sequence::isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& co
 	return true;
 }
 
-bool Sequence::addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature)
+bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
@@ -258,7 +252,7 @@ bool Sequence::addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index
 
 	if(res)
 	{
-		this->_notes[channel][coords][index] = new Note(coords.first, volume, duration, ligature);
+		this->_notes[channel][coords][index] = new SequenceNote(coords.first, volume, duration, ligature);
 		return true;
 	}
 
@@ -273,7 +267,7 @@ bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
 
 	if (res)
 	{
-		this->_notes[channel][coords][index] = new Note(coords.first);
+		this->_notes[channel][coords][index] = new SequenceNote(coords.first);
 		return true;
 	}
 
@@ -283,7 +277,8 @@ bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
 bool Sequence::addNoteAtCurrentPosition()
 {
 	auto coords = this->getCurrentNoteCoords();
-	return this->addNote(coords, this->_currentNoteInBar);
+	auto ret = this->addNote(coords, this->_current32NoteInBar);
+	return ret;
 }
 
 bool Sequence::removeNote(pair<NotePitch, unsigned> coords, uint8_t index)
@@ -308,7 +303,7 @@ bool Sequence::removeNote(pair<NotePitch, unsigned> coords, uint8_t index)
 bool Sequence::removeNoteAtCurrentPosition()
 {
 	auto coords = this->getCurrentNoteCoords();
-	return this->removeNote(coords, this->_currentNoteInBar);
+	return this->removeNote(coords, this->_current32NoteInBar);
 }
 
 #pragma endregion
@@ -329,7 +324,7 @@ bool Sequence::hasMultipleTracks()
 		{
 			for(const auto& ptr : pair.second)
 			{
-				if(ptr != nullptr)
+				if (ptr != nullptr)
 				{
 					trackCounter++;
 				}
@@ -345,13 +340,61 @@ bool Sequence::hasMultipleTracks()
 	return false;
 }
 
-
 StandardMIDIFile Sequence::toMidiFile()
 {
+	bool multipleTracks = this->hasMultipleTracks();
 	StandardMIDIFile smf;
-	smf.setHeader(this->hasMultipleTracks() ? FileFormat::MULTIPLE_TRACK : FileFormat::SINGLE_TRACK);
-	//TODO: Set tempo
-	smf.setTimeSignature(this->numerator(), this->denominator());
+	//HeaderChunk
+	smf.setHeader(multipleTracks ? FileFormat::MULTIPLE_TRACK : FileFormat::SINGLE_TRACK);
+	UI::Util::debug(multipleTracks ? "MULT\n" : "SING\n");
+	try
+	{
+		smf.setTempo(this->tempo());
+		smf.setTimeSignature(this->numerator(), this->denominator());
+	}
+	catch(NoTracksException)
+	{
+		smf.addTrack();
+		smf.setTempo(this->tempo());
+		smf.setTimeSignature(this->numerator(), this->denominator());
+	}
+
+	size_t repetitions = multipleTracks ? 16 : 1;
+	for(size_t i = 0; i < repetitions; i++)
+	{
+		UI::Util::debug("Track " + to_string(i) + "\n");
+
+		try
+		{
+			smf.setCurrentTrack(i + 1);
+		}
+		catch(TrackNumberOutOfRangeException)
+		{
+			smf.addTrack();
+			smf.setCurrentTrack(i + 1);
+		}
+
+		for(const auto& pair : this->_notes[i])
+		{
+			if(pair.second.size() == 0)
+			{
+				continue;
+			}
+
+			for(const auto& note : pair.second)
+			{
+				//CRITICAL: Currently without support for ligatures(only 32nds)
+				if(note != nullptr)
+				{
+					smf.addNote(
+						note->pitch(),
+						note->volume(),
+						note->duration() * smf.get32NoteDuration()
+					);
+				}
+			}
+		}
+	}
 
 	return smf;
 }

@@ -13,8 +13,8 @@ namespace SMF
 		PITCH_WHEEL_CHANGE	= 0xE0	//2 params		Param1: LSB(7bits)				Param2: MSB(7bits)
 		/*
 		DONE:
-			Note_off,
-			note_on
+			NOTE_OFF,
+			NOTE_ON,
 			program_change
 		*/
 	};

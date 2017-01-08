@@ -1,6 +1,6 @@
 #include "SequenceFile.h"
 #include "Sequence.h"
-#include "Note.h"
+#include "SequenceNote.h"
 #include "Util/CRC32.h"
 #include "Exceptions/InvalidFileFormatException.h"
 #include "Exceptions/InvalidChecksumException.h"
@@ -167,7 +167,7 @@ SequenceFile SequenceFile::open(const string filepath)
 
 	file.numberOfNotes = extractFromByteVector<uint32_t>(buffer);
 
-	for(int i = 0; i < file.numberOfNotes; i++)
+	for(uint32_t i = 0; i < file.numberOfNotes; i++)
 	{
 		file.notesData.push_back({
 			extractFromByteVector<uint8_t>(buffer),		//Track number

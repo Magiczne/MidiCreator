@@ -1,7 +1,8 @@
 #include "EventManager.h"
 #include "Sequence.h"
-#include "Note.h"
+#include "SequenceNote.h"
 #include "SequenceFile.h"
+#include "SMF/StandardMIDIFile.h"
 
 using namespace UI;
 using namespace SMF;
@@ -254,7 +255,7 @@ void EventManager::handleL() const
 	if(
 		this->_uiManager->action() == BAR_EDIT &&
 		this->_uiManager->mode() == EDIT &&
-		this->_seq.getCurrentNote()  != nullptr)
+		this->_seq.getCurrentNote() != nullptr)
 	{
 		this->toggleNoteLigature();
 		this->_uiManager->drawSequenceScreen();
@@ -374,7 +375,14 @@ void EventManager::handleF5() const
 
 void EventManager::handleF6() const
 {
-	//TODO: Implement 
+	if(this->_uiManager->mode() == VIEW && this->_uiManager->action() == NONE)
+	{
+		auto smf = this->_seq.toMidiFile();
+		smf.exportToFile("magicznyplik.midi");
+		this->_uiManager->lastMessage("Sequence was saved to magicznyplik.midi");
+		this->_uiManager->drawSequenceScreen();
+		//TODO: Ask user for filename and place
+	}
 }
 
 #pragma endregion
@@ -399,7 +407,7 @@ void EventManager::handleDownArrow() const
 
 void EventManager::handleLeftArrow() const
 {
-	if (this->_seq.showPreviousMeasure())
+	if (this->_seq.showPreviousBar())
 	{
 		this->_uiManager->drawSequenceScreen();
 	}
@@ -407,7 +415,7 @@ void EventManager::handleLeftArrow() const
 
 void EventManager::handleRightArrow() const
 {
-	if (this->_seq.showNextMeasure(this->_uiManager->pianoRollWidth))
+	if (this->_seq.showNextBar(this->_uiManager->pianoRollWidth))
 	{
 		this->_uiManager->drawSequenceScreen();
 	}

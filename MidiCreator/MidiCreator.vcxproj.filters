@@ -150,9 +150,6 @@
     <ClInclude Include="Util\Nullable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Note.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SMF\Util\SMF_Note.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -178,6 +175,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions\SequenceFileException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SMF\Exceptions\TrackLimitException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceNote.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -230,13 +233,13 @@
     <ClCompile Include="Sequence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Note.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SMF\Util\SMF_Note.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SequenceFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceNote.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

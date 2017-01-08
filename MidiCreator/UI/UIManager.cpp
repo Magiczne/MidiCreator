@@ -2,7 +2,7 @@
 
 #include "../Sequence.h"
 #include "Util/Maps.h"
-#include "../Note.h"
+#include "../SequenceNote.h"
 
 using namespace std;
 using namespace SMF;
@@ -254,7 +254,7 @@ void UIManager::drawBarCloseUp() const
 
 	Util::writeLeft("Bar close-up: (32nd notes)");
 
-	Note* currentNote;
+	SequenceNote* currentNote;
 	for (uint8_t i = 0; i < this->_seq.numOf32NotesInBar(); i++)
 	{
 		c = Color::Black;
@@ -283,7 +283,7 @@ void UIManager::drawBarCloseUp() const
 	Util::newLine(2);
 }
 
-void UIManager::drawNoteProperties(uint8_t offsetTop)  const
+void UIManager::drawNoteProperties(uint8_t offsetTop) const
 {
 	array<string, 4> properties = { "Pitch:", "Volume:", "Duration:", "Ligature:" };
 

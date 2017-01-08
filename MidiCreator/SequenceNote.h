@@ -2,7 +2,7 @@
 
 #include "SMF/Enums/NotePitch.h"
 
-class Note
+class SequenceNote
 {
 	friend class SequenceFile;
 
@@ -16,10 +16,10 @@ private:
 public:
 	static const uint8_t MAX_VOLUME = 127;
 
-	explicit Note(SMF::NotePitch pitch);
-	Note(SMF::NotePitch pitch, uint16_t duration);
-	Note(SMF::NotePitch pitch, uint8_t volume, uint16_t duration);
-	Note(SMF::NotePitch pitch, uint8_t volume, uint16_t duration, bool ligature);
+	explicit SequenceNote(SMF::NotePitch pitch);
+	SequenceNote(SMF::NotePitch pitch, uint16_t duration);
+	SequenceNote(SMF::NotePitch pitch, uint8_t volume, uint16_t duration);
+	SequenceNote(SMF::NotePitch pitch, uint8_t volume, uint16_t duration, bool ligature);
 
 	//Getters/setters
 

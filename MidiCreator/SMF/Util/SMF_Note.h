@@ -32,7 +32,7 @@ namespace SMF
 		bool operator<= (const Note& rhs) const { return !(*this > rhs); }
 		bool operator>= (const Note& rhs) const { return !(*this < rhs); }
 
-		bool operator== (const Note& rhs) const { 
+		bool operator== (const Note& rhs) const {
 			return this->_pitch == rhs._pitch && this->_volume == rhs._volume && this->_duration == rhs._duration; 
 		}
 		bool operator!= (const Note& rhs) const { return !(*this == rhs); }

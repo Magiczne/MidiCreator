@@ -137,12 +137,12 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 		return *a < *b;
 	});
 
-	for (const auto &note : notes)
+	for (const auto& note : notes)
 	{
 		std::cout << note->duration() << std::endl;
 	}
 
-	for (const auto &note : notes)
+	for (const auto& note : notes)
 	{
 		this->addTrackEvent(EventType::MIDI_EVENT)
 			->setDeltaTime(0)
@@ -154,12 +154,12 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 	}
 
 	int previousDuration = 0;
-	for (const auto &note : notes)
+	for (const auto& note : notes)
 	{
 		this->addTrackEvent(EventType::MIDI_EVENT)
 			->setDeltaTime(note->duration() - previousDuration)
 			->getInnerEvent<MidiEvent>()
-			->setEventType(MidiEventType::NOTE_ON)
+			->setEventType(MidiEventType::NOTE_OFF)
 			->setChannel(this->currentChannel)
 			->addParam(static_cast<uint8_t>(note->pitch()))
 			->addParam(note->volume());

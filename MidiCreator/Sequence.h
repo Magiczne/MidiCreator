@@ -10,7 +10,7 @@ namespace SMF
 	class StandardMIDIFile;
 }
 
-class Note;
+class SequenceNote;
 
 class Sequence
 {
@@ -24,24 +24,24 @@ private:
 	uint16_t _denominator;
 
 	unsigned _firstBarToShow;
-	SMF::NotePitch _firstNoteToShow;
+	SMF::NotePitch _firstPitchToShow;
 
 	SMF::MIDIChannel _currentChannel;
-	unsigned _currentBar;
+	unsigned _currentNote;
 	unsigned _currentNotePitch;
-	uint8_t _currentNoteInBar;	
+	uint8_t _current32NoteInBar;
 	
 	uint8_t _numOf32NotesInBar;
 
-	/**
-	 * Pair:
-	 *	NotePitch
-	 *	bar
-	 */
+	/*
+		Array of Tracks(16):
+			Map that maps coords(NotePitch and Note) to vector of 32nd notes
+				Vector that contains 32nd notes
+	*/
 	std::array< 
 		std::map< 
 			std::pair<SMF::NotePitch, unsigned>, 
-			std::vector<Note*> 
+			std::vector<SequenceNote*>
 		>, 
 	16> _notes;
 
@@ -53,8 +53,8 @@ public:
 
 	void loadFromFile(const SequenceFile& file);
 
-	bool showPreviousMeasure();
-	bool showNextMeasure(uint16_t pianoRollWidth);
+	bool showPreviousBar();
+	bool showNextBar(uint16_t pianoRollWidth);
 
 	bool showPreviousNote();
 	bool showNextNote(uint16_t pianoRollHeight);
@@ -68,10 +68,10 @@ public:
 	bool moveCloseUpIndicatorLeft();
 	bool moveCloseUpIndicatorRight();
 
-	std::vector<Note*>& getBar(std::pair<SMF::NotePitch, unsigned> coords);
-	Note* getNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	std::vector<SequenceNote*>& getBar(std::pair<SMF::NotePitch, unsigned> coords);
+	SequenceNote* getNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
 
-	Note* getCurrentNote();
+	SequenceNote* getCurrentNote();
 	std::pair<SMF::NotePitch, unsigned> getCurrentNoteCoords() const;
 
 	bool addNoteAtCurrentPosition();
@@ -108,20 +108,20 @@ public:
 	void firstBarToShow(const unsigned& val) { this->_firstBarToShow = val; }
 	const unsigned& firstBarToShow() const { return this->_firstBarToShow; }
 
-	void firstNoteToShow(const SMF::NotePitch& val) { this->_firstNoteToShow = val; }
-	const SMF::NotePitch& firstNoteToShow() const { return this->_firstNoteToShow; }
+	void firstNoteToShow(const SMF::NotePitch& val) { this->_firstPitchToShow = val; }
+	const SMF::NotePitch& firstNoteToShow() const { return this->_firstPitchToShow; }
 
 	void currentChannel(const SMF::MIDIChannel& val) { this->_currentChannel = val; }
 	const SMF::MIDIChannel& currentChannel() const { return this->_currentChannel; }
 
-	void currentBar(const unsigned& val) { this->_currentBar = val; }
-	const unsigned& currentBar() const { return this->_currentBar; }
+	void currentBar(const unsigned& val) { this->_currentNote = val; }
+	const unsigned& currentBar() const { return this->_currentNote; }
 
 	void currentNotePitch(const unsigned& val) { this->_currentNotePitch = val; }
 	const unsigned& currentNotePitch() const { return this->_currentNotePitch; }
 
-	void currentNoteInBar(const uint8_t& val) { this->_currentNoteInBar = val; }
-	const uint8_t& currentNoteInBar() const { return this->_currentNoteInBar; }
+	void currentNoteInBar(const uint8_t& val) { this->_current32NoteInBar = val; }
+	const uint8_t& currentNoteInBar() const { return this->_current32NoteInBar; }
 
 	void numOf32NotesInBar(const uint8_t& val) { this->_numOf32NotesInBar = val; }
 	const uint8_t& numOf32NotesInBar() const { return this->_numOf32NotesInBar; }
