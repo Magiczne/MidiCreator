@@ -55,7 +55,7 @@ std::vector<uint8_t> TrackEvent::toByteVector()
 TrackEvent::~TrackEvent()
 {
 	delete this->_deltaTime;
-	delete this->_event;
+	//delete this->_event;
 }
 
 bool TrackEvent::isInitialized() const

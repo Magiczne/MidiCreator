@@ -9,7 +9,6 @@
 #include "Exceptions/IllegalDenominatorException.h"
 #include "Exceptions/NoTracksException.h"
 #include "Exceptions/TrackLimitException.h"
-#include "Exceptions/TrackNumberOutOfRangeException.h"
 #include "Util/SMF_Note.h"
 
 using namespace SMF;
@@ -44,7 +43,7 @@ void StandardMIDIFile::setCurrentTrack(size_t track)
 {
 	if (track > this->trackChunks.size())
 	{
-		throw TrackNumberOutOfRangeException();
+		this->trackChunks.resize(track);
 	}
 
 	this->currentTrack = track;

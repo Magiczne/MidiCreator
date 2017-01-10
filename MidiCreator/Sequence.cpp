@@ -5,7 +5,6 @@
 
 #include "SMF/StandardMIDIFile.h"
 #include "SMF/HeaderChunk.h"
-#include "SMF/Exceptions/TrackNumberOutOfRangeException.h"
 #include "SMF/Exceptions/NoTracksException.h"
 
 using namespace SMF;
@@ -364,35 +363,34 @@ StandardMIDIFile Sequence::toMidiFile()
 	{
 		UI::Util::debug("Track " + to_string(i) + "\n");
 
-		try
-		{
-			smf.setCurrentTrack(i + 1);
-		}
-		catch(TrackNumberOutOfRangeException)
-		{
-			smf.addTrack();
-			smf.setCurrentTrack(i + 1);
-		}
+		smf.setCurrentTrack(i + 1);
+
+		system("cls");
 
 		for(const auto& pair : this->_notes[i])
 		{
-			if(pair.second.size() == 0)
-			{
-				continue;
-			}
+			cout << "this->_notes[" << i << "][" << NotePitchMap[pair.first.first] << ", " << pair.first.second << "]";
 
-			for(const auto& note : pair.second)
+			for(size_t j = 0; j < pair.second.size(); j++)
 			{
 				//CRITICAL: Currently without support for ligatures(only 32nds)
-				if(note != nullptr)
+
+				cout << "[" << j << "]";
+
+				if(pair.second[j] != nullptr)
 				{
 					smf.addNote(
-						note->pitch(),
-						note->volume(),
-						note->duration() * smf.get32NoteDuration()
+						pair.second[j]->pitch(),
+						pair.second[j]->volume(),
+						pair.second[j]->duration() * smf.get32NoteDuration()
 					);
+					cout << " -> Data present ";
 				}
+
+				cout << endl;
 			}
+
+			system("pause");
 		}
 	}
 
