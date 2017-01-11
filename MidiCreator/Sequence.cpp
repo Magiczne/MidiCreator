@@ -179,14 +179,14 @@ bool Sequence::moveCloseUpIndicatorRight()
 	return false;
 }
 
-vector<SequenceNote*>& Sequence::getBar(pair<NotePitch, unsigned> coords)
+vector<SequenceNote*>& Sequence::getBar(PianoRollCoords coords)
 {
 	return this->_notes[static_cast<uint8_t>(this->_currentChannel)][coords];
 }
 
 #pragma region Note manipulation
 
-SequenceNote* Sequence::getNote(pair<NotePitch, unsigned> coords, uint8_t index)
+SequenceNote* Sequence::getNote(PianoRollCoords coords, uint8_t index)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
@@ -208,7 +208,7 @@ SequenceNote* Sequence::getCurrentNote()
 	return this->getNote(this->getCurrentNoteCoords(), this->_current32NoteInBar);
 }
 
-pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
+PianoRollCoords Sequence::getCurrentNoteCoords() const
 {
 	uint8_t pitch = static_cast<uint8_t>(this->_firstPitchToShow) + this->_currentNotePitch;
 	unsigned note = (this->_firstBarToShow - 1) * this->_numerator + this->_currentNote;
@@ -216,7 +216,7 @@ pair<NotePitch, unsigned> Sequence::getCurrentNoteCoords() const
 	return { NotePitch(pitch), note };
 }
 
-bool Sequence::isNotePositionEmpty(const pair<NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel)
+bool Sequence::isNotePositionEmpty(const PianoRollCoords& coords, const uint8_t index, const uint8_t channel)
 {
 	//Theoretically can happen
 	if (this->_notes[channel].find(coords) == this->_notes[channel].end())
@@ -243,7 +243,7 @@ bool Sequence::isNotePositionEmpty(const pair<NotePitch, unsigned>& coords, cons
 	return true;
 }
 
-bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature)
+bool Sequence::addNote(PianoRollCoords coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
@@ -251,14 +251,14 @@ bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index, uint8_t 
 
 	if(res)
 	{
-		this->_notes[channel][coords][index] = new SequenceNote(coords.first, volume, duration, ligature);
+		this->_notes[channel][coords][index] = new SequenceNote(coords.pitch(), volume, duration, ligature);
 		return true;
 	}
 
 	return res;
 }
 
-bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
+bool Sequence::addNote(PianoRollCoords coords, uint8_t index)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
@@ -266,7 +266,7 @@ bool Sequence::addNote(pair<NotePitch, unsigned> coords, uint8_t index)
 
 	if (res)
 	{
-		this->_notes[channel][coords][index] = new SequenceNote(coords.first);
+		this->_notes[channel][coords][index] = new SequenceNote(coords.pitch());
 		return true;
 	}
 
@@ -280,7 +280,7 @@ bool Sequence::addNoteAtCurrentPosition()
 	return ret;
 }
 
-bool Sequence::removeNote(pair<NotePitch, unsigned> coords, uint8_t index)
+bool Sequence::removeNote(PianoRollCoords coords, uint8_t index)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
@@ -369,7 +369,7 @@ StandardMIDIFile Sequence::toMidiFile()
 
 		for(const auto& pair : this->_notes[i])
 		{
-			cout << "this->_notes[" << i << "][" << NotePitchMap[pair.first.first] << ", " << pair.first.second << "]";
+			cout << "this->_notes[" << i << "][" << NotePitchMap[pair.first.pitch()] << ", " << pair.first.notePosition() << "]";
 
 			for(size_t j = 0; j < pair.second.size(); j++)
 			{

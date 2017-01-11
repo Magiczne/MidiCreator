@@ -158,6 +158,7 @@
     <ClInclude Include="Exceptions\InvalidHeaderPaddingException.h" />
     <ClInclude Include="Exceptions\SequenceFileException.h" />
     <ClInclude Include="MidiCreator.h" />
+    <ClInclude Include="PianoRollCoords.h" />
     <ClInclude Include="SequenceNote.h" />
     <ClInclude Include="Sequence.h" />
     <ClInclude Include="SequenceFile.h" />
@@ -202,6 +203,7 @@
   <ItemGroup>
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="MidiCreator.cpp" />
+    <ClCompile Include="PianoRollCoords.cpp" />
     <ClCompile Include="SequenceNote.cpp" />
     <ClCompile Include="Sequence.cpp" />
     <ClCompile Include="SequenceFile.cpp" />

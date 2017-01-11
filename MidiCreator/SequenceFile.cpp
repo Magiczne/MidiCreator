@@ -53,7 +53,7 @@ SequenceFile SequenceFile::fromSequence(const Sequence& seq)
 					file.notesData.push_back({
 						track,										//Track number
 						static_cast<uint8_t>(note->_pitch),			//Note pitch
-						static_cast<uint16_t>(pair.first.second),	//Bar number
+						static_cast<uint16_t>(pair.first.notePosition()),	//Bar number
 						barPosition,
 						note->_volume,
 						note->_duration,

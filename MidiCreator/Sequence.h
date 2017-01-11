@@ -4,6 +4,7 @@
 #include "SMF/Enums/NotePitch.h"
 #include "SMF/Enums/MIDIChannel.h"
 #include "SMF/Util/Maps.h"
+#include "PianoRollCoords.h"
 
 namespace SMF
 {
@@ -40,7 +41,7 @@ private:
 	*/
 	std::array< 
 		std::map< 
-			std::pair<SMF::NotePitch, unsigned>, 
+			PianoRollCoords,
 			std::vector<SequenceNote*>
 		>, 
 	16> _notes;
@@ -68,11 +69,11 @@ public:
 	bool moveCloseUpIndicatorLeft();
 	bool moveCloseUpIndicatorRight();
 
-	std::vector<SequenceNote*>& getBar(std::pair<SMF::NotePitch, unsigned> coords);
-	SequenceNote* getNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
+	std::vector<SequenceNote*>& getBar(PianoRollCoords coords);
+	SequenceNote* getNote(PianoRollCoords coords, uint8_t index);
 
 	SequenceNote* getCurrentNote();
-	std::pair<SMF::NotePitch, unsigned> getCurrentNoteCoords() const;
+	PianoRollCoords getCurrentNoteCoords() const;
 
 	bool addNoteAtCurrentPosition();
 	bool removeNoteAtCurrentPosition();
@@ -93,20 +94,20 @@ public:
 	const SMF::FileFormat& format() const { return this->_format; }
 
 	void tempo(const uint8_t& val) { this->_tempo = val; }
-	const uint8_t& tempo() const { return this->_tempo; }
+	uint8_t tempo() const { return this->_tempo; }
 
 	void numerator(const uint16_t& val) { this->_numerator = val; }
-	const uint16_t& numerator() const { return this->_numerator; }
+	uint16_t numerator() const { return this->_numerator; }
 
 	void denominator(const uint16_t& val) { this->_denominator = val; }
-	const uint16_t& denominator() const { return this->_denominator; }
+	uint16_t denominator() const { return this->_denominator; }
 
 	#pragma endregion
 
 	#pragma region Other properties
 
 	void firstBarToShow(const unsigned& val) { this->_firstBarToShow = val; }
-	const unsigned& firstBarToShow() const { return this->_firstBarToShow; }
+	unsigned firstBarToShow() const { return this->_firstBarToShow; }
 
 	void firstNoteToShow(const SMF::NotePitch& val) { this->_firstPitchToShow = val; }
 	const SMF::NotePitch& firstNoteToShow() const { return this->_firstPitchToShow; }
@@ -115,27 +116,27 @@ public:
 	const SMF::MIDIChannel& currentChannel() const { return this->_currentChannel; }
 
 	void currentBar(const unsigned& val) { this->_currentNote = val; }
-	const unsigned& currentBar() const { return this->_currentNote; }
+	unsigned currentBar() const { return this->_currentNote; }
 
 	void currentNotePitch(const unsigned& val) { this->_currentNotePitch = val; }
-	const unsigned& currentNotePitch() const { return this->_currentNotePitch; }
+	unsigned currentNotePitch() const { return this->_currentNotePitch; }
 
 	void currentNoteInBar(const uint8_t& val) { this->_current32NoteInBar = val; }
-	const uint8_t& currentNoteInBar() const { return this->_current32NoteInBar; }
+	uint8_t currentNoteInBar() const { return this->_current32NoteInBar; }
 
 	void numOf32NotesInBar(const uint8_t& val) { this->_numOf32NotesInBar = val; }
-	const uint8_t& numOf32NotesInBar() const { return this->_numOf32NotesInBar; }
+	uint8_t numOf32NotesInBar() const { return this->_numOf32NotesInBar; }
 
 	#pragma endregion
 
 	#pragma endregion
 
 private:
-	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
-	bool addNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature);
+	bool addNote(PianoRollCoords coords, uint8_t index);
+	bool addNote(PianoRollCoords coords, uint8_t index, uint8_t volume, uint16_t duration, bool ligature);
 
-	bool removeNote(std::pair<SMF::NotePitch, unsigned> coords, uint8_t index);
-	bool isNotePositionEmpty(const std::pair<SMF::NotePitch, unsigned>& coords, const uint8_t index, const uint8_t channel);
+	bool removeNote(PianoRollCoords coords, uint8_t index);
+	bool isNotePositionEmpty(const PianoRollCoords& coords, const uint8_t index, const uint8_t channel);
 
 	bool hasNotes() const { return !this->_notes.empty(); }
 
