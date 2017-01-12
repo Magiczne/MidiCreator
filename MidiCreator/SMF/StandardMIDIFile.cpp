@@ -68,7 +68,7 @@ void StandardMIDIFile::setTimeSignature(
 		this->_trackChunks.front()
 			.addTrackEvent(EventType::META_EVENT)
 			->setDeltaTime(0)
-			->getInnerEvent<MetaEvent>()
+			.getInnerEvent<MetaEvent>()
 			->setEventType(MetaEventType::TIME_SIGNATURE)
 			->setLength(4)
 			->addParam(static_cast<uint8_t>(numerator))
@@ -105,7 +105,7 @@ void StandardMIDIFile::setTempo(short bpm)
 		this->_trackChunks.front()
 			.addTrackEvent(EventType::META_EVENT)
 			->setDeltaTime(0)
-			->getInnerEvent<MetaEvent>()
+			.getInnerEvent<MetaEvent>()
 			->setEventType(MetaEventType::TEMPO_SETTING)
 			->setLength(3)
 			->addParam((microSecoundsPerQuarterNote >> 16) & 0xFF)
@@ -124,15 +124,15 @@ void StandardMIDIFile::setTempo(short bpm)
 
 void StandardMIDIFile::exportToFile(std::string filename) const
 {
-	std::vector<uint8_t> ret = this->toByteVector();
+	const std::vector<uint8_t> ret = this->toByteVector();
 
 	std::ofstream file(filename, std::ios::trunc | std::ios::binary);
 	
 	if (file.good())
 	{
-		for (auto &e : ret)
+		for (const auto& byte : ret)
 		{
-			file << e;
+			file << byte;
 		}
 
 		file.close();
@@ -141,10 +141,9 @@ void StandardMIDIFile::exportToFile(std::string filename) const
 
 void StandardMIDIFile::addNote(NotePitch pitch, uint8_t volume, int duration)
 {
-	auto note = new Note(pitch, volume, duration);
+	auto note = Note(pitch, volume, duration);
 	this->_trackChunks[this->_currentTrack - 1].addNote(note);
 }
-
 
 std::vector<uint8_t> StandardMIDIFile::toByteVector() const
 {

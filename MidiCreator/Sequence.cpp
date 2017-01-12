@@ -27,20 +27,6 @@ Sequence::Sequence()
 	this->_current32NoteInBar = 0;
 }
 
-Sequence::~Sequence()
-{
-	for (const auto& map : _notes)
-	{
-		for (const auto& pair : map)
-		{
-			for (auto& note : pair.second)
-			{
-				delete note;
-			}
-		}
-	}
-}
-
 void Sequence::loadFromFile(const SequenceFile& file)
 {
 	this->name(file.name);
@@ -179,14 +165,14 @@ bool Sequence::moveCloseUpIndicatorRight()
 	return false;
 }
 
-vector<SequenceNote*>& Sequence::getBar(PianoRollCoords coords)
+vector<shared_ptr<SequenceNote>>& Sequence::getBar(PianoRollCoords coords)
 {
 	return this->_notes[static_cast<uint8_t>(this->_currentChannel)][coords];
 }
 
 #pragma region Note manipulation
 
-SequenceNote* Sequence::getNote(PianoRollCoords coords, uint8_t index)
+shared_ptr<SequenceNote> Sequence::getNote(PianoRollCoords coords, uint8_t index)
 {
 	uint8_t channel = static_cast<uint8_t>(this->_currentChannel);
 
@@ -203,7 +189,7 @@ SequenceNote* Sequence::getNote(PianoRollCoords coords, uint8_t index)
 	return this->_notes[channel][coords][index];
 }
 
-SequenceNote* Sequence::getCurrentNote()
+shared_ptr<SequenceNote> Sequence::getCurrentNote()
 {
 	return this->getNote(this->getCurrentNoteCoords(), this->_current32NoteInBar);
 }
@@ -221,7 +207,7 @@ bool Sequence::isNotePositionEmpty(const PianoRollCoords& coords, const uint8_t 
 	//Theoretically can happen
 	if (this->_notes[channel].find(coords) == this->_notes[channel].end())
 	{
-		this->_notes[channel][coords] = vector<SequenceNote*>(0);
+		this->_notes[channel][coords] = vector<shared_ptr<SequenceNote>>(0);
 	}
 
 	//No bar position data found in map. We need to create empty vector of notes
@@ -251,7 +237,7 @@ bool Sequence::addNote(PianoRollCoords coords, uint8_t index, uint8_t volume, ui
 
 	if(res)
 	{
-		this->_notes[channel][coords][index] = new SequenceNote(coords.pitch(), volume, duration, ligature);
+		this->_notes[channel][coords][index] = make_shared<SequenceNote>(coords.pitch(), volume, duration, ligature);
 		return true;
 	}
 
@@ -266,7 +252,7 @@ bool Sequence::addNote(PianoRollCoords coords, uint8_t index)
 
 	if (res)
 	{
-		this->_notes[channel][coords][index] = new SequenceNote(coords.pitch());
+		this->_notes[channel][coords][index] = make_shared<SequenceNote>(coords.pitch());
 		return true;
 	}
 
@@ -294,7 +280,6 @@ bool Sequence::removeNote(PianoRollCoords coords, uint8_t index)
 		return false;
 	}
 
-	delete this->_notes[channel][coords][index];
 	this->_notes[channel][coords][index] = nullptr;
 	return true;
 }

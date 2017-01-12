@@ -15,7 +15,7 @@ namespace SMF
 	private:
 		const std::array<char, 4> _chunkType = { 'M', 'T', 'r', 'k' };
 		uint32_t _tracksLength = 0;
-		std::vector<TrackEvent*> _trackEvents;
+		std::vector<std::shared_ptr<TrackEvent>> _trackEvents;
 
 		MIDIChannel _currentChannel = MIDIChannel::CHANNEL_1;
 		bool _closed = false;
@@ -23,17 +23,14 @@ namespace SMF
 
 		void calculateTracksLength();
 	public:
-		~TrackChunk();
+		std::shared_ptr<TrackEvent> addTrackEvent(EventType eventType);
 
-		TrackEvent* addTrackEvent(EventType eventType);
-		TrackEvent* addTrackEvent(TrackEvent* event);
+		TrackChunk& setCurrentChannel(MIDIChannel channel);
 
-		TrackChunk* setCurrentChannel(MIDIChannel channel);
+		TrackChunk& setVoiceProgram(GMPatch patch);
 
-		TrackChunk* setVoiceProgram(GMPatch patch);
-
-		TrackChunk* addNote(Note* note);
-		TrackChunk* addNotes(std::vector<Note*> notes);
+		TrackChunk& addNote(const Note& note);
+		TrackChunk& addNotes(std::vector<Note>& notes);
 
 		void closeTrack();
 		void reopenTrack();

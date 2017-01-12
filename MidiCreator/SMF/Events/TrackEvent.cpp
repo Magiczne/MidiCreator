@@ -6,6 +6,7 @@
 
 #include "../Exceptions/EventTypeNotSupportedException.h"
 
+using namespace std;
 using namespace SMF;
 using namespace SMF::Exceptions;
 
@@ -14,23 +15,23 @@ TrackEvent::TrackEvent(EventType eventType)
 	switch (eventType)
 	{
 		case EventType::META_EVENT: 
-			this->_event = new MetaEvent();
+			this->_event = make_shared<MetaEvent>();
 			break;
 		case EventType::MIDI_EVENT:
-			this->_event = new MidiEvent();
+			this->_event = make_shared<MidiEvent>();
 			break;
 		case EventType::SYSTEM_EXCLUSIVE_EVENT:
-			this->_event = new SystemExclusiveEvent();
+			this->_event = make_shared<SystemExclusiveEvent>();
 			break;
 		default:
 			throw EventTypeNotSupportedException();
 	}
 }
 
-TrackEvent* TrackEvent::setDeltaTime(int time)
+TrackEvent& TrackEvent::setDeltaTime(int time)
 { 
-	this->_deltaTime = new VLQ(time); 
-	return this; 
+	this->_deltaTime = make_unique<VLQ>(time);
+	return *this;
 }
 std::vector<uint8_t> TrackEvent::toByteVector() const
 {
@@ -50,12 +51,6 @@ std::vector<uint8_t> TrackEvent::toByteVector() const
 	ret.insert(ret.end(), eventBytes.begin(), eventBytes.end());
 
 	return ret;
-}
-
-TrackEvent::~TrackEvent()
-{
-	delete this->_deltaTime;
-	//delete this->_event;
 }
 
 bool TrackEvent::isInitialized() const

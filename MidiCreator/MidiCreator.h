@@ -2,24 +2,19 @@
 
 #include "stdafx.h"
 
-namespace UI
-{
-	class UIManager;
-}
-
-class EventManager;
-class Sequence;
+#include "EventManager.h"
+#include "Sequence.h"
+#include "UI/UIManager.h"
 
 class MidiCreator
 {
 private:
-	Sequence* _sequence;
-	EventManager* _eventManager;
-	UI::UIManager* _uiManager;
+	Sequence _sequence;
+	UI::UIManager _uiManager;
+	EventManager _eventManager;
 
 public:
 	MidiCreator();
-	~MidiCreator();
 
-	int exec() const;
+	int exec();
 };

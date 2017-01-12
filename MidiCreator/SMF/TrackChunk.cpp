@@ -11,14 +11,9 @@
 #include "Exceptions/TrackNotClosedException.h"
 #include "Exceptions/TracksNotCalculatedException.h"
 
+using namespace std;
 using namespace SMF;
 using namespace SMF::Exceptions;
-
-TrackChunk::~TrackChunk()
-{
-	for (auto &te : this->_trackEvents)
-		delete te;
-}
 
 void TrackChunk::calculateTracksLength()
 {
@@ -26,7 +21,7 @@ void TrackChunk::calculateTracksLength()
 		printf("TrackChunk::calculateTracksLength()\n");
 	#endif // METHOD_DEBUG
 
-	for (auto &te : this->_trackEvents)
+	for (const auto& te : this->_trackEvents)
 	{
 		//TODO: OPTIMIZE THAT.
 		this->_tracksLength += te->toByteVector().size();
@@ -35,30 +30,19 @@ void TrackChunk::calculateTracksLength()
 	_tracksCalculated = true;
 }
 
-TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
+shared_ptr<TrackEvent> TrackChunk::addTrackEvent(EventType eventType)
 {
 	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
 
-	_trackEvents.push_back(event);
-	return event;
+	auto e = make_shared<TrackEvent>(eventType);
+	_trackEvents.push_back(e);
+	return e;
 }
 
-TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
-{
-	if (this->_closed)
-	{
-		throw TrackClosedException();
-	}
-
-	auto event = new TrackEvent(eventType);
-	_trackEvents.push_back(event);
-	return event;
-}
-
-TrackChunk* TrackChunk::setCurrentChannel(MIDIChannel channel)
+TrackChunk& TrackChunk::setCurrentChannel(MIDIChannel channel)
 {
 	if (this->_closed)
 	{
@@ -66,10 +50,10 @@ TrackChunk* TrackChunk::setCurrentChannel(MIDIChannel channel)
 	}
 
 	this->_currentChannel = channel;
-	return this;
+	return *this;
 }
 
-TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
+TrackChunk& TrackChunk::setVoiceProgram(GMPatch patch)
 {
 	#ifdef METHOD_DEBUG
 		printf("TrackChunk::setVoiceProgram()\n");
@@ -82,15 +66,15 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 
 	this->addTrackEvent(EventType::MIDI_EVENT)
 		->setDeltaTime(0)
-		->getInnerEvent<MidiEvent>()
+		.getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::PROGRAM_CHANGE)
 		->setChannel(this->_currentChannel)
 		->addParam(static_cast<uint8_t>(patch) - 1);
 
-	return this;
+	return *this;
 }
 
-TrackChunk* TrackChunk::addNote(Note* note)
+TrackChunk& TrackChunk::addNote(const Note& note)
 {
 	#ifdef METHOD_DEBUG
 		printf("TrackChunk::addNote()\n");
@@ -104,28 +88,28 @@ TrackChunk* TrackChunk::addNote(Note* note)
 	//Note on
 	this->addTrackEvent(EventType::MIDI_EVENT)
 		->setDeltaTime(0)	//TODO: Delta sums, or something, duration etc.
-		->getInnerEvent<MidiEvent>()
+		.getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_ON)
 		->setChannel(this->_currentChannel)
-		->addParam(static_cast<uint8_t>(note->pitch()))
-		->addParam(note->volume());
+		->addParam(static_cast<uint8_t>(note.pitch()))
+		->addParam(note.volume());
 
 	//Note off
 	this->addTrackEvent(EventType::MIDI_EVENT)
-		->setDeltaTime(note->duration()) //TODO: Delta sums, or something, duration etc.	
-		->getInnerEvent<MidiEvent>()
+		->setDeltaTime(note.duration()) //TODO: Delta sums, or something, duration etc.	
+		.getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_OFF)
 		->setChannel(this->_currentChannel)
-		->addParam(static_cast<uint8_t>(note->pitch()))
+		->addParam(static_cast<uint8_t>(note.pitch()))
 		->addParam(0);	//TODO: change that to 0?
 
-	return this;
+	return *this;
 }
 
 //Currently supports multiple notes starting at the same time
 //But ending differently
 //DOES NOT support notes starting differently
-TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
+TrackChunk& TrackChunk::addNotes(vector<Note>& notes)
 {
 	#ifdef METHOD_DEBUG
 		printf("TrackChunk::addNotes()\n");
@@ -136,41 +120,41 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 		throw TrackClosedException();
 	}
 
-	std::sort(notes.begin(), notes.end(), [](Note* a, Note*b) {
-		return *a < *b;
+	sort(notes.begin(), notes.end(), [](Note& a, Note& b) {
+		return a < b;
 	});
 
 	for (const auto& note : notes)
 	{
-		std::cout << note->duration() << std::endl;
+		cout << note.duration() << endl;
 	}
 
 	for (const auto& note : notes)
 	{
 		this->addTrackEvent(EventType::MIDI_EVENT)
 			->setDeltaTime(0)
-			->getInnerEvent<MidiEvent>()
+			.getInnerEvent<MidiEvent>()
 			->setEventType(MidiEventType::NOTE_ON)
 			->setChannel(this->_currentChannel)
-			->addParam(static_cast<uint8_t>(note->pitch()))
-			->addParam(note->volume());
+			->addParam(static_cast<uint8_t>(note.pitch()))
+			->addParam(note.volume());
 	}
 
 	int previousDuration = 0;
 	for (const auto& note : notes)
 	{
 		this->addTrackEvent(EventType::MIDI_EVENT)
-			->setDeltaTime(note->duration() - previousDuration)
-			->getInnerEvent<MidiEvent>()
+			->setDeltaTime(note.duration() - previousDuration)
+			.getInnerEvent<MidiEvent>()
 			->setEventType(MidiEventType::NOTE_OFF)
 			->setChannel(this->_currentChannel)
-			->addParam(static_cast<uint8_t>(note->pitch()))
-			->addParam(note->volume());
+			->addParam(static_cast<uint8_t>(note.pitch()))
+			->addParam(note.volume());
 
-		previousDuration = note->duration();
+		previousDuration = note.duration();
 	}
 
-	return this;
+	return *this;
 }
 
 void TrackChunk::closeTrack()
@@ -186,7 +170,7 @@ void TrackChunk::closeTrack()
 
 	this->addTrackEvent(EventType::META_EVENT)
 		->setDeltaTime(0)
-		->getInnerEvent<MetaEvent>()
+		.getInnerEvent<MetaEvent>()
 		->setEventType(MetaEventType::END_OF_TRACK)
 		->setLength(0);
 
@@ -216,7 +200,7 @@ void TrackChunk::prepareToExport()
 
 
 //IConvertibleToByteCollection
-std::vector<uint8_t> TrackChunk::toByteVector() const
+vector<uint8_t> TrackChunk::toByteVector() const
 {
 	#ifdef METHOD_DEBUG
 		printf("TrackChunk::toByteVector()\n");
@@ -227,7 +211,7 @@ std::vector<uint8_t> TrackChunk::toByteVector() const
 		throw TrackNotClosedException();
 	}
 
-	std::vector<uint8_t> ret;
+	vector<uint8_t> ret;
 
 	//chunkType
 	for (const auto& c : this->_chunkType)
@@ -247,7 +231,7 @@ std::vector<uint8_t> TrackChunk::toByteVector() const
 	ret.push_back(this->_tracksLength & 0xFF);
 
 	//trackEvents
-	std::vector<uint8_t> tmp;
+	vector<uint8_t> tmp;
 	for (const auto& te : this->_trackEvents)
 	{
 		tmp = te->toByteVector();

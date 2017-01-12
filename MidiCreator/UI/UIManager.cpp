@@ -254,7 +254,7 @@ void UIManager::drawBarCloseUp() const
 
 	Util::writeLeft("Bar close-up: (32nd notes)");
 
-	SequenceNote* currentNote;
+	shared_ptr<SequenceNote> currentNote;
 	for (uint8_t i = 0; i < this->_seq.numOf32NotesInBar(); i++)
 	{
 		c = Color::Black;

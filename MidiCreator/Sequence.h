@@ -42,7 +42,7 @@ private:
 	std::array< 
 		std::map< 
 			PianoRollCoords,
-			std::vector<SequenceNote*>
+			std::vector<std::shared_ptr<SequenceNote>>
 		>, 
 	16> _notes;
 
@@ -50,7 +50,6 @@ public:
 	static const unsigned MAX_BAR = 500;
 	
 	Sequence();
-	~Sequence();
 
 	void loadFromFile(const SequenceFile& file);
 
@@ -69,10 +68,10 @@ public:
 	bool moveCloseUpIndicatorLeft();
 	bool moveCloseUpIndicatorRight();
 
-	std::vector<SequenceNote*>& getBar(PianoRollCoords coords);
-	SequenceNote* getNote(PianoRollCoords coords, uint8_t index);
+	std::vector<std::shared_ptr<SequenceNote>>& getBar(PianoRollCoords coords);
+	std::shared_ptr<SequenceNote> getNote(PianoRollCoords coords, uint8_t index);
 
-	SequenceNote* getCurrentNote();
+	std::shared_ptr<SequenceNote> getCurrentNote();
 	PianoRollCoords getCurrentNoteCoords() const;
 
 	bool addNoteAtCurrentPosition();

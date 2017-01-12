@@ -11,7 +11,7 @@ namespace SMF
 	private:
 		const uint8_t _id = 0xFF;
 		MetaEventType _type;
-		VLQ* _vLength = nullptr;
+		std::unique_ptr<VLQ> _vLength;
 
 		std::array<bool, 2> _initialized = { false };
 		bool isInitialized() const;
@@ -19,7 +19,6 @@ namespace SMF
 	public:
 		MetaEvent() {};
 		explicit MetaEvent(MetaEventType eventType);
-		~MetaEvent();
 
 		MetaEvent* setEventType(MetaEventType eventType);
 		MetaEvent* setLength(int length);

@@ -13,7 +13,7 @@ enum MenuEventType
 class EventManager
 {
 private:
-	UI::UIManager* _uiManager;
+	UI::UIManager& _uiManager;
 	Sequence& _seq;
 
 	void changeSequenceName() const;
@@ -47,7 +47,7 @@ private:
 
 public:
 	EventManager() = delete;
-	EventManager(UI::UIManager* ui, Sequence& seq);
+	EventManager(UI::UIManager& ui, Sequence& seq);
 
 	static MenuEventType menuLoop();
 
