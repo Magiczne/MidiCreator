@@ -46,6 +46,7 @@ void StandardMIDIFile::setCurrentTrack(size_t track)
 	this->_currentTrack = track;
 }
 
+//TODO: Be sure that sime signature is always first, and tempo is always second if prsent
 void StandardMIDIFile::setTimeSignature(
 	uint16_t numerator,
 	uint16_t denominator,
@@ -145,6 +146,14 @@ void StandardMIDIFile::addNote(NotePitch pitch, uint8_t volume, int duration)
 	this->_trackChunks[this->_currentTrack - 1].addNote(note);
 }
 
+void StandardMIDIFile::prepareToExport()
+{
+	for(auto& tc : this->_trackChunks)
+	{
+		tc.prepareToExport();
+	}
+}
+
 std::vector<uint8_t> StandardMIDIFile::toByteVector() const
 {
 	if (this->_trackChunks.empty())
@@ -157,9 +166,9 @@ std::vector<uint8_t> StandardMIDIFile::toByteVector() const
 	std::vector<uint8_t> trackBytes;
 
 	std::vector<uint8_t> tmpVector;
-	for (auto &a : this->_trackChunks)
+	for (auto& tc : this->_trackChunks)
 	{
-		tmpVector = a.toByteVector();
+		tmpVector = tc.toByteVector();
 		trackBytes.insert(trackBytes.end(), tmpVector.begin(), tmpVector.end());
 	}
 

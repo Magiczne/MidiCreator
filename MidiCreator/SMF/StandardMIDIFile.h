@@ -41,7 +41,8 @@ namespace SMF
 		void exportToFile(std::string filename) const;
 
 		short get32NoteDuration() const { return this->_headerChunk.division() / 8; }
-
+		
+		void prepareToExport();
 		//IConvertibleToByteCollection
 		std::vector<uint8_t> toByteVector() const override;
 	};

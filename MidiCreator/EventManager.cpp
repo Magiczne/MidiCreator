@@ -378,6 +378,7 @@ void EventManager::handleF6() const
 	if(this->_uiManager.mode() == VIEW && this->_uiManager.action() == NONE)
 	{
 		auto smf = this->_seq.toMidiFile();
+		smf.prepareToExport();
 		smf.exportToFile("magicznyplik.midi");
 		this->_uiManager.lastMessage("Sequence was saved to magicznyplik.midi");
 		this->_uiManager.drawSequenceScreen();

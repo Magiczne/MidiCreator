@@ -333,14 +333,14 @@ StandardMIDIFile Sequence::toMidiFile()
 	UI::Util::debug(multipleTracks ? "MULT\n" : "SING\n");
 	try
 	{
-		smf.setTempo(this->tempo());
 		smf.setTimeSignature(this->numerator(), this->denominator());
+		smf.setTempo(this->tempo());
 	}
 	catch(NoTracksException)
 	{
 		smf.addTrack();
-		smf.setTempo(this->tempo());
 		smf.setTimeSignature(this->numerator(), this->denominator());
+		smf.setTempo(this->tempo());
 	}
 
 	size_t repetitions = multipleTracks ? 16 : 1;
@@ -350,17 +350,17 @@ StandardMIDIFile Sequence::toMidiFile()
 
 		smf.setCurrentTrack(i + 1);
 
-		system("cls");
+		//system("cls");
 
 		for(const auto& pair : this->_notes[i])
 		{
-			cout << "this->_notes[" << i << "][" << NotePitchMap[pair.first.pitch()] << ", " << pair.first.notePosition() << "]";
+			//cout << "this->_notes[" << i << "][" << NotePitchMap[pair.first.pitch()] << ", " << pair.first.notePosition() << "]";
 
 			for(size_t j = 0; j < pair.second.size(); j++)
 			{
-				//CRITICAL: Currently without support for ligatures(only 32nds)
+				//CRITICAL: Currently without support for ligatures(only 32nds), or even pauses XD
 
-				cout << "[" << j << "]";
+				//cout << "[" << j << "]";
 
 				if(pair.second[j] != nullptr)
 				{
@@ -369,13 +369,13 @@ StandardMIDIFile Sequence::toMidiFile()
 						pair.second[j]->volume(),
 						pair.second[j]->duration() * smf.get32NoteDuration()
 					);
-					cout << " -> Data present ";
+					//cout << " -> Data present ";
 				}
 
-				cout << endl;
+				//cout << endl;
 			}
 
-			system("pause");
+			//system("pause");
 		}
 	}
 
