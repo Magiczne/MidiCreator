@@ -7,7 +7,7 @@ namespace UI
 {
 	static std::map<Mode, std::string> ModeMap =
 	{
-		{ Mode::VIEW, "View" },
-		{ Mode::EDIT, "Edit" }
+		{ VIEW, "View" },
+		{ EDIT, "Edit" }
 	};
 }

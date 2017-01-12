@@ -13,15 +13,10 @@ SequenceNote::SequenceNote(NotePitch pitch, uint16_t duration)
 SequenceNote::SequenceNote(NotePitch pitch, uint8_t volume, uint16_t duration)
 	: SequenceNote(pitch, volume, duration, false) {}
 
-SequenceNote::SequenceNote(SMF::NotePitch pitch, uint8_t volume, uint16_t duration, bool ligature)
-{
-	this->pitch(pitch);
-	this->volume(volume);
-	this->duration(duration);
-	this->ligature(ligature);
-}
+SequenceNote::SequenceNote(NotePitch pitch, uint8_t volume, uint16_t duration, bool ligature) 
+	: _pitch(pitch), _volume(volume), _duration(duration), _ligature(ligature) {}
 
-void SequenceNote::volume(const uint8_t& val)
+void SequenceNote::volume(const uint8_t val)
 {
 	if(val > MAX_VOLUME)
 	{

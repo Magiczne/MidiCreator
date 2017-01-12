@@ -9,11 +9,11 @@ namespace SMF
 	class MetaEvent final : public IEvent
 	{
 	private:
-		const uint8_t id = 0xFF;
-		MetaEventType type;
-		VLQ* vLength = nullptr;
+		const uint8_t _id = 0xFF;
+		MetaEventType _type;
+		VLQ* _vLength = nullptr;
 
-		std::array<bool, 2> initialized = { false };
+		std::array<bool, 2> _initialized = { false };
 		bool isInitialized() const;
 
 	public:

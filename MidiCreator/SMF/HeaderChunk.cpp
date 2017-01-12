@@ -3,12 +3,7 @@
 using namespace SMF;
 
 HeaderChunk::HeaderChunk(FileFormat ff, short numOfTracks, short division) :
-	_fileFormat(ff),
-	_numberOfTracks(numOfTracks),
-	_division(division)
-{
-
-}
+	_fileFormat(ff), _numberOfTracks(numOfTracks), _division(division) { }
 
 std::vector<uint8_t> HeaderChunk::toByteVector() const
 {

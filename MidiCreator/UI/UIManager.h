@@ -48,10 +48,10 @@ namespace UI
 		//Getters/setters
 
 		void mode(const Mode& val) { this->_mode = val; }
-		const Mode& mode() const { return this->_mode; }
+		Mode mode() const { return this->_mode; }
 
 		void action(const Action& val) { this->_action = val; }
-		const Action& action() const { return this->_action; }
+		Action action() const { return this->_action; }
 
 		void lastMessage(const std::string& val) { this->_lastMessage = val; }
 		const std::string& lastMessage() const { return this->_lastMessage; }

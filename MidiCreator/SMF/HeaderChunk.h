@@ -29,12 +29,12 @@ namespace SMF
 		std::vector<uint8_t> toByteVector() const override;
 
 		//Getters/setters
-		const short& numberOfTracks() const { return this->_numberOfTracks; }
+		short numberOfTracks() const { return this->_numberOfTracks; }
 
 		void fileFormat(const FileFormat ff) { this->_fileFormat = ff; }
-		const FileFormat& fileFormat() const { return this->_fileFormat; }
+		FileFormat fileFormat() const { return this->_fileFormat; }
 
-		void division(const short& val) { this->_division = val; }
-		const short& division() const { return this->_division; }
+		void division(const short val) { this->_division = val; }
+		short division() const { return this->_division; }
 	};
 }

@@ -13,17 +13,15 @@ namespace SMF
 	class TrackChunk : public IConvertibleToByteCollection
 	{
 	private:
-		const std::array<char, 4> chunkType = { 'M', 'T', 'r', 'k' };
-		uint32_t tracksLength = 0;
-		std::vector<TrackEvent*> trackEvents;
+		const std::array<char, 4> _chunkType = { 'M', 'T', 'r', 'k' };
+		uint32_t _tracksLength = 0;
+		std::vector<TrackEvent*> _trackEvents;
 
-		MIDIChannel currentChannel = MIDIChannel::CHANNEL_1;
-		bool closed = false;
-		bool tracksCalculated = false;
+		MIDIChannel _currentChannel = MIDIChannel::CHANNEL_1;
+		bool _closed = false;
+		bool _tracksCalculated = false;
 
-		void prepareToExport();
 		void calculateTracksLength();
-
 	public:
 		~TrackChunk();
 
@@ -39,6 +37,8 @@ namespace SMF
 
 		void closeTrack();
 		void reopenTrack();
+
+		void prepareToExport();
 
 		//IConvertibleToByteCollection
 		std::vector<uint8_t> toByteVector() const override;

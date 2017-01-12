@@ -84,7 +84,7 @@ public:
 
 	#pragma region Sequence properties
 
-	void setMeasure(const uint16_t& numerator, const uint16_t& denominator);
+	void setMeasure(const uint16_t numerator, const uint16_t denominator);
 	std::string getFormatString() const { return SMF::FileFormatMap[this->_format]; }
 
 	void name(const std::string& val) { this->_name = val; }
@@ -93,20 +93,20 @@ public:
 	void format(const SMF::FileFormat& val) { this->_format = val; }
 	const SMF::FileFormat& format() const { return this->_format; }
 
-	void tempo(const uint8_t& val) { this->_tempo = val; }
+	void tempo(const uint8_t val) { this->_tempo = val; }
 	uint8_t tempo() const { return this->_tempo; }
 
-	void numerator(const uint16_t& val) { this->_numerator = val; }
+	void numerator(const uint16_t val) { this->_numerator = val; }
 	uint16_t numerator() const { return this->_numerator; }
 
-	void denominator(const uint16_t& val) { this->_denominator = val; }
+	void denominator(const uint16_t val) { this->_denominator = val; }
 	uint16_t denominator() const { return this->_denominator; }
 
 	#pragma endregion
 
 	#pragma region Other properties
 
-	void firstBarToShow(const unsigned& val) { this->_firstBarToShow = val; }
+	void firstBarToShow(const unsigned val) { this->_firstBarToShow = val; }
 	unsigned firstBarToShow() const { return this->_firstBarToShow; }
 
 	void firstNoteToShow(const SMF::NotePitch& val) { this->_firstPitchToShow = val; }
@@ -115,16 +115,16 @@ public:
 	void currentChannel(const SMF::MIDIChannel& val) { this->_currentChannel = val; }
 	const SMF::MIDIChannel& currentChannel() const { return this->_currentChannel; }
 
-	void currentBar(const unsigned& val) { this->_currentNote = val; }
+	void currentBar(const unsigned val) { this->_currentNote = val; }
 	unsigned currentBar() const { return this->_currentNote; }
 
-	void currentNotePitch(const unsigned& val) { this->_currentNotePitch = val; }
+	void currentNotePitch(const unsigned val) { this->_currentNotePitch = val; }
 	unsigned currentNotePitch() const { return this->_currentNotePitch; }
 
-	void currentNoteInBar(const uint8_t& val) { this->_current32NoteInBar = val; }
+	void currentNoteInBar(const uint8_t val) { this->_current32NoteInBar = val; }
 	uint8_t currentNoteInBar() const { return this->_current32NoteInBar; }
 
-	void numOf32NotesInBar(const uint8_t& val) { this->_numOf32NotesInBar = val; }
+	void numOf32NotesInBar(const uint8_t val) { this->_numOf32NotesInBar = val; }
 	uint8_t numOf32NotesInBar() const { return this->_numOf32NotesInBar; }
 
 	#pragma endregion

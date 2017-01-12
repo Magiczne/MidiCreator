@@ -14,45 +14,38 @@
 using namespace SMF;
 using namespace Exceptions;
 
-StandardMIDIFile::StandardMIDIFile() : headerChunk(FileFormat::SINGLE_TRACK)
-{
-	
-}
+StandardMIDIFile::StandardMIDIFile() : _headerChunk(FileFormat::SINGLE_TRACK) { }
 
 void StandardMIDIFile::setHeader(FileFormat ff, short division)
 {
-	this->headerChunk.fileFormat(ff);
-	this->headerChunk.division(division);
+	this->_headerChunk.fileFormat(ff);
+	this->_headerChunk.division(division);
 }
 
 void StandardMIDIFile::addTrack()
 {
-	if(this->headerChunk.fileFormat() == FileFormat::SINGLE_TRACK && 
-		trackChunks.size() == MAX_TRACK_COUNT_SINGLE)
+	if(this->_headerChunk.fileFormat() == FileFormat::SINGLE_TRACK && 
+		_trackChunks.size() == MAX_TRACK_COUNT_SINGLE)
 	{
 		throw TrackLimitException();
 	}
 	//TODO: Is there a limit for tracks in MultipleTrack SMF?
 	//Probably Single_Track + 1, cause 1st track will contain seq info
 
-	this->trackChunks.push_back(TrackChunk());
-	this->headerChunk.addTrack();
+	this->_trackChunks.push_back(TrackChunk());
+	this->_headerChunk.addTrack();
 }
 
 void StandardMIDIFile::setCurrentTrack(size_t track)
 {
-	if (track > this->trackChunks.size())
+	if (track > this->_trackChunks.size())
 	{
-		this->trackChunks.resize(track);
+		this->_trackChunks.resize(track);
 	}
 
-	this->currentTrack = track;
+	this->_currentTrack = track;
 }
 
-/*
-throws IllegalDenominatorException
-throws NoTrackException
-*/
 void StandardMIDIFile::setTimeSignature(
 	uint16_t numerator,
 	uint16_t denominator,
@@ -65,14 +58,14 @@ void StandardMIDIFile::setTimeSignature(
 		throw IllegalDenominatorException();
 	}
 
-	if (this->headerChunk.fileFormat() == FileFormat::SINGLE_TRACK)
+	if (this->_headerChunk.fileFormat() == FileFormat::SINGLE_TRACK)
 	{
-		if (this->trackChunks.empty())
+		if (this->_trackChunks.empty())
 		{
 			throw NoTracksException();
 		}
 
-		this->trackChunks.front()
+		this->_trackChunks.front()
 			.addTrackEvent(EventType::META_EVENT)
 			->setDeltaTime(0)
 			->getInnerEvent<MetaEvent>()
@@ -83,7 +76,7 @@ void StandardMIDIFile::setTimeSignature(
 			->addParam(midiClocksPerMetronomeClick)
 			->addParam(numberOf32NotesInMidiQuarterNote);
 	}
-	else if(this->headerChunk.fileFormat() == FileFormat::MULTIPLE_TRACK)
+	else if(this->_headerChunk.fileFormat() == FileFormat::MULTIPLE_TRACK)
 	{
 		//TODO
 	}
@@ -93,10 +86,6 @@ void StandardMIDIFile::setTimeSignature(
 	}
 }
 
-/*
-throws SMF::BpmOutOfRangeException
-throws SMF::NoTrackException
-*/
 void StandardMIDIFile::setTempo(short bpm)
 {
 	if (bpm < MIN_BPM || bpm > MAX_BPM) 
@@ -106,14 +95,14 @@ void StandardMIDIFile::setTempo(short bpm)
 
 	int microSecoundsPerQuarterNote = 60000000 / bpm;
 
-	if (this->headerChunk.fileFormat() == FileFormat::SINGLE_TRACK)
+	if (this->_headerChunk.fileFormat() == FileFormat::SINGLE_TRACK)
 	{
-		if (this->trackChunks.empty())
+		if (this->_trackChunks.empty())
 		{
 			throw NoTracksException();
 		}
 
-		this->trackChunks.front()
+		this->_trackChunks.front()
 			.addTrackEvent(EventType::META_EVENT)
 			->setDeltaTime(0)
 			->getInnerEvent<MetaEvent>()
@@ -123,7 +112,7 @@ void StandardMIDIFile::setTempo(short bpm)
 			->addParam((microSecoundsPerQuarterNote >> 8) & 0xFF)
 			->addParam(microSecoundsPerQuarterNote & 0xFF);
 	}
-	else if (this->headerChunk.fileFormat() == FileFormat::MULTIPLE_TRACK)
+	else if (this->_headerChunk.fileFormat() == FileFormat::MULTIPLE_TRACK)
 	{
 		//TODO: Do that
 	}
@@ -133,7 +122,7 @@ void StandardMIDIFile::setTempo(short bpm)
 	}
 }
 
-void StandardMIDIFile::exportToFile(std::string filename)
+void StandardMIDIFile::exportToFile(std::string filename) const
 {
 	std::vector<uint8_t> ret = this->toByteVector();
 
@@ -153,23 +142,23 @@ void StandardMIDIFile::exportToFile(std::string filename)
 void StandardMIDIFile::addNote(NotePitch pitch, uint8_t volume, int duration)
 {
 	auto note = new Note(pitch, volume, duration);
-	this->trackChunks[this->currentTrack - 1].addNote(note);
+	this->_trackChunks[this->_currentTrack - 1].addNote(note);
 }
 
 
 std::vector<uint8_t> StandardMIDIFile::toByteVector() const
 {
-	if (this->trackChunks.empty())
+	if (this->_trackChunks.empty())
 	{
 		throw NoTracksException();
 	}
 
-	std::vector<uint8_t> ret = this->headerChunk.toByteVector();
+	std::vector<uint8_t> ret = this->_headerChunk.toByteVector();
 
 	std::vector<uint8_t> trackBytes;
 
 	std::vector<uint8_t> tmpVector;
-	for (auto &a : this->trackChunks)
+	for (auto &a : this->_trackChunks)
 	{
 		tmpVector = a.toByteVector();
 		trackBytes.insert(trackBytes.end(), tmpVector.begin(), tmpVector.end());

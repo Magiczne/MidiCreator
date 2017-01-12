@@ -26,14 +26,14 @@ public:
 	void pitch(const SMF::NotePitch& val) { this->_pitch = val; }
 	const SMF::NotePitch& pitch() const { return this->_pitch; }
 
-	void volume(const uint8_t& val);
-	const uint8_t& volume() const { return this->_volume; }
+	void volume(const uint8_t val);
+	uint8_t volume() const { return this->_volume; }
 
-	void duration(const uint16_t& val) { this->_duration = val; }
-	const uint16_t& duration() const { return this->_duration; }
+	void duration(const uint16_t val) { this->_duration = val; }
+	uint16_t duration() const { return this->_duration; }
 
-	void ligature(const bool& val) { this->_ligature = val; }
-	const bool& ligature() const { return this->_ligature; }
+	void ligature(const bool val) { this->_ligature = val; }
+	bool ligature() const { return this->_ligature; }
 
 	std::string ligatureToString() const { return this->_ligature ? "Yes" : "No"; }
 };

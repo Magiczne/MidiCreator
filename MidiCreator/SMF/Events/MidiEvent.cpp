@@ -7,22 +7,22 @@ using namespace SMF::Exceptions;
 
 
 MidiEvent::MidiEvent(MidiEventType type, MIDIChannel channel) :
-	type(type), channel(channel)
+	_type(type), _channel(channel)
 {
-	this->initialized = { true };
+	this->_initialized = { true };
 }
 
 MidiEvent* MidiEvent::setEventType(MidiEventType eventType)
 {
-	this->type = eventType;
-	this->initialized[0] = true;
+	this->_type = eventType;
+	this->_initialized[0] = true;
 	return this;
 }
 
 MidiEvent* MidiEvent::setChannel(MIDIChannel channel)
 {
-	this->channel = channel;
-	this->initialized[1] = true;
+	this->_channel = channel;
+	this->_initialized[1] = true;
 	return this;
 }
 
@@ -39,7 +39,7 @@ std::vector<uint8_t> MidiEvent::toByteVector() const
 
 	std::vector<uint8_t> a;
 
-	a.push_back(static_cast<uint8_t>(this->type) | static_cast<uint8_t>(this->channel));
+	a.push_back(static_cast<uint8_t>(this->_type) | static_cast<uint8_t>(this->_channel));
 
 	a.insert(a.end(), this->params.begin(), this->params.end());
 
@@ -48,7 +48,7 @@ std::vector<uint8_t> MidiEvent::toByteVector() const
 
 bool MidiEvent::isInitialized() const
 {
-	for (const auto& i : this->initialized)
+	for (const auto& i : this->_initialized)
 	{
 		if (!i)
 		{

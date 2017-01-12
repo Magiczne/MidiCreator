@@ -10,10 +10,10 @@ namespace SMF
 	class MidiEvent final : public IEvent
 	{
 	private:
-		MidiEventType type;
-		MIDIChannel channel;
-
-		std::array<bool, 2> initialized = { false };
+		MidiEventType _type;
+		MIDIChannel _channel;
+		
+		std::array<bool, 2> _initialized = { false };
 		bool isInitialized() const;
 
 	public:

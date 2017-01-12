@@ -5,27 +5,27 @@
 using namespace SMF;
 using namespace SMF::Exceptions;
 
-MetaEvent::MetaEvent(MetaEventType eventType) : type(eventType)
+MetaEvent::MetaEvent(MetaEventType eventType) : _type(eventType)
 {
-	this->initialized = { true };
+	this->_initialized = { true };
 }
 
 MetaEvent::~MetaEvent()
 {
-	delete this->vLength;
+	delete this->_vLength;
 }
 
 MetaEvent* MetaEvent::setEventType(MetaEventType eventType)
 {
-	this->type = eventType;
-	this->initialized[0] = true;
+	this->_type = eventType;
+	this->_initialized[0] = true;
 	return this;
 }
 
 MetaEvent* MetaEvent::setLength(int length)
 {
-	this->vLength = new VLQ(length);
-	this->initialized[1] = true;
+	this->_vLength = new VLQ(length);
+	this->_initialized[1] = true;
 	return this;
 }
 
@@ -42,11 +42,11 @@ std::vector<uint8_t> MetaEvent::toByteVector() const
 
 	std::vector<uint8_t> ret;
 
-	ret.push_back(this->id);
-	ret.push_back(static_cast<uint8_t>(this->type));
+	ret.push_back(this->_id);
+	ret.push_back(static_cast<uint8_t>(this->_type));
 
 	//vLength
-	std::vector<uint8_t> vLengthBytes = this->vLength->getVlq();
+	std::vector<uint8_t> vLengthBytes = this->_vLength->getVlq();
 	ret.insert(ret.end(), vLengthBytes.begin(), vLengthBytes.end());
 
 	//Params
@@ -57,7 +57,7 @@ std::vector<uint8_t> MetaEvent::toByteVector() const
 
 bool MetaEvent::isInitialized() const
 {
-	for (const auto& i : this->initialized)
+	for (const auto& i : this->_initialized)
 	{
 		if (!i)
 		{

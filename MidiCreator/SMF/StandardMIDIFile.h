@@ -14,10 +14,10 @@ namespace SMF
 	private:
 		const short MAX_TRACK_COUNT_SINGLE = 16;
 
-		HeaderChunk headerChunk;
-		std::vector<TrackChunk> trackChunks;
+		HeaderChunk _headerChunk;
+		std::vector<TrackChunk> _trackChunks;
 
-		size_t currentTrack = 0;
+		size_t _currentTrack = 0;
 
 	public:
 		const static short MIN_BPM = 4;
@@ -38,9 +38,9 @@ namespace SMF
 
 		void addNote(NotePitch pitch, uint8_t volume, int duration);
 
-		void exportToFile(std::string filename);
+		void exportToFile(std::string filename) const;
 
-		short get32NoteDuration() const { return this->headerChunk.division() / 8; }
+		short get32NoteDuration() const { return this->_headerChunk.division() / 8; }
 
 		//IConvertibleToByteCollection
 		std::vector<uint8_t> toByteVector() const override;

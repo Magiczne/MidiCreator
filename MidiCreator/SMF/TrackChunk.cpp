@@ -16,7 +16,7 @@ using namespace SMF::Exceptions;
 
 TrackChunk::~TrackChunk()
 {
-	for (auto &te : this->trackEvents)
+	for (auto &te : this->_trackEvents)
 		delete te;
 }
 
@@ -26,46 +26,46 @@ void TrackChunk::calculateTracksLength()
 		printf("TrackChunk::calculateTracksLength()\n");
 	#endif // METHOD_DEBUG
 
-	for (auto &te : this->trackEvents)
+	for (auto &te : this->_trackEvents)
 	{
 		//TODO: OPTIMIZE THAT.
-		this->tracksLength += te->toByteVector().size();
+		this->_tracksLength += te->toByteVector().size();
 	}
 
-	tracksCalculated = true;
+	_tracksCalculated = true;
 }
 
 TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
 {
-	if (this->closed)
+	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
 
-	trackEvents.push_back(event);
+	_trackEvents.push_back(event);
 	return event;
 }
 
 TrackEvent* TrackChunk::addTrackEvent(EventType eventType)
 {
-	if (this->closed)
+	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
 
 	auto event = new TrackEvent(eventType);
-	trackEvents.push_back(event);
+	_trackEvents.push_back(event);
 	return event;
 }
 
 TrackChunk* TrackChunk::setCurrentChannel(MIDIChannel channel)
 {
-	if (this->closed)
+	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
 
-	this->currentChannel = channel;
+	this->_currentChannel = channel;
 	return this;
 }
 
@@ -75,7 +75,7 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 		printf("TrackChunk::setVoiceProgram()\n");
 	#endif // METHOD_DEBUG
 
-	if (this->closed)
+	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
@@ -84,7 +84,7 @@ TrackChunk* TrackChunk::setVoiceProgram(GMPatch patch)
 		->setDeltaTime(0)
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::PROGRAM_CHANGE)
-		->setChannel(this->currentChannel)
+		->setChannel(this->_currentChannel)
 		->addParam(static_cast<uint8_t>(patch) - 1);
 
 	return this;
@@ -96,7 +96,7 @@ TrackChunk* TrackChunk::addNote(Note* note)
 		printf("TrackChunk::addNote()\n");
 	#endif // METHOD_DEBUG
 
-	if (this->closed)
+	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
@@ -106,7 +106,7 @@ TrackChunk* TrackChunk::addNote(Note* note)
 		->setDeltaTime(0)	//TODO: Delta sums, or something, duration etc.
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_ON)
-		->setChannel(this->currentChannel)
+		->setChannel(this->_currentChannel)
 		->addParam(static_cast<uint8_t>(note->pitch()))
 		->addParam(note->volume());
 
@@ -115,7 +115,7 @@ TrackChunk* TrackChunk::addNote(Note* note)
 		->setDeltaTime(note->duration()) //TODO: Delta sums, or something, duration etc.	
 		->getInnerEvent<MidiEvent>()
 		->setEventType(MidiEventType::NOTE_OFF)
-		->setChannel(this->currentChannel)
+		->setChannel(this->_currentChannel)
 		->addParam(static_cast<uint8_t>(note->pitch()))
 		->addParam(0);	//TODO: change that to 0?
 
@@ -131,7 +131,7 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 		printf("TrackChunk::addNotes()\n");
 	#endif // METHOD_DEBUG
 
-	if (this->closed)
+	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
@@ -151,7 +151,7 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 			->setDeltaTime(0)
 			->getInnerEvent<MidiEvent>()
 			->setEventType(MidiEventType::NOTE_ON)
-			->setChannel(this->currentChannel)
+			->setChannel(this->_currentChannel)
 			->addParam(static_cast<uint8_t>(note->pitch()))
 			->addParam(note->volume());
 	}
@@ -163,7 +163,7 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 			->setDeltaTime(note->duration() - previousDuration)
 			->getInnerEvent<MidiEvent>()
 			->setEventType(MidiEventType::NOTE_OFF)
-			->setChannel(this->currentChannel)
+			->setChannel(this->_currentChannel)
 			->addParam(static_cast<uint8_t>(note->pitch()))
 			->addParam(note->volume());
 
@@ -175,7 +175,7 @@ TrackChunk* TrackChunk::addNotes(std::vector<Note*> notes)
 
 void TrackChunk::closeTrack()
 {
-	if (this->closed)
+	if (this->_closed)
 	{
 		throw TrackClosedException();
 	}
@@ -190,23 +190,23 @@ void TrackChunk::closeTrack()
 		->setEventType(MetaEventType::END_OF_TRACK)
 		->setLength(0);
 
-	this->closed = true;
+	this->_closed = true;
 }
 
 void TrackChunk::reopenTrack()
 {
-	if (!this->closed)
+	if (!this->_closed)
 	{
 		throw TrackNotClosedException();
 	}
 
-	this->trackEvents.pop_back();
-	this->closed = false;
+	this->_trackEvents.pop_back();
+	this->_closed = false;
 }
 
 void TrackChunk::prepareToExport()
 {
-	if (!this->closed)
+	if (!this->_closed)
 	{
 		this->closeTrack();
 	}
@@ -222,7 +222,7 @@ std::vector<uint8_t> TrackChunk::toByteVector() const
 		printf("TrackChunk::toByteVector()\n");
 	#endif // METHOD_DEBUG
 
-	if (!this->closed)
+	if (!this->_closed)
 	{
 		throw TrackNotClosedException();
 	}
@@ -230,25 +230,25 @@ std::vector<uint8_t> TrackChunk::toByteVector() const
 	std::vector<uint8_t> ret;
 
 	//chunkType
-	for (const auto& c : this->chunkType)
+	for (const auto& c : this->_chunkType)
 	{
 		ret.push_back(c);
 	}
 
-	if(!this->tracksCalculated)
+	if(!this->_tracksCalculated)
 	{
 		throw TracksNotCalculatedException();
 	}
 
 	//tracksLength
-	ret.push_back((this->tracksLength >> 24) & 0xFF);
-	ret.push_back((this->tracksLength >> 16) & 0xFF);
-	ret.push_back((this->tracksLength >> 8) & 0xFF);
-	ret.push_back(this->tracksLength & 0xFF);
+	ret.push_back((this->_tracksLength >> 24) & 0xFF);
+	ret.push_back((this->_tracksLength >> 16) & 0xFF);
+	ret.push_back((this->_tracksLength >> 8) & 0xFF);
+	ret.push_back(this->_tracksLength & 0xFF);
 
 	//trackEvents
 	std::vector<uint8_t> tmp;
-	for (const auto& te : this->trackEvents)
+	for (const auto& te : this->_trackEvents)
 	{
 		tmp = te->toByteVector();
 		ret.insert(ret.end(), tmp.begin(), tmp.end());
