@@ -7,7 +7,7 @@ namespace SMF
 	class IConvertibleToByteCollection
 	{
 	public:
-		virtual std::vector<uint8_t> toByteVector() = 0;
+		virtual std::vector<uint8_t> toByteVector() const = 0;
 
 		virtual ~IConvertibleToByteCollection() {}
 	};

@@ -32,7 +32,7 @@ TrackEvent* TrackEvent::setDeltaTime(int time)
 	this->_deltaTime = new VLQ(time); 
 	return this; 
 }
-std::vector<uint8_t> TrackEvent::toByteVector()
+std::vector<uint8_t> TrackEvent::toByteVector() const
 {
 #ifdef METHOD_DEBUG
 	printf("TrackEvent::toByteVector()\n");

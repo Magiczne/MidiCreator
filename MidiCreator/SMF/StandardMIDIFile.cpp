@@ -157,7 +157,7 @@ void StandardMIDIFile::addNote(NotePitch pitch, uint8_t volume, int duration)
 }
 
 
-std::vector<uint8_t> StandardMIDIFile::toByteVector()
+std::vector<uint8_t> StandardMIDIFile::toByteVector() const
 {
 	if (this->trackChunks.empty())
 	{

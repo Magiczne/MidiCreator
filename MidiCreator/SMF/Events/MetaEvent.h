@@ -14,7 +14,7 @@ namespace SMF
 		VLQ* vLength = nullptr;
 
 		std::array<bool, 2> initialized = { false };
-		bool isInitialized();
+		bool isInitialized() const;
 
 	public:
 		MetaEvent() {};
@@ -25,6 +25,6 @@ namespace SMF
 		MetaEvent* setLength(int length);
 
 		//IConvertibleToByteCollection
-		std::vector<uint8_t> toByteVector() override;
+		std::vector<uint8_t> toByteVector() const override;
 	};
 }

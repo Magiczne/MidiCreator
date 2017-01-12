@@ -183,6 +183,9 @@
     <ClInclude Include="PianoRollCoords.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SMF\Exceptions\TracksNotCalculatedException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

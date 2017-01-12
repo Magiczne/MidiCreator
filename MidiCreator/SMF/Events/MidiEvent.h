@@ -14,7 +14,7 @@ namespace SMF
 		MIDIChannel channel;
 
 		std::array<bool, 2> initialized = { false };
-		bool isInitialized();
+		bool isInitialized() const;
 
 	public:
 		MidiEvent() {};
@@ -24,6 +24,6 @@ namespace SMF
 		MidiEvent* setChannel(MIDIChannel channel);
 
 		//IConvertibleToByteArray
-		std::vector<uint8_t> toByteVector() override;
+		std::vector<uint8_t> toByteVector() const override;
 	};
 }

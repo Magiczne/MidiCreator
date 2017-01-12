@@ -9,6 +9,7 @@
 
 #include "Exceptions/TrackClosedException.h"
 #include "Exceptions/TrackNotClosedException.h"
+#include "Exceptions/TracksNotCalculatedException.h"
 
 using namespace SMF;
 using namespace SMF::Exceptions;
@@ -30,6 +31,8 @@ void TrackChunk::calculateTracksLength()
 		//TODO: OPTIMIZE THAT.
 		this->tracksLength += te->toByteVector().size();
 	}
+
+	tracksCalculated = true;
 }
 
 TrackEvent* TrackChunk::addTrackEvent(TrackEvent* event)
@@ -201,8 +204,19 @@ void TrackChunk::reopenTrack()
 	this->closed = false;
 }
 
+void TrackChunk::prepareToExport()
+{
+	if (!this->closed)
+	{
+		this->closeTrack();
+	}
+
+	this->calculateTracksLength();
+}
+
+
 //IConvertibleToByteCollection
-std::vector<uint8_t> TrackChunk::toByteVector()
+std::vector<uint8_t> TrackChunk::toByteVector() const
 {
 	#ifdef METHOD_DEBUG
 		printf("TrackChunk::toByteVector()\n");
@@ -210,16 +224,21 @@ std::vector<uint8_t> TrackChunk::toByteVector()
 
 	if (!this->closed)
 	{
-		this->closeTrack();
+		throw TrackNotClosedException();
 	}
 
 	std::vector<uint8_t> ret;
 
 	//chunkType
-	for (auto &c : this->chunkType)
+	for (const auto& c : this->chunkType)
+	{
 		ret.push_back(c);
+	}
 
-	this->calculateTracksLength();
+	if(!this->tracksCalculated)
+	{
+		throw TracksNotCalculatedException();
+	}
 
 	//tracksLength
 	ret.push_back((this->tracksLength >> 24) & 0xFF);
@@ -229,7 +248,7 @@ std::vector<uint8_t> TrackChunk::toByteVector()
 
 	//trackEvents
 	std::vector<uint8_t> tmp;
-	for (auto &te : this->trackEvents)
+	for (const auto& te : this->trackEvents)
 	{
 		tmp = te->toByteVector();
 		ret.insert(ret.end(), tmp.begin(), tmp.end());

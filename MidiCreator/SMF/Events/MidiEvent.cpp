@@ -26,7 +26,7 @@ MidiEvent* MidiEvent::setChannel(MIDIChannel channel)
 	return this;
 }
 
-std::vector<uint8_t> MidiEvent::toByteVector()
+std::vector<uint8_t> MidiEvent::toByteVector() const
 {
 #ifdef METHOD_DEBUG
 	printf("MidiEvent::toByteVector()\n");
@@ -46,9 +46,9 @@ std::vector<uint8_t> MidiEvent::toByteVector()
 	return a;
 }
 
-bool MidiEvent::isInitialized()
+bool MidiEvent::isInitialized() const
 {
-	for (auto &i : this->initialized)
+	for (const auto& i : this->initialized)
 	{
 		if (!i)
 		{

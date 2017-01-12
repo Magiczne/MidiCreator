@@ -43,6 +43,6 @@ namespace SMF
 		short get32NoteDuration() const { return this->headerChunk.division() / 8; }
 
 		//IConvertibleToByteCollection
-		std::vector<uint8_t> toByteVector() override;
+		std::vector<uint8_t> toByteVector() const override;
 	};
 }

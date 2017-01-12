@@ -29,7 +29,7 @@ MetaEvent* MetaEvent::setLength(int length)
 	return this;
 }
 
-std::vector<uint8_t> MetaEvent::toByteVector()
+std::vector<uint8_t> MetaEvent::toByteVector() const
 {
 #ifdef METHOD_DEBUG
 	std::cout << "MetaEvent::toByteVector()" << std::endl;
@@ -55,9 +55,9 @@ std::vector<uint8_t> MetaEvent::toByteVector()
 	return ret;
 }
 
-bool MetaEvent::isInitialized()
+bool MetaEvent::isInitialized() const
 {
-	for (auto& i : this->initialized)
+	for (const auto& i : this->initialized)
 	{
 		if (!i)
 		{

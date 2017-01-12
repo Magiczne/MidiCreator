@@ -19,7 +19,9 @@ namespace SMF
 
 		MIDIChannel currentChannel = MIDIChannel::CHANNEL_1;
 		bool closed = false;
+		bool tracksCalculated = false;
 
+		void prepareToExport();
 		void calculateTracksLength();
 
 	public:
@@ -39,6 +41,6 @@ namespace SMF
 		void reopenTrack();
 
 		//IConvertibleToByteCollection
-		std::vector<uint8_t> toByteVector() override;		
+		std::vector<uint8_t> toByteVector() const override;
 	};
 }

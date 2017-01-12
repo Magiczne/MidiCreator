@@ -166,6 +166,7 @@
     <ClInclude Include="SMF\Exceptions\EventNotInitializedException.h" />
     <ClInclude Include="SMF\Exceptions\EventTypeNotSupportedException.h" />
     <ClInclude Include="SMF\Exceptions\TrackLimitException.h" />
+    <ClInclude Include="SMF\Exceptions\TracksNotCalculatedException.h" />
     <ClInclude Include="SMF\Util\Maps.h" />
     <ClInclude Include="SMF\Util\SMF_Note.h" />
     <ClInclude Include="SMF\Enums\MIDIChannel.h" />

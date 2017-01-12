@@ -12,6 +12,6 @@ namespace SMF
 		const uint8_t tail = 0xF7;
 
 		//IConvertibleToByteCollection
-		std::vector<uint8_t> toByteVector() override;
+		std::vector<uint8_t> toByteVector() const override;
 	};
 }

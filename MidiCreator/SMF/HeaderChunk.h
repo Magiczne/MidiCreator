@@ -26,7 +26,7 @@ namespace SMF
 		void addTrack() { this->_numberOfTracks++; }
 
 		//IConvertibleToByteCollection
-		std::vector<uint8_t> toByteVector() override;
+		std::vector<uint8_t> toByteVector() const override;
 
 		//Getters/setters
 		const short& numberOfTracks() const { return this->_numberOfTracks; }
