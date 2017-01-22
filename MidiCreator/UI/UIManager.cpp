@@ -178,9 +178,16 @@ uint8_t UIManager::drawSequenceInfo() const
 
 void UIManager::drawPianoRoll() const
 {
+	size_t textOffset = (this->_seq.currentChannel() == MIDIChannel::CHANNEL_10 ? 18 : 4);
+
 	//Bars numbers
+	for (size_t i = 0; i < textOffset; i++)
+	{
+		cout << ' ';
+	}
+
 	Util::setColor(Color::Red);
-	cout << "    ";
+	
 	for (unsigned i = 0 + this->_seq.firstBarToShow();
 		i < this->pianoRollWidth / this->_seq.numerator() + this->_seq.firstBarToShow();
 		i++)
@@ -196,13 +203,17 @@ void UIManager::drawPianoRoll() const
 	}
 	Util::newLine();
 
-	cout << "    ";
+	for (size_t i = 0; i < textOffset; i++)
+	{
+		cout << ' ';
+	}
+
 	Util::makeLine(this->pianoRollWidth, Util::createColor(Color::DarkRed));
 
 	NotePitch p;
 	string rowText;
 	uint8_t key;
-	size_t textOffset = (this->_seq.currentChannel() == MIDIChannel::CHANNEL_10 ? 18 : 4);
+	
 
 	for (unsigned k = 0; k < this->pianoRollHeight; k++)
 	{
@@ -212,11 +223,11 @@ void UIManager::drawPianoRoll() const
 		
 		if(this->_seq.currentChannel() == MIDIChannel::CHANNEL_10)
 		{
-			rowText = SMF::GMPercussionMap[ GMPercussion(key) ];
+			rowText = GMPercussionMap[ GMPercussion(key) ];
 		}
 		else
 		{
-			rowText = SMF::NotePitchMap[p];
+			rowText = NotePitchMap[p];
 		}
 
 		cout << rowText;
@@ -241,7 +252,7 @@ void UIManager::drawPianoRoll() const
 			}
 
 			//Selected note indicator
-			if (this->_mode == Mode::EDIT)
+			if (this->_mode == EDIT)
 			{
 				if (i == this->_seq.currentBar() && k == this->_seq.currentNotePitch())
 				{
