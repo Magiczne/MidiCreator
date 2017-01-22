@@ -354,6 +354,7 @@ StandardMIDIFile Sequence::toMidiFile()
 		UI::Util::debug("Track " + to_string(i) + "\n");
 
 		smf.setCurrentTrack(i + 1);
+		smf.setVoiceProgram(this->_channelPatches[static_cast<MIDIChannel>(i)]);
 
 		//system("cls");
 

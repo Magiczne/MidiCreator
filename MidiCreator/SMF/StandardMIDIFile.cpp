@@ -123,6 +123,19 @@ void StandardMIDIFile::setTempo(short bpm)
 	}
 }
 
+void StandardMIDIFile::setVoiceProgram(GMPatch patch)
+{
+	try
+	{
+		this->_trackChunks[this->_currentTrack - 1].setVoiceProgram(patch);
+	}
+	catch(...)
+	{
+		throw;
+	}
+}
+
+
 void StandardMIDIFile::exportToFile(std::string filename) const
 {
 	const std::vector<uint8_t> ret = this->toByteVector();
@@ -143,7 +156,15 @@ void StandardMIDIFile::exportToFile(std::string filename) const
 void StandardMIDIFile::addNote(NotePitch pitch, uint8_t volume, int duration)
 {
 	auto note = Note(pitch, volume, duration);
-	this->_trackChunks[this->_currentTrack - 1].addNote(note);
+	
+	try
+	{
+		this->_trackChunks[this->_currentTrack - 1].addNote(note);
+	}
+	catch(...)
+	{
+		throw;
+	}
 }
 
 void StandardMIDIFile::prepareToExport()

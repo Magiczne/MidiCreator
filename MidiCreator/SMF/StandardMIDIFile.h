@@ -36,6 +36,8 @@ namespace SMF
 			uint8_t numberOf32NotesInMidiQuarterNote = 8);
 		void setTempo(short bpm);
 
+		void setVoiceProgram(GMPatch patch);
+
 		void addNote(NotePitch pitch, uint8_t volume, int duration);
 
 		void exportToFile(std::string filename) const;
