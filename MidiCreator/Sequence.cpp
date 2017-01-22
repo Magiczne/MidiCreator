@@ -25,6 +25,11 @@ Sequence::Sequence()
 	this->_currentNote = 0;
 	this->_currentNotePitch = 0;
 	this->_current32NoteInBar = 0;
+
+	for(uint8_t i = 0; i < 16; i++)
+	{
+		_channelPatches[static_cast<MIDIChannel>(i)] = GMPatch::ACOUSTIC_GRAND_PIANO;
+	}
 }
 
 void Sequence::loadFromFile(const SequenceFile& file)

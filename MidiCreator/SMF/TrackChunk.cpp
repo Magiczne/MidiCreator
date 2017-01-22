@@ -101,7 +101,7 @@ TrackChunk& TrackChunk::addNote(const Note& note)
 		->setEventType(MidiEventType::NOTE_OFF)
 		->setChannel(this->_currentChannel)
 		->addParam(static_cast<uint8_t>(note.pitch()))
-		->addParam(0);	//TODO: change that to 0?
+		->addParam(0);
 
 	return *this;
 }

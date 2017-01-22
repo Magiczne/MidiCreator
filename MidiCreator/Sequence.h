@@ -5,6 +5,7 @@
 #include "SMF/Enums/MIDIChannel.h"
 #include "SMF/Util/Maps.h"
 #include "PianoRollCoords.h"
+#include "SMF/Enums/GMPatch.h"
 
 namespace SMF
 {
@@ -33,6 +34,8 @@ private:
 	uint8_t _current32NoteInBar;
 	
 	uint8_t _numOf32NotesInBar;
+
+	std::map<SMF::MIDIChannel, SMF::GMPatch> _channelPatches;
 
 	/*
 		Array of Tracks(16):
@@ -127,6 +130,8 @@ public:
 	uint8_t numOf32NotesInBar() const { return this->_numOf32NotesInBar; }
 
 	#pragma endregion
+
+	SMF::GMPatch currentChannelPatch() { return this->_channelPatches[this->_currentChannel]; }
 
 	#pragma endregion
 

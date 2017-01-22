@@ -149,11 +149,24 @@ uint8_t UIManager::drawSequenceInfo() const
 		"Measure: " + to_string(this->_seq.numerator()) + "/" + to_string(this->_seq.denominator())
 	);
 
-	Util::writeMulti(
-		"Current channel: " + MIDIChannelMap[this->_seq.currentChannel()],
-		"Tempo: " + to_string(this->_seq.tempo()) + " BPM",
-		static_cast<uint8_t>(Color::DarkYellow)
-	);
+	if(this->_seq.currentChannel() == MIDIChannel::CHANNEL_10)
+	{
+		Util::writeMulti(
+			"Current channel: " + MIDIChannelMap[this->_seq.currentChannel()],
+			"Tempo: " + to_string(this->_seq.tempo()) + " BPM",
+			static_cast<uint8_t>(Color::DarkYellow)
+		);
+	}
+	else
+	{
+		Util::writeMulti(
+			"Current channel: " + MIDIChannelMap[this->_seq.currentChannel()] + "(" + GMPatchMap[this->_seq.currentChannelPatch()] + ")",
+			"Tempo: " + to_string(this->_seq.tempo()) + " BPM",
+			static_cast<uint8_t>(Color::DarkYellow)
+		);
+	}
+
+	
 	Util::newLine(2);
 
 	return Util::writtenLines;

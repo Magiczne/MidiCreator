@@ -5,6 +5,7 @@
 #include "../Enums/MIDIChannel.h"
 #include "../Enums/NotePitch.h"
 #include "../Enums/GMPercussion.h"
+#include "../Enums/GMPatch.h"
 
 namespace SMF
 {
@@ -237,5 +238,152 @@ namespace SMF
 		{ GMPercussion::OPEN_CUICA, "Open Cuica" },
 		{ GMPercussion::MUTE_TRIANGLE, "Mute Triangle" },
 		{ GMPercussion::OPEN_TRIANGLE, "Open Triangle" }
+	};
+
+	static std::map<GMPatch, std::string> GMPatchMap =
+	{
+		{ GMPatch::ACOUSTIC_GRAND_PIANO, "Acoustic Grand Piano" },
+		{ GMPatch::BRIGHT_ACOUSTIC_PIANO, "Bright Acoustic Piano" },
+		{ GMPatch::ELECTRIC_GRAND_PIANO, "Electric Grand Piano" },
+		{ GMPatch::HONKY_TONK_PIANO, "Honky Tonk Piano" },
+		{ GMPatch::ELECTRIC_PIANO_1, "Electric Piano 1" },
+		{ GMPatch::ELECTRIC_PIANO_2, "Electric Piano 2" },
+		{ GMPatch::HARPSICHORD, "Harpsichord" },
+		{ GMPatch::CLAVINET, "Clavinet" },
+
+		{ GMPatch::CELESTA, "Celesta" },
+		{ GMPatch::GLOCKENSPIEL, "Glockenspiel" },
+		{ GMPatch::MUSIC_BOX, "Music Box" },
+		{ GMPatch::VIBRAPHONE, "Vibraphone" },
+		{ GMPatch::MARIMBA, "Marimba" },
+		{ GMPatch::XYLOPHONE, "Xylophone" },
+		{ GMPatch::TUBULAR_BELLS, "Tubular Bells" },
+		{ GMPatch::DULCIMER, "Dulcimer" },
+
+		{ GMPatch::DRAWBAR_ORGAN_HAMMOND, "Drawbar Organ Hammond" },
+		{ GMPatch::PERCUSSIVE_ORGAN, "Percussive Organ" },
+		{ GMPatch::ROCK_ORGAN, "Rock Organ" },
+		{ GMPatch::CHURCH_ORGAN, "Church Organ" },
+		{ GMPatch::REED_ORGAN, "Reed Organ" },
+		{ GMPatch::ACCORDION_FRENCH, "Accordion French" },
+		{ GMPatch::HARMONICA, "Harmonica" },
+		{ GMPatch::TANGO_ACCORDION, "Tango Accordion" },
+
+		{ GMPatch::NYLON_ACOUSTIC_GUITAR, "Nylon Acoustic Guitar" },
+		{ GMPatch::STEEL_ACOUSTIC_GUITAR, "Steel Acoustic Guitar" },
+		{ GMPatch::JAZZ_ELECTRIC_GUITAR, "Jazz Electric Guitar" },
+		{ GMPatch::CLEAN_ELECTRIC_GUITAR, "Clean Electric Guitar" },
+		{ GMPatch::MUTED_ELECTRIC_GUITAR, "Muted Electric Guitar" },
+		{ GMPatch::OVERDRIVEN_GUITAR, "Overdriven Guitar" },
+		{ GMPatch::DISTORTION_GUITAR, "Distortion Guitar" },
+		{ GMPatch::GUITAR_HARMONICA, "Guitar Harmonica" },
+
+		{ GMPatch::ACOUSTIC_BASS, "Acoustic Bass" },
+		{ GMPatch::FINGERED_ELECTRIC_BASS, "Fingered Electric Bass" },
+		{ GMPatch::PICKED_ELECTRIC_BASS, "Picked Electric Bass" },
+		{ GMPatch::FRETLESS_BASS, "Fretless Bass" },
+		{ GMPatch::SLAP_BASS_1, "Slap Bass 1" },
+		{ GMPatch::SLAP_BASS_2, "Slap Bass 2" },
+		{ GMPatch::SYNTH_BASS_1, "Synth Bass 1" },
+		{ GMPatch::SYNTH_BASS_2, "Synth Bass 2" },
+
+		{ GMPatch::VIOLIN, "Violin" },
+		{ GMPatch::VIOLA, "Viola" },
+		{ GMPatch::CELLO, "Cello" },
+		{ GMPatch::CONTRABASS, "Contrabass" },
+		{ GMPatch::TREMOLO_STRINGS, "Tremolo Strings" },
+		{ GMPatch::PIZZICATO_STRINGS, "Pizzicato Strings" },
+		{ GMPatch::ORCHESTRAL_HARP, "Orchestral Harp" },
+		{ GMPatch::TIMPANI, "Timpani" },
+
+		{ GMPatch::STRINGS_ENSEMBLE, "Strings Ensemble" },
+		{ GMPatch::SLOW_STRINGS_ENSEMBLE, "Slow Strings Ensemble" },
+		{ GMPatch::SYNTHSTRINGS_1, "Synthstrings 1" },
+		{ GMPatch::SYNTHSTRINGS_2, "Synthstrings 2" },
+		{ GMPatch::CHOIR_AAHS, "Choir Aahs" },
+		{ GMPatch::VOICE_OOHS, "Voice Oohs" },
+		{ GMPatch::SYNTH_VOICE, "Synth Voice" },
+
+		{ GMPatch::ORCHESTRA_HIT, "Orchestra Hit" },
+		{ GMPatch::TRUMPET, "Trumpet" },
+		{ GMPatch::TROMBONE, "Trombone" },
+		{ GMPatch::TUBA, "Tuba" },
+		{ GMPatch::MUTED_TRUMPET, "Muted Trumpet" },
+		{ GMPatch::FRENCH_HORN, "French Horn" },
+		{ GMPatch::BRASS_SECTION, "Brass Section" },
+		{ GMPatch::SYNTHBRASS_1, "Synthbrass 1" },
+		{ GMPatch::SYNTHBRASS_2, "Synthbrass 2" },
+
+		{ GMPatch::SOPRANO_SAX, "Soprano Sax" },
+		{ GMPatch::ALTO_SAX, "Alto Sax" },
+		{ GMPatch::TENOR_SAX, "Tenor Sax" },
+		{ GMPatch::BARITONE_SAX, "Baritone Sax" },
+		{ GMPatch::OBOE, "Oboe" },
+		{ GMPatch::ENGLISH_HORN, "EnglishHorn" },
+		{ GMPatch::BASSOON, "Bassoon" },
+		{ GMPatch::CLARINET, "Clarinet" },
+
+		{ GMPatch::PICCOLO, "Piccolo" },
+		{ GMPatch::FLUTE, "Flute" },
+		{ GMPatch::RECORDER, "Recorder" },
+		{ GMPatch::PAN_FLUTE, "Pan Flute" },
+		{ GMPatch::BLOWN_BOTTLE, "Blown Bottle" },
+		{ GMPatch::SKAKUHACHI, "Skakuhachi" },
+		{ GMPatch::WHISTLE, "Whistle" },
+		{ GMPatch::OCARINA, "Ocarina" },
+
+		{ GMPatch::SQUARE_WAVE, "Square Wave" },
+		{ GMPatch::SAWTOOTH_WAVE, "Sawtooth Wave" },
+		{ GMPatch::CALLIOPE, "Calliope" },
+		{ GMPatch::CHIFFER, "Chiffer" },
+		{ GMPatch::CHARANG, "Charang" },
+		{ GMPatch::VOICE_SOLO, "Voice Solo" },
+		{ GMPatch::FIFTHS, "Fifths" },
+		{ GMPatch::BASS_AND_LEAD, "Bass & Lead" },
+
+		{ GMPatch::NEW_AGE_FANTASIA, "New Age Fantasia" },
+		{ GMPatch::WARM, "Warm" },
+		{ GMPatch::POLYSYNTH, "Polysynth" },
+		{ GMPatch::CHOIR_SPACE_VOICE, "Choir Space Voice" },
+		{ GMPatch::BOWED_GLASS, "Bowed Glass" },
+		{ GMPatch::METALLIC_PRO, "Metallic Pro" },
+		{ GMPatch::HALO, "Halo" },
+		{ GMPatch::SWEEP, "Sweep" },
+
+		{ GMPatch::FX_RAIN, "FX Rain" },
+		{ GMPatch::FX_SOUNDTRACK, "FX Soundtrack" },
+		{ GMPatch::FX_CRYSTAL, "FX Crystal" },
+		{ GMPatch::FX_ATMOSPHERE, "FX Atmosphere" },
+		{ GMPatch::FX_BRIGHTNESS, "FX Brightness" },
+		{ GMPatch::FX_GOBLINS, "FX Goblins" },
+		{ GMPatch::FX_ECHOES_DROPS, "FX Echoes Drops" },
+		{ GMPatch::FX_SCI_FI_STAR_THEME, "FX Sci Fi Star Theme" },
+
+		{ GMPatch::SITAR, "Sitar" },
+		{ GMPatch::BANJO, "Banjo" },
+		{ GMPatch::SHAMISEN, "Shamisen" },
+		{ GMPatch::KOTO, "Koto" },
+		{ GMPatch::KALIMBA, "Kalimba" },
+		{ GMPatch::BAG_PIPE, "Bag_pipe" },
+		{ GMPatch::FIDDLE, "Fiddle" },
+		{ GMPatch::SHANAI, "Shanai" },
+
+		{ GMPatch::TINKLE_BELL, "Tinkle Bell" },
+		{ GMPatch::AGOGO, "Agogo" },
+		{ GMPatch::STEEL_DRUMS, "Steel Drums" },
+		{ GMPatch::WOODBLOCK, "Woodblock" },
+		{ GMPatch::TAIKO_DRUM, "Taiko Drum" },
+		{ GMPatch::MELODIC_TOM, "Melodic Tom" },
+		{ GMPatch::SYNTH_DRUM, "Synth Drum" },
+
+		{ GMPatch::REVERSE_CYMBAL, "Reverse Cymbal" },
+		{ GMPatch::GUITAR_FRET_NOISE, "Guitar Fret Noise" },
+		{ GMPatch::BREATH_NOISE, "Breath Noise" },
+		{ GMPatch::SEASHORE, "Seashore" },
+		{ GMPatch::BIRD_TWEET, "Bird Tweet" },
+		{ GMPatch::TELEPHONE_RING, "Telephone Ring" },
+		{ GMPatch::HELICOPTER, "Helicopter" },
+		{ GMPatch::APPLAUSE, "Applause" },
+		{ GMPatch::GUNSHOT, "Gunshot" }
 	};
 }
