@@ -375,12 +375,11 @@ void UIManager::drawViewMenu() const
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
 		" N", " S", " M", " C", 
-		" T", "F5", "F6" };
+		" X", " T", "F5", "F6" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
 		"Edit mode", "Seq name", "Set measure", "Set channel",
-		"Set tempo", "Save seq", "Export MIDI"};
-
+		"Set Patch", "Set tempo", "Save seq", "Export MIDI"};
 	for (size_t i = 0; i < names.size(); i++)
 	{
 		Util::setColor(Color::Black, Color::Gray);
@@ -403,12 +402,12 @@ void UIManager::drawEditMenu() const
 {
 	vector<string> cmds = { 
 		"UP", "DN", "LT", "RT", 
-		" N", 
+		" N", " X",
 		" W", " S", " A", " D",
 		" B", " I", " V", " L" };
 	vector<string> names = { 
 		"Roll up", "Roll down", "Roll left", "Roll right", 
-		"View mode",
+		"View mode", "Set patch"
 		"Note up", "Note down", "Note left", "Note right",
 		"Bar Edit", "Toggle note", "Chg vol", "Ligature" };
 
