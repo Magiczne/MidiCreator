@@ -84,7 +84,14 @@ SequenceFile SequenceFile::open(const string filepath)
 	ifstream input;
 	input.exceptions(ifstream::failbit);
 
-	input.open(filepath, ios_base::binary);
+	try
+	{
+		input.open(filepath, ios_base::binary);
+	}
+	catch(...)
+	{
+		throw;
+	}
 
 	vector<uint8_t> buffer {
 		istreambuf_iterator<char>(input),

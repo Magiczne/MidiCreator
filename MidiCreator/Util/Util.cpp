@@ -249,7 +249,7 @@ void Util::showLastSystemError()
 		0,
 		nullptr);
 
-	std::cerr << messageBuffer << '\n';
+	cerr << messageBuffer << '\n';
 	LocalFree(messageBuffer);
 }
 

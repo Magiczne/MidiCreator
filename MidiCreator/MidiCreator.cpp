@@ -51,18 +51,19 @@ int MidiCreator::exec()
 			}
 			catch(std::ios_base::failure const&)
 			{
-				//TODO: File does not exists
-				throw;
+				Util::writeLeft("File does not exists. Press any key to quit");
+				std::cin.get();
+				return 3;
 			}
-			catch(Exceptions::SequenceFileException const&)
+			catch(Exceptions::SequenceFileException const& ex)
 			{
-				//TODO: Error with sequence file
-				throw;
+				Util::writeLeft(std::string(ex.what()) + "Press any key to quit");
+				std::cin.get();
+				return 4;
 			}
 			catch (...)
 			{
 				throw;
-				//TODO: Other errors, probably just throw
 			}
 
 			this->_uiManager.drawSequenceScreen();
