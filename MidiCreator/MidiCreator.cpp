@@ -61,9 +61,16 @@ int MidiCreator::exec()
 				std::cin.get();
 				return 4;
 			}
-			catch (...)
+			catch (std::logic_error const& ex)
 			{
-				throw;
+				std::cerr << ex.what() << '\n';
+				return 1;
+			}
+			catch (std::exception const& ex)
+			{
+				std::cerr << ex.what() << '\n';
+				Util::showLastSystemError();
+				return 2;
 			}
 
 			this->_uiManager.drawSequenceScreen();
