@@ -18,7 +18,7 @@ void UIManager::drawMenu() const
 	Util::clearConsole();
 	Util::newLine(2);
 	Util::setColor(Color::DarkGreen);
-	Util::writeCentered("MIDI Creator v0.0.84");
+	Util::writeCentered("MIDI Creator v0.0.98");
 	Util::newLine();
 
 	Util::setColor(Color::Gray);
@@ -53,7 +53,7 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 	case CHANGE_MIDI_CHANNEL:
 		ret = COORD
 		{
-			0, this->drawParamEditor("Choose channel(1-16): ", {
+			0, this->drawParamEditor("Choose channel (1-16): ", {
 				"Channel 10 is the percussion channel"
 			})
 		};
@@ -72,15 +72,19 @@ Nullable<COORD> UIManager::drawSequenceScreen()
 		break;
 
 	case CHANGE_TEMPO:
-		ret = COORD { 0, this->drawParamEditor("Enter tempo(1-255):") };
+		ret = COORD { 0, this->drawParamEditor("Enter tempo (1-255):") };
 		break;
 
 	case CHANGE_NOTE_VOLUME:
-		ret = COORD{ 0, this->drawParamEditor("Enter note volume(0 - 127):") }; 
+		ret = COORD { 0, this->drawParamEditor("Enter note volume (0 - 127):") }; 
+		break;
+
+	case CHANGE_PATCH:
+		ret = COORD { 0, this->drawParamEditor("Enter patch (1 - 128):") };
 		break;
 
 	case CHANGE_SEQ_NAME:
-		ret = COORD{ 0, this->drawParamEditor("Enter sequence name:") };
+		ret = COORD { 0, this->drawParamEditor("Enter sequence name:") };
 		break;		
 
 	default:
@@ -160,7 +164,7 @@ uint8_t UIManager::drawSequenceInfo() const
 	else
 	{
 		Util::writeMulti(
-			"Current channel: " + MIDIChannelMap[this->_seq.currentChannel()] + "(" + GMPatchMap[this->_seq.currentChannelPatch()] + ")",
+			"Current channel: " + MIDIChannelMap[this->_seq.currentChannel()] + " (" + GMPatchMap[this->_seq.currentChannelPatch()] + ")",
 			"Tempo: " + to_string(this->_seq.tempo()) + " BPM",
 			static_cast<uint8_t>(Color::DarkYellow)
 		);

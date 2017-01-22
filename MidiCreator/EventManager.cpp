@@ -105,6 +105,10 @@ void EventManager::sequenceScreenLoop() const
 			this->handleW();
 			break;
 
+		case 88:	//X
+			this->handleX();
+			break;
+
 		#pragma region Numbers
 
 		case 49:	//1
@@ -357,6 +361,22 @@ void EventManager::handleW() const
 	}
 }
 
+void EventManager::handleX() const
+{
+	if(this->_uiManager.action() == NONE)
+	{
+		this->_uiManager.action(CHANGE_PATCH);
+		Nullable<COORD> pos = this->_uiManager.drawSequenceScreen();
+
+		Util::setCursorPos(pos.Value);
+		this->changeCurrentChannelPatch();
+
+		this->_uiManager.action(NONE);
+		this->_uiManager.drawSequenceScreen();
+	}
+}
+
+
 #pragma endregion
 
 #pragma region Function Key Handlers
@@ -537,6 +557,36 @@ void EventManager::changeTempo() const
 		else
 		{
 			this->_uiManager.lastMessage("Tempo has to be between 1 and 255");
+		}
+	}
+}
+
+void EventManager::changeCurrentChannelPatch() const
+{
+	string patch;
+	cin >> patch;
+
+	if(patch != "")
+	{
+		int val;
+
+		try
+		{
+			val = stoi(patch);
+		}
+		catch (invalid_argument const&)
+		{
+			this->_uiManager.lastMessage("Patch has to be a number!");
+			return;
+		}
+
+		if(val >= 1 && val <= 128)
+		{
+			this->_seq.currentChannelPatch(static_cast<GMPatch>(val));
+		}
+		else
+		{
+			this->_uiManager.lastMessage("Patch has to be between 1 and 128");
 		}
 	}
 }

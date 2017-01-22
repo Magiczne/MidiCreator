@@ -132,6 +132,7 @@ public:
 	#pragma endregion
 
 	SMF::GMPatch currentChannelPatch() { return this->_channelPatches[this->_currentChannel]; }
+	void currentChannelPatch(SMF::GMPatch patch) { this->_channelPatches[this->_currentChannel] = patch; }
 
 	#pragma endregion
 
